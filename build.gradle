@@ -1,6 +1,7 @@
 plugins {
     id "java"
     id "edu.wpi.first.GradleRIO" version "2025.1.1"
+    id 'com.diffplug.spotless' version '7.0.1'
 }
 
 java {
@@ -101,4 +102,23 @@ wpi.java.configureTestTasks(test)
 // Configure string concat to always inline compile
 tasks.withType(JavaCompile) {
     options.compilerArgs.add '-XDstringConcat=inline'
+}
+
+// spotless (formatting)
+spotless {
+   java {
+        target fileTree(".") {
+            include "**/*.java"
+            exclude "**/build/**", "**/build-*/**"
+        }
+
+        importOrder()
+        removeUnusedImports()
+        eclipse() // formatter
+        formatAnnotations()
+        toggleOffOn() // comment "format:off"/"format:on" for spotless to ignore code blurb
+        trimTrailingWhitespace()
+        leadingSpacesToTabs() // default value = 4, change if not satisfactory
+        endWithNewline()
+   }
 }
