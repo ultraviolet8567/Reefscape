@@ -18,4 +18,13 @@ public final class Constants {
 	public static class OperatorConstants {
 		public static final int kDriverControllerPort = 0;
 	}
+
+	public static class ModuleConstants
+	{
+		//CHANGE LATER:
+		double kDriveEncoderRot2Meter = 0.0;
+		double kDriveEncoderRPM2MeterPerSec = 0.0;
+		double kTurningEncoderRot2Rad = 0.0;
+		double kTurningEncoderRPM2RadPerSec = 0.0;
+	}
 }
