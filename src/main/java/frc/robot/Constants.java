@@ -22,9 +22,40 @@ public final class Constants {
 	public static class ModuleConstants
 	{
 		//CHANGE LATER:
-		double kDriveEncoderRot2Meter = 0.0;
-		double kDriveEncoderRPM2MeterPerSec = 0.0;
-		double kTurningEncoderRot2Rad = 0.0;
-		double kTurningEncoderRPM2RadPerSec = 0.0;
+		public static final double kDriveEncoderRot2Meter = 0.0;
+		public static final double kDriveEncoderRPM2MeterPerSec = 0.0;
+		public static final double kTurningEncoderRot2Rad = 0.0;
+		public static final double kTurningEncoderRPM2RadPerSec = 0.0;
+		public static final double kPTurning = 0.0;
+	}
+	//CHANGE LATER:
+	public static class DriveConstants {
+	public static final double kFrontLeftDriveAbsoluteEncoderPort = 0.01;
+	public static final double kBackRightDriveAbsoluteEncoderPort = 0.01;
+	public static final boolean kFrontRightDriveEncoderReversed = false;
+	public static final boolean kFrontRightTurningEncoderReversed = false;
+	public static final double kPhysicalMaxSpeedMetersPerSecond = 0.01;
+	public static final double kFrontRightDriveAbsoluteEncoderOffsetRad = 0.01;
+	public static final boolean kFrontRightDriveAbsoluteEncoderReversed = false;
+	public static final boolean kBackLeftDriveEncoderReversed = false;
+	public static final boolean kBackLeftTurningEncoderReversed = false;
+	public static final boolean kBackRightDriveEncoderReversed = false;
+	public static final boolean kBackRightTurningEncoderReversed = false;
+	public static final double kBackRightDriveAbsoluteEncoderOffsetRad = 0.01;
+	public static final boolean kBackRightDriveAbsoluteEncoderReversed = false;
+	}
+//CAN = computer area network
+	public static class CAN
+	{
+		public static final double kFrontLeftDriveMotorPort = 0.01;
+		public static final double kFrontLeftTurningMotorPort = 0.01;
+		public static final double kFrontRightDriveMotorPort = 0.01;
+		public static final double kBackLeftDriveMotorPort = 0.01;
+		public static final double kBackLeftTurningMotorPort = 0.01;
+		public static final double kBackRightDriveMotorPort = 0.01;
+		public static final double kFrontRightTurningMotorPort = 0.01;
+		public static final double kBackRightTurningMotorPort = 0.01;
+		
 	}
 }
+
