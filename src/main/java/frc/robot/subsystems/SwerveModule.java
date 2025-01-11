@@ -3,49 +3,61 @@ package frc.robot.subsystems;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkRelativeEncoder;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.spark.config.SparkMaxConfig;
+import com.revrobotics.spark.SparkBase.ResetMode;
+import com.revrobotics.spark.SparkBase.PersistMode;
+import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.RobotController;
+import frc.robot.Constants.DriveConstants;
+import frc.robot.Constants.ModuleConstants;
 
 
+
+
+//Encoder: Thing that is above wheel and records how much it moves.
 public class SwerveModule {
     private final SparkMax driveMotor;
     private final SparkMax turningMotor;
-    private final SparkRelativeEncoder driveEncoder;
-    private final SparkRelativeEncoder turningEncoder;
+    private final SparkMaxConfig driveConfig;
+    private final SparkMaxConfig turningConfig;
     private final PIDController turningPidController;
     public SwerveModulePosition modulePosition;
     private final AnalogInput absoluteEncoder;
-    private double absoluteEncoderOffset;
-    private final boolean absoluteEncoderReversed;
+    private double ConfigOffset;
+    private final boolean ConfigReversed;
 
 
     public SwerveModule(int driveMotorID, int turningMotorID, boolean driveMotorReversed, boolean turningMotorReversed,
-    int absoluteEncoderID, double absoluteEncoderOffset, boolean absoluteEncoderReversed) {
-        this.absoluteEncoderOffset = absoluteEncoderOffset;
-        this.absoluteEncoderReversed = absoluteEncoderReversed;
+    int absoluteEncoderID, double ConfigOffset, boolean ConfigReversed) {
+        this.ConfigOffset = ConfigOffset;
+        this.ConfigReversed = ConfigReversed;
         absoluteEncoder = new AnalogInput(absoluteEncoderID);
         driveMotor = new SparkMax(driveMotorID, MotorType.kBrushless);
-        driveMotor.enableVoltageCompensation(12.0);
-		driveMotor.setSmartCurrentLimit(40);
-		driveMotor.setIdleMode(IdleMode.kBrake);
-		driveMotor.setInverted(driveMotorReversed);
-
-
-		driveEncoder = driveMotor.getEncoder();
-		turningEncoder = turningMotor.getEncoder();
-
-		driveEncoder.setPositionConversionFactor(ModuleConstants.kDriveEncoderRot2Meter);
-		driveEncoder.setVelocityConversionFactor(ModuleConstants.kDriveEncoderRPM2MeterPerSec);
-		turningEncoder.setPositionConversionFactor(ModuleConstants.kTurningEncoderRot2Rad);
-		turningEncoder.setVelocityConversionFactor(ModuleConstants.kTurningEncoderRPM2RadPerSec);
-
         turningMotor = new SparkMax(turningMotorID, MotorType.kBrushless);
-         turningMotor.enableVoltageCompensation(12.0);
-		turningMotor.setSmartCurrentLimit(40);
-		turningMotor.setIdleMode(IdleMode.kBrake);
-		turningMotor.setInverted(turningMotorReversed);
+
+        driveConfig = new SparkMaxConfig();
+        turningConfig = new SparkMaxConfig();
+		driveMotor.configure(driveConfig, ResetMode.kResetSafeParameters,PersistMode.kPersistParameters);
+		turningMotor.configure(turningConfig, ResetMode.kResetSafeParameters,PersistMode.kPersistParameters);
+
+        driveConfig.voltageCompensation(12.0);
+		driveConfig.smartCurrentLimit(40);
+        driveConfig.inverted(driveMotorReversed);
+        driveConfig.idleMode(IdleMode.kBrake);
+
+        turningConfig.voltageCompensation(12.0);
+		turningConfig.smartCurrentLimit(40);
+		turningConfig.idleMode(IdleMode.kBrake);
+		turningConfig.inverted(turningMotorReversed);
+
+		driveConfig.encoder.positionConversionFactor(ModuleConstants.kDriveEncoderRot2Meter);
+		driveConfig.encoder.velocityConversionFactor(ModuleConstants.kDriveEncoderRPM2MeterPerSec);
+		turningConfig.encoder.positionConversionFactor(ModuleConstants.kTurningEncoderRot2Rad);
+		turningConfig.encoder.velocityConversionFactor(ModuleConstants.kTurningEncoderRPM2RadPerSec);
         
         turningPidController = new PIDController(ModuleConstants.kPTurning, 0, 0);
         turningPidController.enableContinuousInput(-Math.PI, Math.PI);
@@ -54,27 +66,55 @@ public class SwerveModule {
     }
 
     public double getDrivePosition() {
-        return driveEncoder.getPosition();
+        return driveConfig.encoder.getPosition();
 
         } 
+        
     public double getTurningPosition() {
-        return turningEncoder.getPosition();
+        return turningConfig.encoder.getPosition();
         
         }   
     public double getDriveVelocity() {
-        return driveEncoder.getVelocity();
+        return driveConfig.encoder.getVelocity();
         }
 
     public double getTurningVelocity() {
-        return turningEncoder.getVelocity();
+        return turningConfig.encoder.getVelocity();
         }
 
-        public double getAbsoluteEncoderAngle() {
+    public double getAbsoluteEncoderAngle() {
 		double angle = absoluteEncoder.getAverageVoltage() / RobotController.getVoltage5V();
 		angle *= 2 * Math.PI;
-		angle += absoluteEncoderOffset;
+		angle += ConfigOffset;
 		angle = MathUtil.inputModulus(angle, -Math.PI, Math.PI);
 
-		return angle * (absoluteEncoderReversed ? -1 : 1);
+		return angle * (ConfigReversed ? -1 : 1);
         }
+        public void resetEncoders() {
+		driveConfig.setPosition(0);
+		turningConfig.setPosition(getAbsoluteEncoderAngle());
+	}
+    public SwerveModuleState getState() {
+		return new SwerveModuleState(getDriveVelocity(), new Rotation2d(getTurningPosition()));
+	}
+
+	public void setDesiredState(SwerveModuleState state) {
+		if (Math.abs(state.speedMetersPerSecond) < 0.001) {
+			stop();
+		} else {
+            state = SwerveModuleState.optimize(state, getState().angle);
+
+			driveMotor.set(state.speedMetersPerSecond / DriveConstants.kPhysicalMaxSpeedMetersPerSecond);
+			turningMotor.set(turningPidController.calculate(getTurningPosition(), state.angle.getRadians()));
+		}
+        }
+
+	public SwerveModulePosition getModulePosition() {
+		return new SwerveModulePosition(getDrivePosition(), getState().angle);
+	}
+    public void stop() 
+    {
+		driveMotor.stopMotor();
+		turningMotor.stopMotor();
+    }
 }
