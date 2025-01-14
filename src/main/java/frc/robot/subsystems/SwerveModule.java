@@ -12,8 +12,13 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.RobotController;
+import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.kinematics.*;
+import edu.wpi.first.math.geometry.*;
+
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.ModuleConstants;
+
 
 
 
@@ -66,20 +71,20 @@ public class SwerveModule {
     }
 
     public double getDrivePosition() {
-        return driveConfig.encoder.getPosition();
+        return driveMotor.getEncoder().getPosition();
 
         } 
         
     public double getTurningPosition() {
-        return turningConfig.encoder.getPosition();
+        return turningMotor.getEncoder().getPosition();
         
-        }   
+        }
     public double getDriveVelocity() {
-        return driveConfig.encoder.getVelocity();
+        return driveMotor.getEncoder().getVelocity();
         }
 
     public double getTurningVelocity() {
-        return turningConfig.encoder.getVelocity();
+        return turningMotor.getEncoder().getVelocity();
         }
 
     public double getAbsoluteEncoderAngle() {
@@ -91,8 +96,8 @@ public class SwerveModule {
 		return angle * (ConfigReversed ? -1 : 1);
         }
         public void resetEncoders() {
-		driveConfig.setPosition(0);
-		turningConfig.setPosition(getAbsoluteEncoderAngle());
+		driveMotor.getEncoder().setPosition(0);
+		turningMotor.getEncoder().setPosition(getAbsoluteEncoderAngle());
 	}
     public SwerveModuleState getState() {
 		return new SwerveModuleState(getDriveVelocity(), new Rotation2d(getTurningPosition()));
@@ -102,7 +107,7 @@ public class SwerveModule {
 		if (Math.abs(state.speedMetersPerSecond) < 0.001) {
 			stop();
 		} else {
-            state = SwerveModuleState.optimize(state, getState().angle);
+            state.optimize(getState().angle);
 
 			driveMotor.set(state.speedMetersPerSecond / DriveConstants.kPhysicalMaxSpeedMetersPerSecond);
 			turningMotor.set(turningPidController.calculate(getTurningPosition(), state.angle.getRadians()));
