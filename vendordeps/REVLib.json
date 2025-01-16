@@ -9,6 +9,7 @@
     ],
     "jsonUrl": "https://software-metadata.revrobotics.com/REVLib-2025.json",
     "javaDependencies": [
+        
         {
             "groupId": "com.revrobotics.frc",
             "artifactId": "REVLib-java",
