@@ -11,10 +11,10 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Autos;
 import frc.robot.commands.ExampleCommand;
-import frc.robot.subsystems.ExampleSubsystem;
-import frc.robot.subsystems.Swerve;
-import frc.robot.subsystems.Odometry;
 import frc.robot.commands.SwerveTeleOp;
+import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.Odometry;
+import frc.robot.subsystems.Swerve;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -38,23 +38,23 @@ public class RobotContainer {
 	/**
 	 * The container for the robot. Contains subsystems, OI devices, and commands.
 	 */
-	public RobotContainer() 
-	{
+	public RobotContainer() {
 		// Configure the trigger bindings
 
 		swerve = new Swerve();
 		odometry = new Odometry(swerve);
 
 		// Configure the PathPlanner auto-builder
-		//AutoBuilder.configureHolonomic(odometry::getOdometerPose, odometry::resetOdometerPose,
-				//swerve::getRobotRelativeSpeeds, swerve::setModuleStates, DriveConstants.kHolonomicConfig, () -> {
-					
-				//}, swerve)};
-		
+		// AutoBuilder.configureHolonomic(odometry::getOdometerPose,
+		// odometry::resetOdometerPose,
+		// swerve::getRobotRelativeSpeeds, swerve::setModuleStates,
+		// DriveConstants.kHolonomicConfig, () -> {
+
+		// }, swerve)};
+
 		swerve.setDefaultCommand(new SwerveTeleOp(swerve, odometry, () -> -driverController.getLeftY(),
 				() -> -driverController.getLeftX(), () -> -driverController.getRightX(),
 				() -> driverController.getHID().getRightBumper()));
-
 
 		configureBindings();
 	}
@@ -78,7 +78,6 @@ public class RobotContainer {
 		// cancelling on release.
 		driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
 
-		
 	}
 
 	/**

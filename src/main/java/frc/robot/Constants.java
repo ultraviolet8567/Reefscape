@@ -3,10 +3,8 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot;
-import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.geometry.Translation2d;
-
-
+import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.util.Units;
 
 /**
@@ -28,18 +26,17 @@ public final class Constants {
 		public static final int kOperatorControllerPort = 0;
 	}
 
-	public static class ModuleConstants
-	{
-		//CHANGE LATER:
+	public static class ModuleConstants {
+		// CHANGE LATER:
 		public static final double kDriveEncoderRot2Meter = 0.0;
 		public static final double kDriveEncoderRPM2MeterPerSec = 0.0;
 		public static final double kTurningEncoderRot2Rad = 0.0;
 		public static final double kTurningEncoderRPM2RadPerSec = 0.0;
 		public static final double kPTurning = 0.0;
 	}
-	//CHANGE LATER:
+	// CHANGE LATER:
 	public static class DriveConstants {
-		
+
 		public static final double kTrackWidth = Units.inchesToMeters(20.75);
 		// Distance between front and back wheels:
 		public static final double kWheelBase = Units.inchesToMeters(20.75);
@@ -55,24 +52,24 @@ public final class Constants {
 		public static final double kFrontLeftDriveAbsoluteEncoderOffsetRad = 0.01;
 		public static final boolean kFrontLeftDriveAbsoluteEncoderReversed = false;
 		public static final int kFrontLeftDriveAbsoluteEncoderPort = 0;
-	
+
 		public static final boolean kFrontRightDriveEncoderReversed = false;
 		public static final boolean kFrontRightTurningEncoderReversed = false;
 		public static final double kFrontRightDriveAbsoluteEncoderOffsetRad = 0.01;
 		public static final boolean kFrontRightDriveAbsoluteEncoderReversed = false;
 		public static final int kFrontRightDriveAbsoluteEncoderPort = 0;
-	
+
 		public static final boolean kBackLeftDriveEncoderReversed = false;
 		public static final boolean kBackLeftTurningEncoderReversed = false;
 		public static final double kBackLeftDriveAbsoluteEncoderOffsetRad = 0.01;
 		public static final boolean kBackLeftDriveAbsoluteEncoderReversed = false;
 		public static final int kBackLeftDriveAbsoluteEncoderPort = 0;
-	
+
 		public static final boolean kBackRightDriveEncoderReversed = false;
 		public static final boolean kBackRightTurningEncoderReversed = false;
 		public static final double kBackRightDriveAbsoluteEncoderOffsetRad = 0.01;
 		public static final boolean kBackRightDriveAbsoluteEncoderReversed = false;
- 		public static final int kBackRightDriveAbsoluteEncoderPort = 0;
+		public static final int kBackRightDriveAbsoluteEncoderPort = 0;
 
 		public static final double kPhysicalMaxSpeedMetersPerSecond = 0.01;
 		public static final double kTeleDriveMaxSpeedMetersPerSecond = 0.01;
@@ -80,25 +77,23 @@ public final class Constants {
 		public static final double kTeleDriveMaxAccelerationUnitsPerSecond = 0.01;
 		public static final double kTeleDriveMaxAngularAccelerationUnitsPerSecond = 0.01;
 	}
-//CAN = computer area network
-	public static class CAN
-	{
+	// CAN = computer area network
+	public static class CAN {
 		public static final int kFrontLeftDriveMotorPort = 0;
 		public static final int kFrontLeftTurningMotorPort = 0;
-		
+
 		public static final int kFrontRightDriveMotorPort = 0;
 		public static final int kFrontRightTurningMotorPort = 0;
-		
+
 		public static final int kBackLeftDriveMotorPort = 0;
 		public static final int kBackLeftTurningMotorPort = 0;
-		
+
 		public static final int kBackRightDriveMotorPort = 0;
 		public static final int kBackRightTurningMotorPort = 0;
-		
+
 	}
 
-	public static class OIConstants
-	{
+	public static class OIConstants {
 		public static final ControllerType controllerTypeDriver = ControllerType.XBOX;
 		public static final ControllerType controllerTypeOperator = ControllerType.XBOX;
 
@@ -108,9 +103,7 @@ public final class Constants {
 		public static final double kDeadband = 0.1;
 	}
 
-	public static enum ControllerType
-	{
+	public static enum ControllerType {
 		XBOX, LOGITECH, JOYSTICK
 	}
 }
-
