@@ -9,10 +9,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.commands.Autos;
-import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.SwerveTeleOp;
-import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.Odometry;
 import frc.robot.subsystems.Swerve;
 
@@ -25,7 +22,6 @@ import frc.robot.subsystems.Swerve;
  */
 public class RobotContainer {
 	// The robot's subsystems and commands are defined here...
-	private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
 	private Swerve swerve;
 	private Odometry odometry;
 
@@ -70,14 +66,6 @@ public class RobotContainer {
 	 * Flight joysticks}.
 	 */
 	private void configureBindings() {
-		// Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-		new Trigger(m_exampleSubsystem::exampleCondition).onTrue(new ExampleCommand(m_exampleSubsystem));
-
-		// Schedule `exampleMethodCommand` when the Xbox controller's B button is
-		// pressed,
-		// cancelling on release.
-		driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
-
 	}
 
 	/**
@@ -87,8 +75,9 @@ public class RobotContainer {
 	 */
 	public Command getAutonomousCommand() {
 		// An example command will be run in autonomous
-		return Autos.exampleAuto(m_exampleSubsystem);
+		return null;
 	}
+
 	public static XboxController getDriverJoystick() {
 		return driverController.getHID();
 	}

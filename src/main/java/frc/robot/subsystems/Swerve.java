@@ -39,10 +39,16 @@ public class Swerve extends SubsystemBase {
 				DriveConstants.kBackRightDriveAbsoluteEncoderReversed);
 	}
 
+	public SwerveModulePosition[] getModulePositions() {
+		return new SwerveModulePosition[]{frontLeft.getModulePosition(), frontRight.getModulePosition(),
+				backLeft.getModulePosition(), backRight.getModulePosition()};
+	}
+
 	public SwerveModuleState[] getModuleStates() {
 		return new SwerveModuleState[]{frontLeft.getState(), frontRight.getState(), backLeft.getState(),
 				backRight.getState()};
 	}
+
 	public void setModuleStates(ChassisSpeeds chassisSpeeds) {
 		SwerveModuleState[] moduleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);
 		setModuleStates(moduleStates);
