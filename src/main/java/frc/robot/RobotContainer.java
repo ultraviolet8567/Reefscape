@@ -13,6 +13,8 @@ import frc.robot.commands.Autos;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.Swerve;
+import frc.robot.subsystems.elevator.Elevator;
+import frc.robot.subsystems.elevator.ElevatorIOSparkMax;
 import frc.robot.subsystems.Odometry;
 import frc.robot.commands.SwerveTeleOp;
 
@@ -34,6 +36,8 @@ public class RobotContainer {
 			OperatorConstants.kDriverControllerPort);
 	private static final CommandXboxController operatorController = new CommandXboxController(
 			OperatorConstants.kOperatorControllerPort);
+	private final Elevator elevator;
+	
 
 	/**
 	 * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -44,6 +48,7 @@ public class RobotContainer {
 
 		swerve = new Swerve();
 		odometry = new Odometry(swerve);
+		elevator = new Elevator(new ElevatorIOSparkMax());
 
 		// Configure the PathPlanner auto-builder
 		//AutoBuilder.configureHolonomic(odometry::getOdometerPose, odometry::resetOdometerPose,
@@ -70,14 +75,12 @@ public class RobotContainer {
 	 * Flight joysticks}.
 	 */
 	private void configureBindings() {
-		// Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-		new Trigger(m_exampleSubsystem::exampleCondition).onTrue(new ExampleCommand(m_exampleSubsystem));
 
 		// Schedule `exampleMethodCommand` when the Xbox controller's B button is
 		// pressed,
 		// cancelling on release.
 		driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
-
+		driverController.leftBumper().onTrue(new InstantCommand() -> elevator.setPosition())
 		
 	}
 

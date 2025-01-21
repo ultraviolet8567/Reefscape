@@ -22,6 +22,11 @@ import edu.wpi.first.math.util.Units;
 public final class Constants {
 
 	public static final boolean fieldOriented = true;
+	public static class ElevatorConstants {
+		//CHANGE LATER:
+		public static final double kElevatorExtendedHeight = 3.0;
+		public static final double kElevatorExtendedHeight;
+	}
 
 	public static class OperatorConstants {
 		public static final int kDriverControllerPort = 0;
@@ -30,7 +35,6 @@ public final class Constants {
 
 	public static class ModuleConstants
 	{
-		//CHANGE LATER:
 		public static final double kDriveEncoderRot2Meter = 0.0;
 		public static final double kDriveEncoderRPM2MeterPerSec = 0.0;
 		public static final double kTurningEncoderRot2Rad = 0.0;

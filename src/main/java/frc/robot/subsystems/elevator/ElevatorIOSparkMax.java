@@ -35,17 +35,13 @@ public class ElevatorIOSparkMax implements ElevatorIO {
 
     // Initialize the encoder for main
     // encoder = leadMotor.getEncoder();
-
-    leadMotor.getEncoder().getPIDController().setP(0.027);
-    leadMotor.getPIDController().setI(0);
-    leadMotor.getPIDController().setD(0);
-    leadMotor.getPIDController().setFF(0.0085);
-
+/*
     leadMotor.setIdleMode(IdleMode.kBrake);
     followerMotor.setIdleMode(IdleMode.kBrake);
 
     leadMotor.burnFlash();
     followerMotor.burnFlash();
+    */
   }
 
   @Override
@@ -74,7 +70,7 @@ public class ElevatorIOSparkMax implements ElevatorIO {
 
   @Override
   public void setPosition(double position) {
-    leadMotor.getPIDController().setReference(position, ControlType.kPosition);
+    leadPidController.calculate(getPosition(), position);
   }
 
   @Override
