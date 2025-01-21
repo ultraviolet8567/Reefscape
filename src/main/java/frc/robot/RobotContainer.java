@@ -6,17 +6,15 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.commands.Autos;
-import frc.robot.commands.ExampleCommand;
-import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.commands.SwerveTeleOp;
+import frc.robot.subsystems.Odometry;
 import frc.robot.subsystems.Swerve;
 import frc.robot.subsystems.elevator.Elevator;
 import frc.robot.subsystems.elevator.ElevatorIOSparkMax;
-import frc.robot.subsystems.Odometry;
-import frc.robot.commands.SwerveTeleOp;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -27,23 +25,21 @@ import frc.robot.commands.SwerveTeleOp;
  */
 public class RobotContainer {
 	// The robot's subsystems and commands are defined here...
-	private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
 	private Swerve swerve;
 	private Odometry odometry;
 
 	// Replace with CommandPS4Controller or CommandJoystick if needed
 	private static final CommandXboxController driverController = new CommandXboxController(
 			OperatorConstants.kDriverControllerPort);
-	private static final CommandXboxController operatorController = new CommandXboxController(
-			OperatorConstants.kOperatorControllerPort);
+	// private static final CommandXboxController operatorController = new
+	// CommandXboxController(
+	// OperatorConstants.kOperatorControllerPort);
 	private final Elevator elevator;
-	
 
 	/**
 	 * The container for the robot. Contains subsystems, OI devices, and commands.
 	 */
-	public RobotContainer() 
-	{
+	public RobotContainer() {
 		// Configure the trigger bindings
 
 		swerve = new Swerve();
@@ -51,15 +47,16 @@ public class RobotContainer {
 		elevator = new Elevator(new ElevatorIOSparkMax());
 
 		// Configure the PathPlanner auto-builder
-		//AutoBuilder.configureHolonomic(odometry::getOdometerPose, odometry::resetOdometerPose,
-				//swerve::getRobotRelativeSpeeds, swerve::setModuleStates, DriveConstants.kHolonomicConfig, () -> {
-					
-				//}, swerve)};
-		
+		// AutoBuilder.configureHolonomic(odometry::getOdometerPose,
+		// odometry::resetOdometerPose,
+		// swerve::getRobotRelativeSpeeds, swerve::setModuleStates,
+		// DriveConstants.kHolonomicConfig, () -> {
+
+		// }, swerve)};
+
 		swerve.setDefaultCommand(new SwerveTeleOp(swerve, odometry, () -> -driverController.getLeftY(),
 				() -> -driverController.getLeftX(), () -> -driverController.getRightX(),
 				() -> driverController.getHID().getRightBumper()));
-
 
 		configureBindings();
 	}
@@ -75,13 +72,8 @@ public class RobotContainer {
 	 * Flight joysticks}.
 	 */
 	private void configureBindings() {
-
-		// Schedule `exampleMethodCommand` when the Xbox controller's B button is
-		// pressed,
-		// cancelling on release.
-		driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
-		driverController.leftBumper().onTrue(new InstantCommand() -> elevator.setPosition())
-		
+		driverController.leftBumper().onTrue(new InstantCommand(() -> elevator.setPosition(10)));
+		driverController.rightBumper().onTrue(new InstantCommand(() -> elevator.setPosition(12)));
 	}
 
 	/**
@@ -91,8 +83,9 @@ public class RobotContainer {
 	 */
 	public Command getAutonomousCommand() {
 		// An example command will be run in autonomous
-		return Autos.exampleAuto(m_exampleSubsystem);
+		return null;
 	}
+
 	public static XboxController getDriverJoystick() {
 		return driverController.getHID();
 	}
