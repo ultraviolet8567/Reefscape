@@ -13,8 +13,10 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.SwerveTeleOp;
 import frc.robot.subsystems.Odometry;
 import frc.robot.subsystems.Swerve;
-import frc.robot.subsystems.elevator.Elevator;
-import frc.robot.subsystems.elevator.ElevatorIOSparkMax;
+import frc.robot.subsystems.elevator.*;
+import frc.robot.subsystems.algaeIntake.*;
+import frc.robot.subsystems.coralIntake.*;
+import frc.robot.Constants.*;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -25,26 +27,42 @@ import frc.robot.subsystems.elevator.ElevatorIOSparkMax;
  */
 public class RobotContainer {
 	// The robot's subsystems and commands are defined here...
-	private Swerve swerve;
-	private Odometry odometry;
+	private final Swerve swerve;
+	private final Odometry odometry;
+	private final Elevator elevator;
+	// private final CoralIntake coralIntake;
+	// private final AlgaeIntake algaeIntake;
 
 	// Replace with CommandPS4Controller or CommandJoystick if needed
 	private static final CommandXboxController driverController = new CommandXboxController(
 			OperatorConstants.kDriverControllerPort);
-	// private static final CommandXboxController operatorController = new
-	// CommandXboxController(
-	// OperatorConstants.kOperatorControllerPort);
-	private final Elevator elevator;
+	private static final CommandXboxController operatorController = new CommandXboxController(
+		OperatorConstants.kOperatorControllerPort);
 
 	/**
 	 * The container for the robot. Contains subsystems, OI devices, and commands.
 	 */
 	public RobotContainer() {
-		// Configure the trigger bindings
+		switch (Constants.currentMode) {
+			case REAL -> {
+				elevator = new Elevator(new ElevatorIOSparkMax());
+				// coralIntake = new CoralIntake(new CoralIntakeIOSparkMax());
+				// algaeIntake = new AlgaeIntake(new AlgaeIntakeIOSparkMax());
+			}
+			case SIM -> {
+				elevator = new Elevator(new ElevatorIOSim());
+				// coralIntake = new CoralIntake(new CoralIntakeIOSim());
+				// algaeIntake = new AlgaeIntake(new AlgaeIntakeIOSim());
+			}
+			default -> {
+				elevator = new Elevator(new ElevatorIO() {});
+				//coralIntake = new CoralIntake(new CoralIntakeIO() {});
+				//algaeIntake = new AlgaeIntake(new AlgaeIntakeIO() {});
+			}
+		}
 
 		swerve = new Swerve();
 		odometry = new Odometry(swerve);
-		elevator = new Elevator(new ElevatorIOSparkMax());
 
 		// Configure the PathPlanner auto-builder
 		// AutoBuilder.configureHolonomic(odometry::getOdometerPose,

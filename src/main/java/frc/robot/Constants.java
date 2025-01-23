@@ -6,6 +6,7 @@ package frc.robot;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.RobotBase;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
@@ -18,6 +19,8 @@ import edu.wpi.first.math.util.Units;
  * wherever the constants are needed, to reduce verbosity.
  */
 public final class Constants {
+	public static final Mode currentMode = RobotBase.isReal() ? Mode.REAL : Mode.SIM;
+	public static final RobotType currentRobot = (currentMode == Mode.REAL) ? RobotType.REALBOT : RobotType.SIMBOT;
 
 	public static final boolean fieldOriented = true;
 	public static class ElevatorConstants {
@@ -103,6 +106,22 @@ public final class Constants {
 		public static final int kOperatorControllerPort = 1;
 
 		public static final double kDeadband = 0.1;
+	}
+
+	public static enum RobotType {
+		/** Physical robot */
+		REALBOT,
+		/** Simulated robot */
+		SIMBOT
+	}
+
+	public static enum Mode {
+		/** Running on a real robot */
+		REAL,
+		/** Running a simulator */
+		SIM,
+		/** Replaying from a log file */
+		REPLAY
 	}
 
 	public static enum ControllerType {
