@@ -3,7 +3,7 @@ package frc.robot.subsystems.elevator;
 import org.littletonrobotics.junction.AutoLog;
 
 public interface ElevatorIO {
-	
+
 	@AutoLog
 	class ElevatorIOInputs {
 		public double motorCurrent = 0;
@@ -13,7 +13,7 @@ public interface ElevatorIO {
 
 	public default void updateInputs(ElevatorIOInputs inputs) {
 	}
-	
+
 	// Sets the power to the elevator motor
 	public default void set(double voltage) {
 	}

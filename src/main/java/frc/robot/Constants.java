@@ -21,10 +21,16 @@ import edu.wpi.first.wpilibj.RobotBase;
 public final class Constants {
 	public static final Mode currentMode = RobotBase.isReal() ? Mode.REAL : Mode.SIM;
 	public static final RobotType currentRobot = (currentMode == Mode.REAL) ? RobotType.REALBOT : RobotType.SIMBOT;
+	public static final boolean lightsExist = true;
 
 	public static final boolean fieldOriented = true;
 	public static class ElevatorConstants {
 		// CHANGE LATER:
+	}
+	public static class IntakeConstants {
+		// CHANGE LATER:
+		public static final int kAlgaeIntakeVoltage = 9;
+
 	}
 
 	public static class OperatorConstants {
@@ -127,4 +133,5 @@ public final class Constants {
 	public static enum ControllerType {
 		XBOX, LOGITECH, JOYSTICK
 	}
+
 }

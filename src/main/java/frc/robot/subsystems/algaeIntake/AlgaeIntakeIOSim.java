@@ -1,9 +1,7 @@
-package frc.robot.subsystems.elevator;
+package frc.robot.subsystems.algaeIntake;
 
-public class ElevatorIOSim implements ElevatorIO {
-	// Constructor
-	public ElevatorIOSim() {
-
+public class AlgaeIntakeIOSim implements AlgaeIntakeIO {
+	public AlgaeIntakeIOSim() {
 	}
 
 	@Override

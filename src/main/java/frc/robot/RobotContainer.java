@@ -9,14 +9,15 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.Constants.*;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.AlgaeIntakeCommand;
 import frc.robot.commands.SwerveTeleOp;
 import frc.robot.subsystems.Odometry;
 import frc.robot.subsystems.Swerve;
-import frc.robot.subsystems.elevator.*;
 import frc.robot.subsystems.algaeIntake.*;
 import frc.robot.subsystems.coralIntake.*;
-import frc.robot.Constants.*;
+import frc.robot.subsystems.elevator.*;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -31,13 +32,13 @@ public class RobotContainer {
 	private final Odometry odometry;
 	private final Elevator elevator;
 	// private final CoralIntake coralIntake;
-	// private final AlgaeIntake algaeIntake;
+	private final AlgaeIntake algaeIntake;
 
 	// Replace with CommandPS4Controller or CommandJoystick if needed
 	private static final CommandXboxController driverController = new CommandXboxController(
 			OperatorConstants.kDriverControllerPort);
 	private static final CommandXboxController operatorController = new CommandXboxController(
-		OperatorConstants.kOperatorControllerPort);
+			OperatorConstants.kOperatorControllerPort);
 
 	/**
 	 * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -47,17 +48,19 @@ public class RobotContainer {
 			case REAL -> {
 				elevator = new Elevator(new ElevatorIOSparkMax());
 				// coralIntake = new CoralIntake(new CoralIntakeIOSparkMax());
-				// algaeIntake = new AlgaeIntake(new AlgaeIntakeIOSparkMax());
+				algaeIntake = new AlgaeIntake(new AlgaeIntakeIOSparkMax());
 			}
 			case SIM -> {
 				elevator = new Elevator(new ElevatorIOSim());
 				// coralIntake = new CoralIntake(new CoralIntakeIOSim());
-				// algaeIntake = new AlgaeIntake(new AlgaeIntakeIOSim());
+				algaeIntake = new AlgaeIntake(new AlgaeIntakeIOSim());
 			}
 			default -> {
-				elevator = new Elevator(new ElevatorIO() {});
-				//coralIntake = new CoralIntake(new CoralIntakeIO() {});
-				//algaeIntake = new AlgaeIntake(new AlgaeIntakeIO() {});
+				elevator = new Elevator(new ElevatorIO() {
+				});
+				// coralIntake = new CoralIntake(new CoralIntakeIO() {});
+				algaeIntake = new AlgaeIntake(new AlgaeIntakeIO() {
+				});
 			}
 		}
 
@@ -90,8 +93,14 @@ public class RobotContainer {
 	 * Flight joysticks}.
 	 */
 	private void configureBindings() {
-		driverController.leftBumper().onTrue(new InstantCommand(() -> elevator.setPosition(10)));
-		driverController.rightBumper().onTrue(new InstantCommand(() -> elevator.setPosition(12)));
+		driverController.b().onTrue(new InstantCommand(() -> elevator.setPosition(10)));
+		driverController.a().onTrue(new InstantCommand(() -> elevator.setPosition(12)));
+		// one of these is gonna be output
+		driverController.rightBumper()
+				.whileTrue(new AlgaeIntakeCommand(algaeIntake, IntakeConstants.kAlgaeIntakeVoltage));
+		driverController.rightTrigger()
+				.whileTrue(new AlgaeIntakeCommand(algaeIntake, -IntakeConstants.kAlgaeIntakeVoltage));
+		// left side is gonna be used for coral stuff
 	}
 
 	/**

@@ -1,15 +1,15 @@
 package frc.robot.subsystems.algaeIntake;
 
 public interface AlgaeIntakeIO {
-    public static class AlgaeIntakeIOInputs {
-        public double motorCurrent = 0;
+	public static class AlgaeIntakeIOInputs {
+		public double motorCurrent = 0;
 		public double motorVoltage = 0;
 		public double motorAngle = 0;
-    }
-    
-    public default void updateInputs(AlgaeIntakeIOInputs inputs) {
 	}
-	
+
+	public default void updateInputs(AlgaeIntakeIOInputs inputs) {
+	}
+
 	public default void set(double voltage) {
 	}
 
