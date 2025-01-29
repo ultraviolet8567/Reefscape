@@ -6,9 +6,12 @@ public interface ElevatorIO {
 
 	@AutoLog
 	class ElevatorIOInputs {
-		public double motorCurrent = 0;
-		public double motorVoltage = 0;
-		public double motorAngle = 0;
+		public double velocityRadPerSec = 0.0;
+		public double positionRads = 0.0;
+		public double appliedVoltage = 0.0;
+		public double[] currentAmps = new double[]{};
+		public double[] tempCelsius = new double[]{};
+		// public boolean withinRange = false;
 	}
 
 	public default void updateInputs(ElevatorIOInputs inputs) {

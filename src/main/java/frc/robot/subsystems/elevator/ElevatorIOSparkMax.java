@@ -31,14 +31,17 @@ public class ElevatorIOSparkMax implements ElevatorIO {
 		leadMotor.configure(leadConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 		followerMotor.configure(followerConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
-		// Initialize the encoder for main
-		// encoder = leadMotor.getEncoder();
-		/*
-		 * leadMotor.setIdleMode(IdleMode.kBrake);
-		 * followerMotor.setIdleMode(IdleMode.kBrake);
-		 *
-		 * leadMotor.burnFlash(); followerMotor.burnFlash();
-		 */
+		leadMotor.setIdleMode(IdleMode.kBrake);
+    	followerMotor.setIdleMode(IdleMode.kBrake);
+	}
+
+	@Override
+	public default void updateInputs(ElevatorIOInputs inputs) {
+		inputs.velocityRadPerSec = leadMotor.getEncoder().getVelocity();
+		inputs.appliedVoltage = leadMotor.getAppliedOutput() * leadMotor.getBusVoltage();
+		inputs.positionRads = getPosition();
+		inputs.currentAmps = new double[]{arm1Motor.getOutputCurrent()};
+		inputs.tempCelsius = new double[]{arm1Motor.getMotorTemperature()};
 	}
 
 	@Override
@@ -67,7 +70,7 @@ public class ElevatorIOSparkMax implements ElevatorIO {
 
 	@Override
 	public void setPosition(double position) {
-		// Check if this method returns voltage as a parameter of set()
+		// TODO: check that this works & should probably clamp by less than the max speed, possibly make a ProfiledPIDController
 		set(MathUtil.clamp(leadPidController.calculate(getPosition(), position), -12.0, 12.0));
 	}
 

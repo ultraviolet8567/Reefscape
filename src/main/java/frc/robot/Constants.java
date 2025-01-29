@@ -102,6 +102,18 @@ public final class Constants {
 		public static final int kBackRightDriveMotorPort = 0;
 		public static final int kBackRightTurningMotorPort = 0;
 
+		public static final int kLeftAlgaeIntakePort = 0;
+		public static final int kRightAlgaeIntakePort = 0;
+
+		public static final int kLeftCoralIntakePort = 0;
+		public static final int kRightCoralIntakePort = 0;
+
+		public static final int kLeadElevatorPort = 0;
+		public static final int kFollowElevatorPort = 0;
+	}
+
+	public static final class IntakeConstants {
+		public static final LoggedTunableNumber kIntakeVoltage = new LoggedTunableNumber("Intake/Voltage", 10);
 	}
 
 	public static class OIConstants {

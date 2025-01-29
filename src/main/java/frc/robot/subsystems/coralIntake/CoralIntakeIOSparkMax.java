@@ -11,6 +11,8 @@ public class AlgaeIntakeIOSparkMax implements AlgaeIntakeIO {
 	private final SparkMax leftIntakeMotor, rightIntakeMotor;
 	private final RelativeEncoder leftIntakeEncoder, rightIntakeEncoder;
 
+    // TODO: still need to code possible sensor
+
 	// Constructor
 	public AlgaeIntakeIOSparkMax() {
 		// Initialize the CANSparkMax motors for left and right
@@ -22,7 +24,7 @@ public class AlgaeIntakeIOSparkMax implements AlgaeIntakeIO {
 		leftIntakeEncoder = leftIntakeMotor.getEncoder();
 		rightIntakeEncoder = rightIntakeMotor.getEncoder();
 
-		leftIntakeMotor.setIdleMode(IdleMode.kBrake);
+        leftIntakeMotor.setIdleMode(IdleMode.kBrake);
     	rightIntakeMotor.setIdleMode(IdleMode.kBrake);
 	}
 

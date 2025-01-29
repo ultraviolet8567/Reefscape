@@ -5,33 +5,27 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class CoralIntake extends SubsystemBase {
 	private final CoralIntakeIO io;
 
+	// still need to code possible sensor
+
 	public CoralIntake(CoralIntakeIO io) {
 		this.io = io;
-	}
-
-	public void setVoltage(double voltage) {
-		io.set(voltage);
-	}
-
-	public void stop() {
-		io.stop();
 	}
 
 	// Periodic method called in every cycle (e.g., 20ms)
 	@Override
 	public void periodic() {
-		// io.updateInputs(inputs);
+		io.updateInputs(inputs);
 	}
 
-	public double getPosition() {
-		return io.getPosition();
+	public void pickup() {
+		io.setInputVoltage(IntakeConstants.kIntakeVoltage.get());
 	}
 
-	public double getVelocity() {
-		return io.getVelocity();
+	public void drop() {
+		io.setInputVoltage(-IntakeConstants.kIntakeVoltage.get());
 	}
 
-	public void resetPosition() {
-		io.resetPosition();
+	public void stop() {
+		io.stop();
 	}
 }
