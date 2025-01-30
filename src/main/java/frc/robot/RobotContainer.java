@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.*;
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.commands.AlgaeIntakeCommand;
+import frc.robot.commands.Algae;
 import frc.robot.commands.SwerveTeleOp;
 import frc.robot.subsystems.Odometry;
 import frc.robot.subsystems.Swerve;
@@ -96,10 +96,8 @@ public class RobotContainer {
 		driverController.b().onTrue(new InstantCommand(() -> elevator.setPosition(10)));
 		driverController.a().onTrue(new InstantCommand(() -> elevator.setPosition(12)));
 		// one of these is gonna be output
-		driverController.rightBumper()
-				.whileTrue(new AlgaeIntakeCommand(algaeIntake, IntakeConstants.kAlgaeIntakeVoltage));
-		driverController.rightTrigger()
-				.whileTrue(new AlgaeIntakeCommand(algaeIntake, -IntakeConstants.kAlgaeIntakeVoltage));
+		driverController.rightBumper().whileTrue(new Algae(algaeIntake, true));
+		driverController.rightTrigger().whileTrue(new Algae(algaeIntake, false));
 		// left side is gonna be used for coral stuff
 	}
 

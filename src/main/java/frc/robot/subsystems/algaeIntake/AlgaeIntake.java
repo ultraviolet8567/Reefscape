@@ -17,21 +17,15 @@ public class AlgaeIntake extends SubsystemBase {
 		io.stop();
 	}
 
+	/*
+	 * public void pickup() { io.set(IntakeConstants.kAlgaeIntakeVoltage); }
+	 *
+	 * public void drop() { io.set(-IntakeConstants.kAlgaeIntakeVoltage); }
+	 */
+
 	// Periodic method called in every cycle (e.g., 20ms)
 	@Override
 	public void periodic() {
 		// io.updateInputs(inputs);
-	}
-
-	public double getPosition() {
-		return io.getPosition();
-	}
-
-	public double getVelocity() {
-		return io.getVelocity();
-	}
-
-	public void resetPosition() {
-		io.resetPosition();
 	}
 }

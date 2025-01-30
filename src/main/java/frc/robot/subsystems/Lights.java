@@ -5,8 +5,6 @@ import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.Notifier;
-import edu.wpi.first.wpilibj.RobotState;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.util.Color;
 import frc.robot.Constants;
 import frc.robot.util.VirtualSubsystem;
@@ -39,25 +37,26 @@ public class Lights extends VirtualSubsystem {
 	private static final int length = 20;
 	private static final int bottomLength = 8;
 	private static final int minLoopCycleCount = 10;
-	private static final double lowBatteryVoltage = 10.0;
-	private static final double shimmerExtremeness = 0.5;
-	private static final double shimmerSpeed = 1;
-	private static final double strobeTickSkip = 15;
-	private static final int strobeSlowDuration = 5;
-	private static final double stripeDuration = 0.75;
-	private static final int StripeLength = 5;
-	private static final double breathDuration = 1.0;
-	private static final double waveExpoenent = 0.4;
-	private static final int lowBatteryFlashWait = 50;
-	private static final int lowBatteryFlashDuration = 25;
-	private static final int strobeFastDuration = 2;
-	private static final double rainbowCycleLength = 25.0;
-	private static final double rainbowDuration = 0.25;
-	private static final double waveFastCycleLength = 25.0;
-	private static final double waveFastDuration = 0.25;
-	private static final double waveSlowCycleLength = 25.0;
-	private static final double waveAllianceCycleLength = 15.0;
-	private static final double waveAllianceDuration = 2.0;
+	/*
+	 * private static final double lowBatteryVoltage = 10.0; private static final
+	 * double shimmerExtremeness = 0.5; private static final double shimmerSpeed =
+	 * 1; private static final double strobeTickSkip = 15; private static final int
+	 * strobeSlowDuration = 5; private static final double stripeDuration = 0.75;
+	 * private static final int StripeLength = 5;
+	 */
+	// private static final double breathDuration = 1.0;
+
+	/*
+	 * private static final double waveExpoenent = 0.4; private static final int
+	 * lowBatteryFlashWait = 50; private static final int lowBatteryFlashDuration =
+	 * 25; private static final int strobeFastDuration = 2; private static final
+	 * double rainbowCycleLength = 25.0; private static final double rainbowDuration
+	 * = 0.25; private static final double waveFastCycleLength = 25.0; private
+	 * static final double waveFastDuration = 0.25; private static final double
+	 * waveSlowCycleLength = 25.0; private static final double
+	 * waveAllianceCycleLength = 15.0; private static final double
+	 * waveAllianceDuration = 2.0;
+	 */
 
 	public static enum Section {
 		FULL, BOTTOM, UPPER;
@@ -154,18 +153,17 @@ public class Lights extends VirtualSubsystem {
 		}
 	}
 
-	private void breath(Section section, Color c1, Color c2, double duration) {
-		breath(section, c1, c2, duration, Timer.getFPGATimestamp());
-	}
-
-	private void breath(Section section, Color c1, Color c2, double duration, double timestamp) {
-		double x = ((timestamp % breathDuration) / breathDuration) * 2.0 * Math.PI;
-		double ratio = (Math.sin(x) + 1.0) / 2.0;
-		double red = (c1.red * (1 - ratio)) + (c2.red * ratio);
-		double green = (c1.green * (1 - ratio)) + (c2.green * ratio);
-		double blue = (c1.blue * (1 - ratio)) + (c2.blue * ratio);
-		solid(section, new Color(red, green, blue));
-	}
+	/*
+	 * private void breath(Section section, Color c1, Color c2, double duration) {
+	 * breath(section, c1, c2, duration, Timer.getFPGATimestamp()); }
+	 *
+	 * private void breath(Section section, Color c1, Color c2, double duration,
+	 * double timestamp) { double x = ((timestamp % breathDuration) /
+	 * breathDuration) * 2.0 * Math.PI; double ratio = (Math.sin(x) + 1.0) / 2.0;
+	 * double red = (c1.red * (1 - ratio)) + (c2.red * ratio); double green =
+	 * (c1.green * (1 - ratio)) + (c2.green * ratio); double blue = (c1.blue * (1 -
+	 * ratio)) + (c2.blue * ratio); solid(section, new Color(red, green, blue)); }
+	 */
 
 	public void solid(Section section, Color color) {
 		for (int i = section.start(); i < section.end(); i++) {
@@ -180,15 +178,12 @@ public class Lights extends VirtualSubsystem {
 		}
 	}
 
-	private void strobe(Section section, Color color) {
-		for (int i = section.start(); i < section.end(); i++) {
-			if (loopCycleCount % (strobeTickSkip) < strobeSlowDuration) {
-				buffer.setLED(i, color);
-			} else {
-				buffer.setHSV(i, 0, 0, 0);
-			}
-		}
-	}
+	/*
+	 * private void strobe(Section section, Color color) { for (int i =
+	 * section.start(); i < section.end(); i++) { if (loopCycleCount %
+	 * (strobeTickSkip) < strobeSlowDuration) { buffer.setLED(i, color); } else {
+	 * buffer.setHSV(i, 0, 0, 0); } } }
+	 */
 
 	public static enum RobotState {
 		DISABLED, AUTO, TELEOP;
