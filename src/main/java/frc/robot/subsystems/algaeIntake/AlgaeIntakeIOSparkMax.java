@@ -32,20 +32,15 @@ public class AlgaeIntakeIOSparkMax implements AlgaeIntakeIO {
 		leadMotor.setVoltage(voltage);
 	}
 
-	// @Override
-	// public double getVelocity() {
-	// // Get the velocity from the encoder
-	// return leadMotor.getEncoder().getVelocity();
-	// }
-
+	// Will be called periodically
 	@Override
 	public void updateInputs(AlgaeIntakeIOInputs inputs) {
 		// this is in rpm, convert
-		inputs.currentAmps = new double[]{leadMotor.getOutputCurrent(), followerMotor.getOutputCurrent()};
-		inputs.velocityRadPerSec = new double[]{leadMotor.getEncoder().getVelocity(),
-				followerMotor.getEncoder().getVelocity()};
+		inputs.currentVoltage = new double[]{leadMotor.getOutputCurrent(), followerMotor.getOutputCurrent()};
 		inputs.appliedVoltage = new double[]{leadMotor.getAppliedOutput() * leadMotor.getBusVoltage(),
 				followerMotor.getAppliedOutput() * followerMotor.getBusVoltage()};
+		inputs.velocityRadsPerSecond = new double[]{leadMotor.getEncoder().getVelocity(),
+				followerMotor.getEncoder().getVelocity()};
 		inputs.tempCelsius = new double[]{leadMotor.getMotorTemperature(), followerMotor.getMotorTemperature()};
 	}
 

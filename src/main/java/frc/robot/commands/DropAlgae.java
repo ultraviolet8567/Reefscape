@@ -4,10 +4,10 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.subsystems.algaeIntake.AlgaeIntake;
 
-public class Algae extends Command {
+public class DropAlgae extends Command {
 	private final AlgaeIntake intake;
 
-	public Algae(AlgaeIntake intake) {
+	public DropAlgae(AlgaeIntake intake) {
 		this.intake = intake;
 
 		addRequirements(intake);
@@ -15,7 +15,7 @@ public class Algae extends Command {
 
 	@Override
 	public void initialize() {
-		intake.setVoltage(IntakeConstants.kAlgaeIntakeVoltage);
+		intake.setVoltage(-IntakeConstants.kAlgaeIntakeVoltage);
 	}
 
 	@Override

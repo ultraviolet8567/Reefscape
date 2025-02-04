@@ -26,11 +26,28 @@ public final class Constants {
 	public static final boolean fieldOriented = true;
 	public static class ElevatorConstants {
 		// CHANGE LATER:
+		public static final double kElevatorVoltage = 12;
+		public static final double kP = 0.027;
+		public static final double kI = 0.0;
+		public static final double kD = 0.0;
 	}
 	public static class IntakeConstants {
 		// CHANGE LATER:
 		public static final int kAlgaeIntakeVoltage = 9;
+		public static final int kCoralIntakeVoltage = 9;
 
+	}
+
+	public static class WristConstants {
+		// CHANGE LATER:
+		public static final double kWristVoltage = 12;
+
+		public static final double kFFS = 0.0;
+		public static final double kFFG = 0.0;
+		public static final double kFFV = 0.0;
+		public static final double kP = 0.0;
+		public static final double kI = 0.0;
+		public static final double kD = 0.0;
 	}
 
 	public static class OperatorConstants {

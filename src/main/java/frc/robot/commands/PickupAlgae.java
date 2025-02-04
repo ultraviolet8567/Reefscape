@@ -4,10 +4,10 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.subsystems.algaeIntake.AlgaeIntake;
 
-public class Algae extends Command {
+public class PickupAlgae extends Command {
 	private final AlgaeIntake intake;
 
-	public Algae(AlgaeIntake intake) {
+	public PickupAlgae(AlgaeIntake intake) {
 		this.intake = intake;
 
 		addRequirements(intake);
