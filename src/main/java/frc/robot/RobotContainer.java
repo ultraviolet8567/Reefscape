@@ -5,6 +5,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -12,6 +13,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.*;
 import frc.robot.commands.DropAlgae;
 import frc.robot.commands.DropCoral;
+import frc.robot.commands.ManualElevator;
 import frc.robot.commands.PickupAlgae;
 import frc.robot.commands.PickupCoral;
 import frc.robot.commands.SwerveTeleOp;
@@ -81,7 +83,14 @@ public class RobotContainer {
 				() -> -driverController.getLeftX(), () -> -driverController.getRightX(),
 				() -> driverController.getHID().getRightBumper()));
 
+		elevator.setDefaultCommand(new ManualElevator(elevator, operatorController.getLeftY()));
+
 		configureBindings();
+
+		// thing we need to put in the shuffleboard:
+		// elevator preset position (current) -> do we even need that
+		// whether we have a piece (do we have sensors for that?)
+		Shuffleboard.getTab("Main");
 	}
 
 	/**
@@ -95,6 +104,8 @@ public class RobotContainer {
 	 * Flight joysticks}.
 	 */
 	private void configureBindings() {
+		// presets needed: processor, L3, L4, ground
+		// also manual control (POV buttons?)
 		operatorController.b().onTrue(new InstantCommand(() -> elevator.setPosition(10)));
 		operatorController.a().onTrue(new InstantCommand(() -> elevator.setPosition(12)));
 		// one of these is gonna be output
@@ -103,6 +114,9 @@ public class RobotContainer {
 		operatorController.leftBumper().whileTrue(new PickupCoral(coralIntake));
 		operatorController.leftTrigger().whileTrue(new DropCoral(coralIntake));
 		// right side for algae, left for coral
+		// autochooser
+		// timer
+		// current presets elevator & algae
 	}
 
 	/**

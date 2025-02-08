@@ -1,6 +1,6 @@
 package frc.robot.subsystems.elevator;
 
-import com.revrobotics.AbsoluteEncoder;
+import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
@@ -9,15 +9,15 @@ import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import frc.robot.Constants.ElevatorConstants;
 
 public class ElevatorIOSparkMax implements ElevatorIO {
 	private final SparkMax leadMotor, followerMotor;
 	private final SparkMaxConfig leadConfig, followerConfig;
 	private final PIDController leadPidController/* , followerPidController */;
-	// private final RelativeEncoder encoder;
-	private final AbsoluteEncoder leadEncoder;
-	private final AbsoluteEncoder followerEncoder;
+	private final RelativeEncoder leadEncoder;
+	private final DutyCycleEncoder absoluteEncoder;
 
 	// Constructor
 	public ElevatorIOSparkMax() {
@@ -39,8 +39,8 @@ public class ElevatorIOSparkMax implements ElevatorIO {
 		leadMotor.configure(leadConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 		followerMotor.configure(followerConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
-		leadEncoder = leadMotor.getAbsoluteEncoder();
-		followerEncoder = followerMotor.getAbsoluteEncoder();
+		absoluteEncoder = new DutyCycleEncoder(1);
+		leadEncoder = leadMotor.getEncoder();
 	}
 
 	@Override
@@ -51,9 +51,9 @@ public class ElevatorIOSparkMax implements ElevatorIO {
 
 	// this should be from the absolute encoder
 	@Override
-	public double getPosition() {
+	public double getPositionRads() {
 		// Get the position from the encoder
-		return leadEncoder.getPosition();
+		return absoluteEncoder.get() * 2 * Math.PI;
 	}
 
 	@Override
@@ -72,8 +72,20 @@ public class ElevatorIOSparkMax implements ElevatorIO {
 	@Override
 	public void setPosition(double position) {
 		// Check if this method returns voltage as a parameter of set()
-		set(MathUtil.clamp(leadPidController.calculate(getPosition(), position), -ElevatorConstants.kElevatorVoltage,
-				ElevatorConstants.kElevatorVoltage));
+		set(MathUtil.clamp(leadPidController.calculate(getPositionRads(), position),
+				-ElevatorConstants.kElevatorVoltage, ElevatorConstants.kElevatorVoltage));
+	}
+
+	public void turn(double factor) {
+		double voltage = factor * 8;
+
+		if (getPositionRads() < ElevatorConstants.kElevatorMax || getPositionRads() > ElevatorConstants.kElevatorMin
+				|| (getPositionRads() >= ElevatorConstants.kElevatorMax && voltage <= 0)
+				|| (getPositionRads() <= ElevatorConstants.kElevatorMin && voltage >= 0)) {
+			set(voltage);
+		} else {
+			stop();
+		}
 	}
 
 	@Override
@@ -82,7 +94,7 @@ public class ElevatorIOSparkMax implements ElevatorIO {
 		inputs.currentVoltage = new double[]{leadMotor.getOutputCurrent(), followerMotor.getOutputCurrent()};
 		inputs.appliedVoltage = new double[]{leadMotor.getAppliedOutput() * leadMotor.getBusVoltage(),
 				followerMotor.getAppliedOutput() * followerMotor.getBusVoltage()};
-		inputs.angleRadians = new double[]{leadEncoder.getPosition(), followerEncoder.getPosition()};
+		inputs.angleRadians = new double[]{getPositionRads()};
 	}
 
 	@Override

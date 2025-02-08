@@ -19,7 +19,7 @@ public interface ElevatorIO {
 	}
 
 	// Gets the current position of the elevator (in encoder units)
-	public default double getPosition() {
+	public default double getPositionRads() {
 		return 0;
 	}
 
@@ -29,6 +29,10 @@ public interface ElevatorIO {
 	// Gets the current velocity of the elevator
 	public default double getVelocity() {
 		return 0;
+	}
+
+	public default boolean limit() {
+		return true;
 	}
 
 	// Resets the encoder position to a specific value

@@ -24,13 +24,17 @@ public final class Constants {
 	public static final boolean lightsExist = true;
 
 	public static final boolean fieldOriented = true;
+
 	public static class ElevatorConstants {
 		// CHANGE LATER:
 		public static final double kElevatorVoltage = 12;
 		public static final double kP = 0.027;
 		public static final double kI = 0.0;
 		public static final double kD = 0.0;
+		public static final double kElevatorMax = 10.0;
+		public static final double kElevatorMin = 0.0;
 	}
+
 	public static class IntakeConstants {
 		// CHANGE LATER:
 		public static final int kAlgaeIntakeVoltage = 9;

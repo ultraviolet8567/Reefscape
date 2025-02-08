@@ -12,7 +12,7 @@ public class ElevatorIOSim implements ElevatorIO {
 	}
 
 	@Override
-	public double getPosition() {
+	public double getPositionRads() {
 		// Get the position from the encoder
 		return 0.0;
 	}

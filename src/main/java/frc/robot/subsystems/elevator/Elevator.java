@@ -16,7 +16,7 @@ public class Elevator extends SubsystemBase {
 
 	// Method to set power for the elevator
 	public void setVoltage(double voltage) {
-		System.out.println("Elevator position: " + getPosition());
+		System.out.println("Elevator position: " + getPositionRads());
 		io.set(voltage);
 	}
 
@@ -37,8 +37,8 @@ public class Elevator extends SubsystemBase {
 		// io.updateInputs(inputs);
 	}
 
-	public double getPosition() {
-		return io.getPosition();
+	public double getPositionRads() {
+		return io.getPositionRads();
 	}
 
 	public double getVelocity() {
@@ -47,5 +47,11 @@ public class Elevator extends SubsystemBase {
 
 	public void resetPosition() {
 		io.resetPosition();
+	}
+
+	// for manual control
+	public void turn(double factor) {
+		// if absolute encoder position isn't past a certain value?
+		io.stop();
 	}
 }
