@@ -17,6 +17,7 @@ import frc.robot.commands.ManualElevator;
 import frc.robot.commands.PickupAlgae;
 import frc.robot.commands.PickupCoral;
 import frc.robot.commands.SwerveTeleOp;
+import frc.robot.subsystems.AutoChooser;
 import frc.robot.subsystems.Odometry;
 import frc.robot.subsystems.Swerve;
 import frc.robot.subsystems.algaeIntake.*;
@@ -37,6 +38,7 @@ public class RobotContainer {
 	private final Elevator elevator;
 	private final AlgaeIntake algaeIntake;
 	private final CoralIntake coralIntake;
+	private final AutoChooser autoChooser;
 	// Replace with CommandPS4Controller or CommandJoystick if needed
 	private static final CommandXboxController driverController = new CommandXboxController(
 			OperatorConstants.kDriverControllerPort);
@@ -70,6 +72,7 @@ public class RobotContainer {
 
 		swerve = new Swerve();
 		odometry = new Odometry(swerve);
+		autoChooser = new AutoChooser();
 
 		// Configure the PathPlanner auto-builder
 		// AutoBuilder.configureHolonomic(odometry::getOdometerPose,
@@ -125,8 +128,7 @@ public class RobotContainer {
 	 * @return the command to run in autonomous
 	 */
 	public Command getAutonomousCommand() {
-		// An example command will be run in autonomous
-		return null;
+		return autoChooser.getSelectedAuto();
 	}
 
 	public static XboxController getDriverJoystick() {
