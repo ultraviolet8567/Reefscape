@@ -3,6 +3,11 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot;
+import com.fasterxml.jackson.databind.Module;
+import com.pathplanner.lib.config.ModuleConfig;
+import com.pathplanner.lib.config.PIDConstants;
+import com.pathplanner.lib.config.RobotConfig;
+
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.util.Units;
@@ -68,7 +73,6 @@ public final class Constants {
 	}
 	// CHANGE LATER:
 	public static class DriveConstants {
-
 		public static final double kTrackWidth = Units.inchesToMeters(20.75);
 		// Distance between front and back wheels:
 		public static final double kWheelBase = Units.inchesToMeters(20.75);
@@ -89,39 +93,62 @@ public final class Constants {
 		public static final boolean kFrontRightTurningEncoderReversed = false;
 		public static final double kFrontRightDriveAbsoluteEncoderOffsetRad = 0.01;
 		public static final boolean kFrontRightDriveAbsoluteEncoderReversed = false;
-		public static final int kFrontRightDriveAbsoluteEncoderPort = 0;
+		public static final int kFrontRightDriveAbsoluteEncoderPort = 1;
 
 		public static final boolean kBackLeftDriveEncoderReversed = false;
 		public static final boolean kBackLeftTurningEncoderReversed = false;
 		public static final double kBackLeftDriveAbsoluteEncoderOffsetRad = 0.01;
 		public static final boolean kBackLeftDriveAbsoluteEncoderReversed = false;
-		public static final int kBackLeftDriveAbsoluteEncoderPort = 0;
+		public static final int kBackLeftDriveAbsoluteEncoderPort = 2;
 
 		public static final boolean kBackRightDriveEncoderReversed = false;
 		public static final boolean kBackRightTurningEncoderReversed = false;
 		public static final double kBackRightDriveAbsoluteEncoderOffsetRad = 0.01;
 		public static final boolean kBackRightDriveAbsoluteEncoderReversed = false;
-		public static final int kBackRightDriveAbsoluteEncoderPort = 0;
+		public static final int kBackRightDriveAbsoluteEncoderPort = 3;
 
 		public static final double kPhysicalMaxSpeedMetersPerSecond = 0.01;
 		public static final double kTeleDriveMaxSpeedMetersPerSecond = 0.01;
 
 		public static final double kTeleDriveMaxAccelerationUnitsPerSecond = 0.01;
 		public static final double kTeleDriveMaxAngularAccelerationUnitsPerSecond = 0.01;
+		
+		public static final double kRobotMass = 100.0;
+		public static final double kRobotMOI = 100.0;
+		public static final ModuleConfig kRobotModuleConfig = new ModuleConfig();
+		public static final Translation2d kModuleOffsets = new Translation2d();
+
+		public static final RobotConfig kRobotConfig = new RobotConfig(kRobotMass,kRobotMOI,kRobotModuleConfig, kModuleOffsets);
+
+		//public static final HolonomicPathFollowerConfig kHolonomicConfig = new HolonomicPathFollowerConfig(
+		//		new PIDConstants(0.25, 0.0, 0.0), // Translation PID constants
+		//		new PIDConstants(0.5, 0.0, 0.0), // Rotation PID constants
+		//		kTeleDriveMaxSpeedMetersPerSecond, // Max module speed, in m/s
+				// Drive base radius in meters. Distance from robot center to furthest module.
+		//		Math.sqrt(Math.pow(kTrackWidth, 2) + Math.pow(kWheelBase, 2)) / 2, new ReplanningConfig());
 	}
+	
 	// CAN = computer area network
 	public static class CAN {
-		public static final int kFrontLeftDriveMotorPort = 0;
-		public static final int kFrontLeftTurningMotorPort = 0;
+		public static final int kFrontLeftDriveMotorPort = 10;
+		public static final int kFrontLeftTurningMotorPort = 20;
 
-		public static final int kFrontRightDriveMotorPort = 0;
-		public static final int kFrontRightTurningMotorPort = 0;
+		public static final int kFrontRightDriveMotorPort = 11;
+		public static final int kFrontRightTurningMotorPort = 21;
 
-		public static final int kBackLeftDriveMotorPort = 0;
-		public static final int kBackLeftTurningMotorPort = 0;
+		public static final int kBackLeftDriveMotorPort = 12;
+		public static final int kBackLeftTurningMotorPort = 22;
 
-		public static final int kBackRightDriveMotorPort = 0;
-		public static final int kBackRightTurningMotorPort = 0;
+		public static final int kBackRightDriveMotorPort = 13;
+		public static final int kBackRightTurningMotorPort = 23;
+
+		public static final int kElevatorLeadMotorPort = 1;
+		public static final int kElevatorFollowerMotorPort = 2;
+
+		public static final int kElevatorAbsoluteEncoderPort = 5;
+
+		public static final int kAlgaeLeftMotorPort = 3;
+		public static final int kAlgaeRightMotorPort = 4;
 
 	}
 

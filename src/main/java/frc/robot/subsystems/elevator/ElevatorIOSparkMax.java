@@ -10,6 +10,7 @@ import com.revrobotics.spark.config.SparkMaxConfig;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
+import frc.robot.Constants.CAN;
 import frc.robot.Constants.ElevatorConstants;
 
 public class ElevatorIOSparkMax implements ElevatorIO {
@@ -25,8 +26,8 @@ public class ElevatorIOSparkMax implements ElevatorIO {
 		leadPidController = new PIDController(ElevatorConstants.kP, ElevatorConstants.kI, ElevatorConstants.kD);
 
 		// Initialize the CANSparkMax motors for main and follower
-		leadMotor = new SparkMax(3, MotorType.kBrushless);
-		followerMotor = new SparkMax(4, MotorType.kBrushless);
+		leadMotor = new SparkMax(CAN.kElevatorLeadMotorPort, MotorType.kBrushless);
+		followerMotor = new SparkMax(CAN.kElevatorFollowerMotorPort, MotorType.kBrushless);
 		leadConfig = new SparkMaxConfig();
 		followerConfig = new SparkMaxConfig();
 
@@ -39,7 +40,7 @@ public class ElevatorIOSparkMax implements ElevatorIO {
 		leadMotor.configure(leadConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 		followerMotor.configure(followerConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
-		absoluteEncoder = new DutyCycleEncoder(1);
+		absoluteEncoder = new DutyCycleEncoder(CAN.kElevatorAbsoluteEncoderPort);
 		leadEncoder = leadMotor.getEncoder();
 	}
 

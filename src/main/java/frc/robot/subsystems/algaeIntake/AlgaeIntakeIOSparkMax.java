@@ -5,6 +5,7 @@ import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.SparkMaxConfig;
+import frc.robot.Constants.CAN;
 
 public class AlgaeIntakeIOSparkMax implements AlgaeIntakeIO {
 	private final SparkMax leadMotor, followerMotor;
@@ -14,8 +15,8 @@ public class AlgaeIntakeIOSparkMax implements AlgaeIntakeIO {
 	// Constructor
 	public AlgaeIntakeIOSparkMax() {
 		// Initialize the CANSparkMax motors for main and follower
-		leadMotor = new SparkMax(3, MotorType.kBrushless);
-		followerMotor = new SparkMax(4, MotorType.kBrushless);
+		leadMotor = new SparkMax(CAN.kAlgaeLeftMotorPort, MotorType.kBrushless);
+		followerMotor = new SparkMax(CAN.kAlgaeRightMotorPort, MotorType.kBrushless);
 		leadConfig = new SparkMaxConfig();
 		followerConfig = new SparkMaxConfig();
 

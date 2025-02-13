@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import com.pathplanner.lib.auto.AutoBuilder;
+
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -23,6 +25,7 @@ import frc.robot.subsystems.Swerve;
 import frc.robot.subsystems.algaeIntake.*;
 import frc.robot.subsystems.coralIntake.*;
 import frc.robot.subsystems.elevator.*;
+import frc.robot.util.AllianceFlipUtil;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -75,15 +78,18 @@ public class RobotContainer {
 		autoChooser = new AutoChooser();
 
 		// Configure the PathPlanner auto-builder
-		// AutoBuilder.configureHolonomic(odometry::getOdometerPose,
-		// odometry::resetOdometerPose,
-		// swerve::getRobotRelativeSpeeds, swerve::setModuleStates,
-		// DriveConstants.kHolonomicConfig, () -> {
-
-		// }, swerve)};
+		AutoBuilder.configure(odometry::getOdometerPose,
+			odometry::resetOdometerPose,
+			swerve::getRobotRelativeSpeeds,
+			swerve::setModuleStates,
+			DriveConstants.kRobotConfig, 
+			//should flip path (if we're on blue, false; red, true)
+			AllianceFlipUtil::shouldFlip,
+			swerve
+		);
 
 		swerve.setDefaultCommand(new SwerveTeleOp(swerve, odometry, () -> -driverController.getLeftY(),
-				() -> -driverController.getLeftX(), () -> -driverController.getRightX(),
+				() -> -driverController.getLeftX(), ( ) -> -driverController.getRightX(),
 				() -> driverController.getHID().getRightBumper()));
 
 		elevator.setDefaultCommand(new ManualElevator(elevator, operatorController.getLeftY()));

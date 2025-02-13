@@ -7,6 +7,8 @@ import frc.robot.Constants.CAN;
 import frc.robot.Constants.DriveConstants;
 import java.util.Arrays;
 
+import com.pathplanner.lib.util.DriveFeedforwards;
+
 //import org.littletonrobotics.junction.Logger;
 
 public class Swerve extends SubsystemBase {
@@ -49,7 +51,16 @@ public class Swerve extends SubsystemBase {
 				backRight.getState()};
 	}
 
+	public ChassisSpeeds getRobotRelativeSpeeds() {
+		return DriveConstants.kDriveKinematics.toChassisSpeeds(getModuleStates());
+	}
+
 	public void setModuleStates(ChassisSpeeds chassisSpeeds) {
+		SwerveModuleState[] moduleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);
+		setModuleStates(moduleStates);
+	}
+
+	public void setModuleStates(ChassisSpeeds chassisSpeeds, DriveFeedforwards dFF) {
 		SwerveModuleState[] moduleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);
 		setModuleStates(moduleStates);
 	}
