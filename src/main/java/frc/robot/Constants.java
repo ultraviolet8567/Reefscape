@@ -39,14 +39,14 @@ public final class Constants {
 	}
 
 	public static class IntakeConstants {
-		// CHANGE LATER:
+		// TODO: CHANGE LATER:
 		public static final int kAlgaeIntakeVoltage = 9;
 		public static final int kCoralIntakeVoltage = 9;
 
 	}
 
 	public static class WristConstants {
-		// CHANGE LATER:
+		// TODO: CHANGE LATER:
 		public static final double kWristVoltage = 12;
 
 		public static final double kFFS = 0.0;
@@ -59,7 +59,7 @@ public final class Constants {
 
 	public static class OperatorConstants {
 		public static final int kDriverControllerPort = 0;
-		public static final int kOperatorControllerPort = 0;
+		public static final int kOperatorControllerPort = 1;
 	}
 
 	public static class ModuleConstants {
@@ -69,7 +69,8 @@ public final class Constants {
 		public static final double kTurningEncoderRPM2RadPerSec = 0.0;
 		public static final double kPTurning = 0.0;
 	}
-	// CHANGE LATER:
+
+	// TODO: CHANGE LATER:
 	public static class DriveConstants {
 		public static final double kTrackWidth = Units.inchesToMeters(20.75);
 		// Distance between front and back wheels:
@@ -111,15 +112,16 @@ public final class Constants {
 		public static final double kTeleDriveMaxAccelerationUnitsPerSecond = 0.01;
 		public static final double kTeleDriveMaxAngularAccelerationUnitsPerSecond = 0.01;
 
+		// TODO: these are also placeholders
 		public static final double kRobotMass = 100.0;
 		public static final double kRobotMOI = 100.0;
 
 		// TODO: THESE ARE ALL PLACEHOLDERS
-		public static final ModuleConfig kRobotModuleConfig = new ModuleConfig(1.0, // radius of drive wheels, m
-				1, // max spd while driving full output, m/s
+		public static final ModuleConfig kRobotModuleConfig = new ModuleConfig(1.0, // TODO: radius of drive wheels, m
+				kPhysicalMaxSpeedMetersPerSecond, // max spd while driving full output, m/s
 				1, // friction coefficient between wheel and carpet, (unsure so 1.0)
-				new DCMotor(1.0, 1.0, 1.0, 1.0, 1.0, 1), // drive motor gearbox, including gear reduction
-				1, // current limit of drive motor, Amps
+				new DCMotor(1.0, 1.0, 1.0, 1.0, 1.0, 1), // TODO: drive motor gearbox, including gear reduction
+				1, // TODO: current limit of drive motor, Amps
 				1); // number of motors per module (1 for swerve)
 		public static final RobotConfig kRobotConfig = new RobotConfig(kRobotMass, // mass, kg
 				kRobotMOI, // moment of inertia (why), kgm^2

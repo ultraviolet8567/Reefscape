@@ -20,6 +20,4 @@ public class ManualElevator extends Command {
 			elevator.turn(leftY);
 		}
 	}
-
-	// Look at instantcommands
 }
