@@ -3,13 +3,11 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot;
-import com.fasterxml.jackson.databind.Module;
 import com.pathplanner.lib.config.ModuleConfig;
-import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.config.RobotConfig;
-
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.RobotBase;
 
@@ -112,22 +110,24 @@ public final class Constants {
 
 		public static final double kTeleDriveMaxAccelerationUnitsPerSecond = 0.01;
 		public static final double kTeleDriveMaxAngularAccelerationUnitsPerSecond = 0.01;
-		
+
 		public static final double kRobotMass = 100.0;
 		public static final double kRobotMOI = 100.0;
-		public static final ModuleConfig kRobotModuleConfig = new ModuleConfig();
-		public static final Translation2d kModuleOffsets = new Translation2d();
 
-		public static final RobotConfig kRobotConfig = new RobotConfig(kRobotMass,kRobotMOI,kRobotModuleConfig, kModuleOffsets);
+		// TODO: THESE ARE ALL PLACEHOLDERS
+		public static final ModuleConfig kRobotModuleConfig = new ModuleConfig(1.0, // radius of drive wheels, m
+				1, // max spd while driving full output, m/s
+				1, // friction coefficient between wheel and carpet, (unsure so 1.0)
+				new DCMotor(1.0, 1.0, 1.0, 1.0, 1.0, 1), // drive motor gearbox, including gear reduction
+				1, // current limit of drive motor, Amps
+				1); // number of motors per module (1 for swerve)
+		public static final RobotConfig kRobotConfig = new RobotConfig(kRobotMass, // mass, kg
+				kRobotMOI, // moment of inertia (why), kgm^2
+				kRobotModuleConfig, // module config
+				kDriveKinematics.getModules()); // locations of modules relative of robot center
 
-		//public static final HolonomicPathFollowerConfig kHolonomicConfig = new HolonomicPathFollowerConfig(
-		//		new PIDConstants(0.25, 0.0, 0.0), // Translation PID constants
-		//		new PIDConstants(0.5, 0.0, 0.0), // Rotation PID constants
-		//		kTeleDriveMaxSpeedMetersPerSecond, // Max module speed, in m/s
-				// Drive base radius in meters. Distance from robot center to furthest module.
-		//		Math.sqrt(Math.pow(kTrackWidth, 2) + Math.pow(kWheelBase, 2)) / 2, new ReplanningConfig());
 	}
-	
+
 	// CAN = computer area network
 	public static class CAN {
 		public static final int kFrontLeftDriveMotorPort = 10;

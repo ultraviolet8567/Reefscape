@@ -5,14 +5,18 @@
 package frc.robot;
 
 import com.pathplanner.lib.auto.AutoBuilder;
-
+import com.pathplanner.lib.config.PIDConstants;
+import com.pathplanner.lib.controllers.PPHolonomicDriveController;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.Constants.*;
+import frc.robot.Constants.DriveConstants;
+import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.DropAlgae;
 import frc.robot.commands.DropCoral;
 import frc.robot.commands.ManualElevator;
@@ -25,7 +29,6 @@ import frc.robot.subsystems.Swerve;
 import frc.robot.subsystems.algaeIntake.*;
 import frc.robot.subsystems.coralIntake.*;
 import frc.robot.subsystems.elevator.*;
-import frc.robot.util.AllianceFlipUtil;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -75,21 +78,23 @@ public class RobotContainer {
 
 		swerve = new Swerve();
 		odometry = new Odometry(swerve);
-		autoChooser = new AutoChooser();
 
 		// Configure the PathPlanner auto-builder
-		AutoBuilder.configure(odometry::getOdometerPose,
-			odometry::resetOdometerPose,
-			swerve::getRobotRelativeSpeeds,
-			swerve::setModuleStates,
-			DriveConstants.kRobotConfig, 
-			//should flip path (if we're on blue, false; red, true)
-			AllianceFlipUtil::shouldFlip,
-			swerve
-		);
+		AutoBuilder.configure(odometry::getOdometerPose, odometry::resetOdometerPose, swerve::getRobotRelativeSpeeds,
+				(speeds, feedforwards) -> swerve.setModuleStates(speeds),
+				new PPHolonomicDriveController(new PIDConstants(0.25, 0, 0), // translational PID
+						new PIDConstants(0.5, 0, 0)), // rotational PID
+				DriveConstants.kRobotConfig, () -> {
+					if (DriverStation.getAlliance().isPresent()) {
+						return DriverStation.getAlliance().get() == Alliance.Red;
+					}
+					return false;
+				}, swerve);
 
+		autoChooser = new AutoChooser();		
+		
 		swerve.setDefaultCommand(new SwerveTeleOp(swerve, odometry, () -> -driverController.getLeftY(),
-				() -> -driverController.getLeftX(), ( ) -> -driverController.getRightX(),
+				() -> -driverController.getLeftX(), () -> -driverController.getRightX(),
 				() -> driverController.getHID().getRightBumper()));
 
 		elevator.setDefaultCommand(new ManualElevator(elevator, operatorController.getLeftY()));
