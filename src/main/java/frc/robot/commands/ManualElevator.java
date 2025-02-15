@@ -23,6 +23,4 @@ public class ManualElevator extends Command {
 			elevator.turn(leftJoystick.get());
 		}
 	}
-
-	// Look at instantcommands
 }

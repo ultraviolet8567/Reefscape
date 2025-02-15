@@ -91,6 +91,8 @@ public class RobotContainer {
 
 		autoChooser = new AutoChooser();
 
+		autoChooser = new AutoChooser();
+
 		swerve.setDefaultCommand(new SwerveTeleOp(swerve, odometry, () -> -driverController.getLeftY(),
 				() -> -driverController.getLeftX(), () -> -driverController.getRightX(),
 				() -> driverController.getHID().getRightBumper()));
@@ -116,11 +118,16 @@ public class RobotContainer {
 	 * Flight joysticks}.
 	 */
 	private void configureBindings() {
-		// presets needed: processor, L3, L4, ground
-		// also manual control (POV buttons?)
-		operatorController.b().onTrue(new InstantCommand(() -> elevator.setPosition(10)));
-		operatorController.a().onTrue(new InstantCommand(() -> elevator.setPosition(12)));
-		// one of these is gonna be output
+		// ground
+		operatorController.a().onTrue(new InstantCommand(() -> elevator.setPosition(0)));
+		// processor
+		operatorController.x().onTrue(new InstantCommand(() -> elevator.setPosition(2)));
+		// L3
+		operatorController.b().onTrue(new InstantCommand(() -> elevator.setPosition(4)));
+		// L4
+		operatorController.y().onTrue(new InstantCommand(() -> elevator.setPosition(6)));
+
+		// right for algae, left for coral
 		operatorController.rightBumper().whileTrue(new PickupAlgae(algaeIntake));
 		operatorController.rightTrigger().whileTrue(new DropAlgae(algaeIntake));
 		// operatorController.leftBumper().whileTrue(new PickupCoral(coralIntake));
