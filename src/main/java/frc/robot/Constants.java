@@ -59,7 +59,7 @@ public final class Constants {
 
 	public static class OperatorConstants {
 		public static final int kDriverControllerPort = 0;
-		public static final int kOperatorControllerPort = 0;
+		public static final int kOperatorControllerPort = 1;
 	}
 
 	public static class ModuleConstants {
@@ -85,25 +85,25 @@ public final class Constants {
 		public static final boolean kFrontLeftTurningEncoderReversed = false;
 		public static final double kFrontLeftDriveAbsoluteEncoderOffsetRad = 0.01;
 		public static final boolean kFrontLeftDriveAbsoluteEncoderReversed = false;
-		public static final int kFrontLeftDriveAbsoluteEncoderPort = 0;
+		public static final int kFrontLeftDriveAbsoluteEncoderPort = 5;
 
 		public static final boolean kFrontRightDriveEncoderReversed = false;
 		public static final boolean kFrontRightTurningEncoderReversed = false;
 		public static final double kFrontRightDriveAbsoluteEncoderOffsetRad = 0.01;
 		public static final boolean kFrontRightDriveAbsoluteEncoderReversed = false;
-		public static final int kFrontRightDriveAbsoluteEncoderPort = 1;
+		public static final int kFrontRightDriveAbsoluteEncoderPort = 6;
 
 		public static final boolean kBackLeftDriveEncoderReversed = false;
 		public static final boolean kBackLeftTurningEncoderReversed = false;
 		public static final double kBackLeftDriveAbsoluteEncoderOffsetRad = 0.01;
 		public static final boolean kBackLeftDriveAbsoluteEncoderReversed = false;
-		public static final int kBackLeftDriveAbsoluteEncoderPort = 2;
+		public static final int kBackLeftDriveAbsoluteEncoderPort = 7;
 
 		public static final boolean kBackRightDriveEncoderReversed = false;
 		public static final boolean kBackRightTurningEncoderReversed = false;
 		public static final double kBackRightDriveAbsoluteEncoderOffsetRad = 0.01;
 		public static final boolean kBackRightDriveAbsoluteEncoderReversed = false;
-		public static final int kBackRightDriveAbsoluteEncoderPort = 3;
+		public static final int kBackRightDriveAbsoluteEncoderPort = 8;
 
 		public static final double kPhysicalMaxSpeedMetersPerSecond = 0.01;
 		public static final double kTeleDriveMaxSpeedMetersPerSecond = 0.01;
@@ -143,11 +143,11 @@ public final class Constants {
 		public static final int kBackRightTurningMotorPort = 23;
 
 		public static final int kElevatorLeadMotorPort = 1;
-		public static final int kElevatorFollowerMotorPort = 2;
+		public static final int kElevatorFollowerMotorPort = 3;
 
-		public static final int kElevatorAbsoluteEncoderPort = 5;
+		public static final int kElevatorAbsoluteEncoderPort = 9;
 
-		public static final int kAlgaeLeftMotorPort = 3;
+		public static final int kAlgaeLeftMotorPort = 2;
 		public static final int kAlgaeRightMotorPort = 4;
 
 	}

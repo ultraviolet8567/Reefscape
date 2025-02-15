@@ -1,7 +1,7 @@
 package frc.robot.subsystems.elevator;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-// import org.littletonrobotics.junction.Logger;
+import frc.robot.Constants.ElevatorConstants;
 
 public class Elevator extends SubsystemBase {
 
@@ -15,7 +15,7 @@ public class Elevator extends SubsystemBase {
 	}
 
 	// Method to set power for the elevator
-	public void setVoltage(double voltage) {
+	public void set(double voltage) {
 		System.out.println("Elevator position: " + getPositionRads());
 		io.set(voltage);
 	}
@@ -51,7 +51,17 @@ public class Elevator extends SubsystemBase {
 
 	// for manual control
 	public void turn(double factor) {
-		// if absolute encoder position isn't past a certain value?
-		io.stop();
+		double voltage = factor * 8;
+		System.out.println("input: " + factor);
+
+		if (io.getPositionRads() < ElevatorConstants.kElevatorMax
+				|| io.getPositionRads() > ElevatorConstants.kElevatorMin
+				|| (io.getPositionRads() >= ElevatorConstants.kElevatorMax && voltage <= 0)
+				|| (io.getPositionRads() <= ElevatorConstants.kElevatorMin && voltage >= 0)) {
+			io.set(voltage);
+			System.out.println(io.getVelocity());
+		} else {
+			stop();
+		}
 	}
 }

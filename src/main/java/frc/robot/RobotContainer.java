@@ -18,10 +18,8 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.DropAlgae;
-import frc.robot.commands.DropCoral;
 import frc.robot.commands.ManualElevator;
 import frc.robot.commands.PickupAlgae;
-import frc.robot.commands.PickupCoral;
 import frc.robot.commands.SwerveTeleOp;
 import frc.robot.subsystems.AutoChooser;
 import frc.robot.subsystems.Odometry;
@@ -43,7 +41,7 @@ public class RobotContainer {
 	private final Odometry odometry;
 	private final Elevator elevator;
 	private final AlgaeIntake algaeIntake;
-	private final CoralIntake coralIntake;
+	// private final CoralIntake coralIntake;
 	private final AutoChooser autoChooser;
 	// Replace with CommandPS4Controller or CommandJoystick if needed
 	private static final CommandXboxController driverController = new CommandXboxController(
@@ -59,20 +57,20 @@ public class RobotContainer {
 			case REAL -> {
 				elevator = new Elevator(new ElevatorIOSparkMax());
 				algaeIntake = new AlgaeIntake(new AlgaeIntakeIOSparkMax());
-				coralIntake = new CoralIntake(new CoralIntakeIOSparkMax());
+				// coralIntake = new CoralIntake(new CoralIntakeIOSparkMax());
 			}
 			case SIM -> {
 				elevator = new Elevator(new ElevatorIOSim());
 				algaeIntake = new AlgaeIntake(new AlgaeIntakeIOSim());
-				coralIntake = new CoralIntake(new CoralIntakeIOSim());
+				// coralIntake = new CoralIntake(new CoralIntakeIOSim());
 			}
 			default -> {
 				elevator = new Elevator(new ElevatorIO() {
 				});
 				algaeIntake = new AlgaeIntake(new AlgaeIntakeIO() {
 				});
-				coralIntake = new CoralIntake(new CoralIntakeIO() {
-				});
+				// coralIntake = new CoralIntake(new CoralIntakeIO() {
+				// });
 			}
 		}
 
@@ -91,13 +89,13 @@ public class RobotContainer {
 					return false;
 				}, swerve);
 
-		autoChooser = new AutoChooser();		
-		
+		autoChooser = new AutoChooser();
+
 		swerve.setDefaultCommand(new SwerveTeleOp(swerve, odometry, () -> -driverController.getLeftY(),
 				() -> -driverController.getLeftX(), () -> -driverController.getRightX(),
 				() -> driverController.getHID().getRightBumper()));
 
-		elevator.setDefaultCommand(new ManualElevator(elevator, operatorController.getLeftY()));
+		elevator.setDefaultCommand(new ManualElevator(elevator, () -> operatorController.getLeftY()));
 
 		configureBindings();
 
@@ -125,8 +123,8 @@ public class RobotContainer {
 		// one of these is gonna be output
 		operatorController.rightBumper().whileTrue(new PickupAlgae(algaeIntake));
 		operatorController.rightTrigger().whileTrue(new DropAlgae(algaeIntake));
-		operatorController.leftBumper().whileTrue(new PickupCoral(coralIntake));
-		operatorController.leftTrigger().whileTrue(new DropCoral(coralIntake));
+		// operatorController.leftBumper().whileTrue(new PickupCoral(coralIntake));
+		// operatorController.leftTrigger().whileTrue(new DropCoral(coralIntake));
 		// right side for algae, left for coral
 		// autochooser
 		// timer
