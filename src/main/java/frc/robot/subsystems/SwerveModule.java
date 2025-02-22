@@ -16,8 +16,6 @@ import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.ModuleConstants;
 
 
-
-
 //Encoder: Thing that is above wheel and records how much it moves.
 public class SwerveModule {
     private final SparkMax driveMotor;
