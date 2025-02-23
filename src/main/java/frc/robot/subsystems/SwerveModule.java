@@ -13,6 +13,7 @@ import edu.wpi.first.math.kinematics.*;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.RobotController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.ModuleConstants;
 
@@ -38,8 +39,6 @@ public class SwerveModule {
 
 		driveConfig = new SparkMaxConfig();
 		turningConfig = new SparkMaxConfig();
-		driveMotor.configure(driveConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-		turningMotor.configure(turningConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
 		driveConfig.voltageCompensation(12.0);
 		driveConfig.smartCurrentLimit(40);
@@ -55,11 +54,20 @@ public class SwerveModule {
 		driveConfig.encoder.velocityConversionFactor(ModuleConstants.kDriveEncoderRPM2MeterPerSec);
 		turningConfig.encoder.positionConversionFactor(ModuleConstants.kTurningEncoderRot2Rad);
 		turningConfig.encoder.velocityConversionFactor(ModuleConstants.kTurningEncoderRPM2RadPerSec);
+		
+		driveMotor.configure(driveConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+		turningMotor.configure(turningConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
 		turningPidController = new PIDController(ModuleConstants.kPTurning, 0, 0);
 		turningPidController.enableContinuousInput(-Math.PI, Math.PI);
 
 		resetEncoders();
+	}
+
+	public void dataLogging(String moduleID) {
+		SmartDashboard.putNumber(moduleID + "/Absolute Encoder", getAbsoluteEncoderAngle());
+		SmartDashboard.putNumber(moduleID + "/Turn Encoder", getTurningPosition());
+		SmartDashboard.putNumber(moduleID + "/Drive Encoder", getDrivePosition());
 	}
 
 	public double getDrivePosition() {

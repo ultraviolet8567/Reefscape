@@ -78,7 +78,7 @@ public class ElevatorIOSparkMax implements ElevatorIO {
 	}
 
 	public void turn(double factor) {
-		double voltage = factor * 8;
+		double voltage = factor * 3;
 
 		if (getPositionRads() < ElevatorConstants.kElevatorMax || getPositionRads() > ElevatorConstants.kElevatorMin
 				|| (getPositionRads() >= ElevatorConstants.kElevatorMax && voltage <= 0)

@@ -91,13 +91,11 @@ public class RobotContainer {
 
 		autoChooser = new AutoChooser();
 
-		autoChooser = new AutoChooser();
-
 		swerve.setDefaultCommand(new SwerveTeleOp(swerve, odometry, () -> -driverController.getLeftY(),
 				() -> -driverController.getLeftX(), () -> -driverController.getRightX(),
 				() -> driverController.getHID().getRightBumper()));
 
-		elevator.setDefaultCommand(new ManualElevator(elevator, () -> operatorController.getLeftY()));
+		elevator.setDefaultCommand(new ManualElevator(elevator, () -> -operatorController.getLeftY()));
 
 		configureBindings();
 
@@ -118,6 +116,9 @@ public class RobotContainer {
 	 * Flight joysticks}.
 	 */
 	private void configureBindings() {
+		driverController.back().onTrue(new InstantCommand(() -> swerve.resetEncoders()));
+		driverController.start().onTrue(new InstantCommand(() -> swerve.resetEncoders()));
+		
 		// ground
 		operatorController.a().onTrue(new InstantCommand(() -> elevator.setPosition(0)));
 		// processor
@@ -150,5 +151,4 @@ public class RobotContainer {
 	public static XboxController getDriverJoystick() {
 		return driverController.getHID();
 	}
-
 }

@@ -12,8 +12,6 @@ public class ManualElevator extends Command {
 		this.elevator = elevator;
 		this.leftJoystick = leftJoystick;
 
-		System.out.println("got here");
-
 		addRequirements(elevator);
 	}
 
@@ -21,6 +19,7 @@ public class ManualElevator extends Command {
 	public void execute() {
 		if (Math.abs(leftJoystick.get()) > 0.1) {
 			elevator.turn(leftJoystick.get());
+			System.out.println(elevator.getPositionRads());
 		}
 	}
 }

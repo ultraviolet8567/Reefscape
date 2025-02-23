@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.math.geometry.*;
 import edu.wpi.first.math.kinematics.*;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.CAN;
 import frc.robot.Constants.DriveConstants;
@@ -37,6 +38,14 @@ public class Swerve extends SubsystemBase {
 				DriveConstants.kBackRightDriveAbsoluteEncoderPort,
 				DriveConstants.kBackRightDriveAbsoluteEncoderOffsetRad,
 				DriveConstants.kBackRightDriveAbsoluteEncoderReversed);
+	}
+
+	@Override
+	public void periodic() {
+		frontLeft.dataLogging("Front Left");
+		frontRight.dataLogging("Front Right");
+		backLeft.dataLogging("Back Left");
+		backRight.dataLogging("Back Right");
 	}
 
 	public SwerveModulePosition[] getModulePositions() {
