@@ -54,7 +54,7 @@ public class SwerveModule {
 		driveConfig.encoder.velocityConversionFactor(ModuleConstants.kDriveEncoderRPM2MeterPerSec);
 		turningConfig.encoder.positionConversionFactor(ModuleConstants.kTurningEncoderRot2Rad);
 		turningConfig.encoder.velocityConversionFactor(ModuleConstants.kTurningEncoderRPM2RadPerSec);
-		
+
 		driveMotor.configure(driveConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 		turningMotor.configure(turningConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
@@ -76,8 +76,8 @@ public class SwerveModule {
 	}
 
 	public double getTurningPosition() {
-		return turningMotor.getEncoder().getPosition();
-
+		return getAbsoluteEncoderAngle();
+		// return turningMotor.getEncoder().getPosition();
 	}
 	public double getDriveVelocity() {
 		return driveMotor.getEncoder().getVelocity();

@@ -25,7 +25,6 @@ import frc.robot.subsystems.AutoChooser;
 import frc.robot.subsystems.Odometry;
 import frc.robot.subsystems.Swerve;
 import frc.robot.subsystems.algaeIntake.*;
-import frc.robot.subsystems.coralIntake.*;
 import frc.robot.subsystems.elevator.*;
 
 /**
@@ -118,7 +117,7 @@ public class RobotContainer {
 	private void configureBindings() {
 		driverController.back().onTrue(new InstantCommand(() -> swerve.resetEncoders()));
 		driverController.start().onTrue(new InstantCommand(() -> swerve.resetEncoders()));
-		
+
 		// ground
 		operatorController.a().onTrue(new InstantCommand(() -> elevator.setPosition(0)));
 		// processor
