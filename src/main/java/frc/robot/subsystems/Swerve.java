@@ -2,10 +2,13 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.math.geometry.*;
 import edu.wpi.first.math.kinematics.*;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.CAN;
 import frc.robot.Constants.DriveConstants;
 import java.util.Arrays;
+
+import org.littletonrobotics.junction.Logger;
 
 //import org.littletonrobotics.junction.Logger;
 
@@ -45,6 +48,8 @@ public class Swerve extends SubsystemBase {
 		frontRight.dataLogging("Front Right");
 		backLeft.dataLogging("Back Left");
 		backRight.dataLogging("Back Right");
+
+		Logger.recordOutput("Swerve/Measured", getModuleStates());
 	}
 
 	public SwerveModulePosition[] getModulePositions() {
@@ -78,6 +83,8 @@ public class Swerve extends SubsystemBase {
 		frontRight.setDesiredState(desiredStates[1]);
 		backLeft.setDesiredState(desiredStates[2]);
 		backRight.setDesiredState(desiredStates[3]);
+
+		Logger.recordOutput("Swerve/Setpoints", desiredStates);
 	}
 
 	// Sets the wheels to 45 degree angles so it doesn't move

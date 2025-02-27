@@ -8,13 +8,20 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
+import org.littletonrobotics.junction.LogFileUtil;
+import org.littletonrobotics.junction.LoggedRobot;
+import org.littletonrobotics.junction.Logger;
+import org.littletonrobotics.junction.networktables.NT4Publisher;
+import org.littletonrobotics.junction.wpilog.WPILOGReader;
+import org.littletonrobotics.junction.wpilog.WPILOGWriter;
+
 /**
  * The methods in this class are called automatically corresponding to each
  * mode, as described in the TimedRobot documentation. If you change the name of
  * this class or the package after creating this project, you must also update
  * the Main.java file in the project.
  */
-public class Robot extends TimedRobot {
+public class Robot extends LoggedRobot {
 	private Command m_autonomousCommand;
 
 	private final RobotContainer m_robotContainer;
@@ -28,6 +35,30 @@ public class Robot extends TimedRobot {
 		// and put our
 		// autonomous chooser on the dashboard.
 		m_robotContainer = new RobotContainer();
+	}
+
+	@Override
+	public void robotInit() {
+		// Set up data receivers & replay source
+		switch (Constants.currentMode) {
+			case REAL -> {
+				Logger.addDataReceiver(new WPILOGWriter("/home/lvuser/logs"));
+				Logger.addDataReceiver(new NT4Publisher());
+			}
+			case SIM -> {
+				Logger.addDataReceiver(new NT4Publisher());
+			}
+			case REPLAY -> {
+				setUseTiming(false);
+				String logpath = LogFileUtil.findReplayLog();
+				Logger.setReplaySource(new WPILOGReader(logpath));
+				Logger.addDataReceiver(new WPILOGWriter(LogFileUtil.addPathSuffix(logpath, "_sim")));
+			}
+		}
+
+		// Start AdvantageKit logger
+		Logger.start();
+		System.out.println("[Init] Starting AdvantageKit");
 	}
 
 	/**
