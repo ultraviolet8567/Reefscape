@@ -99,7 +99,7 @@ public final class Constants {
 		public static final double kFrontLeftDriveAbsoluteEncoderOffsetRad = -2.854;
 		public static final double kFrontRightDriveAbsoluteEncoderOffsetRad = -2.231;
 		public static final double kBackLeftDriveAbsoluteEncoderOffsetRad = 3.022;
-		public static final double kBackRightDriveAbsoluteEncoderOffsetRad = 0.349 + 0.324;
+		public static final double kBackRightDriveAbsoluteEncoderOffsetRad = 0.349 + 0.324 + 1.029;
 
 		public static final double kPhysicalMaxSpeedMetersPerSecond = 4.5;
 		public static final double kPhysicalMaxAngularSpeedRadiansPerSecond = 3 * Math.PI;

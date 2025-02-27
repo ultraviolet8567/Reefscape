@@ -40,9 +40,9 @@ public class AlgaeIntakeIOSparkMax implements AlgaeIntakeIO {
 		// this is in rpm, convert
 		inputs.currentVoltage = new double[]{rightMotor.getOutputCurrent(), leftMotor.getOutputCurrent()};
 		inputs.appliedVoltage = new double[]{rightMotor.getAppliedOutput() * rightMotor.getBusVoltage(),
-			leftMotor.getAppliedOutput() * leftMotor.getBusVoltage()};
+				leftMotor.getAppliedOutput() * leftMotor.getBusVoltage()};
 		inputs.velocityRadsPerSecond = new double[]{rightMotor.getEncoder().getVelocity(),
-			leftMotor.getEncoder().getVelocity()};
+				leftMotor.getEncoder().getVelocity()};
 		inputs.tempCelsius = new double[]{rightMotor.getMotorTemperature(), leftMotor.getMotorTemperature()};
 	}
 
