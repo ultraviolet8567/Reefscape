@@ -22,6 +22,8 @@ public class ElevatorIOSparkMax implements ElevatorIO {
 
 	// Constructor
 	public ElevatorIOSparkMax() {
+		System.out.println("[Init] Creating ElevatorIOSparkMax");
+
 		// Defaults from Penn State
 		leadPidController = new PIDController(ElevatorConstants.kP, ElevatorConstants.kI, ElevatorConstants.kD);
 

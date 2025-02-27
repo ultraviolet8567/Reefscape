@@ -24,11 +24,14 @@ public class Robot extends TimedRobot {
 	 * for any initialization code.
 	 */
 	public Robot() {
+		System.out.println("[Init] Creating Robot");
 		// Instantiate our RobotContainer. This will perform all our button bindings,
 		// and put our
 		// autonomous chooser on the dashboard.
 		m_robotContainer = new RobotContainer();
 	}
+
+	// 🐷🥓🥓 <- A perfect recreation of carlos using his leftover bacon
 
 	/**
 	 * This function is called every 20 ms, no matter the mode. Use this for items

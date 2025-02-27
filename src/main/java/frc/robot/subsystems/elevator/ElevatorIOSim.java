@@ -22,6 +22,8 @@ public class ElevatorIOSim implements ElevatorIO {
 
 	// Constructor
 	public ElevatorIOSim() {
+		System.out.println("[Init] Creating ElevatorIOSim");
+
 		// Defaults from Penn State
 		leadPidController = new PIDController(ElevatorConstants.kP, ElevatorConstants.kI, ElevatorConstants.kD);
 

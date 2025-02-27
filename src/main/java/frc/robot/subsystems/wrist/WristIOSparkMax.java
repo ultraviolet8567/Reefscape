@@ -18,6 +18,8 @@ public class WristIOSparkMax implements WristIO {
 	private final ArmFeedforward feedforward;
 
 	public WristIOSparkMax() {
+		System.out.println("[Init] Creating WristIOSparkMax");
+
 		motor = new SparkMax(99, MotorType.kBrushless);
 		config = new SparkMaxConfig();
 		feedforward = new ArmFeedforward(WristConstants.kFFS, WristConstants.kFFG, WristConstants.kFFV);

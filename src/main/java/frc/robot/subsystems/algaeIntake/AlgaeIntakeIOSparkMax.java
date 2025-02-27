@@ -14,14 +14,13 @@ public class AlgaeIntakeIOSparkMax implements AlgaeIntakeIO {
 
 	// Constructor
 	public AlgaeIntakeIOSparkMax() {
+		System.out.println("[Init] Creating AlgaeIntakeIOSparkMax");
+
 		// Initialize the CANSparkMax motors for right and left
 		rightMotor = new SparkMax(CAN.kAlgaeLeftMotorPort, MotorType.kBrushless);
 		leftMotor = new SparkMax(CAN.kAlgaeRightMotorPort, MotorType.kBrushless);
 		rightConfig = new SparkMaxConfig();
 		leftConfig = new SparkMaxConfig();
-
-		leftConfig.follow(rightMotor);
-		// followerConfig.inverted(true);
 
 		rightMotor.configure(rightConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 		leftMotor.configure(leftConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
