@@ -8,45 +8,47 @@ import com.revrobotics.spark.config.SparkMaxConfig;
 import frc.robot.Constants.CAN;
 
 public class AlgaeIntakeIOSparkMax implements AlgaeIntakeIO {
-	private final SparkMax leadMotor, followerMotor;
-	private final SparkMaxConfig leadConfig, followerConfig;
+	private final SparkMax rightMotor, leftMotor;
+	private final SparkMaxConfig rightConfig, leftConfig;
 	// private final RelativeEncoder encoder;
 
 	// Constructor
 	public AlgaeIntakeIOSparkMax() {
-		// Initialize the CANSparkMax motors for main and follower
-		leadMotor = new SparkMax(CAN.kAlgaeLeftMotorPort, MotorType.kBrushless);
-		followerMotor = new SparkMax(CAN.kAlgaeRightMotorPort, MotorType.kBrushless);
-		leadConfig = new SparkMaxConfig();
-		followerConfig = new SparkMaxConfig();
+		// Initialize the CANSparkMax motors for right and left
+		rightMotor = new SparkMax(CAN.kAlgaeLeftMotorPort, MotorType.kBrushless);
+		leftMotor = new SparkMax(CAN.kAlgaeRightMotorPort, MotorType.kBrushless);
+		rightConfig = new SparkMaxConfig();
+		leftConfig = new SparkMaxConfig();
 
-		followerConfig.inverted(true);
-		followerConfig.follow(leadMotor);
+		leftConfig.follow(rightMotor);
+		// followerConfig.inverted(true);
 
-		leadMotor.configure(leadConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-		followerMotor.configure(followerConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+		rightMotor.configure(rightConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+		leftMotor.configure(leftConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 	}
 
 	@Override
 	public void set(double voltage) {
 		// Set the power to the main motor
-		leadMotor.setVoltage(voltage);
+		rightMotor.setVoltage(voltage);
+		leftMotor.setVoltage(-voltage);
 	}
 
 	// Will be called periodically
 	@Override
 	public void updateInputs(AlgaeIntakeIOInputs inputs) {
 		// this is in rpm, convert
-		inputs.currentVoltage = new double[]{leadMotor.getOutputCurrent(), followerMotor.getOutputCurrent()};
-		inputs.appliedVoltage = new double[]{leadMotor.getAppliedOutput() * leadMotor.getBusVoltage(),
-				followerMotor.getAppliedOutput() * followerMotor.getBusVoltage()};
-		inputs.velocityRadsPerSecond = new double[]{leadMotor.getEncoder().getVelocity(),
-				followerMotor.getEncoder().getVelocity()};
-		inputs.tempCelsius = new double[]{leadMotor.getMotorTemperature(), followerMotor.getMotorTemperature()};
+		inputs.currentVoltage = new double[]{rightMotor.getOutputCurrent(), leftMotor.getOutputCurrent()};
+		inputs.appliedVoltage = new double[]{rightMotor.getAppliedOutput() * rightMotor.getBusVoltage(),
+			leftMotor.getAppliedOutput() * leftMotor.getBusVoltage()};
+		inputs.velocityRadsPerSecond = new double[]{rightMotor.getEncoder().getVelocity(),
+			leftMotor.getEncoder().getVelocity()};
+		inputs.tempCelsius = new double[]{rightMotor.getMotorTemperature(), leftMotor.getMotorTemperature()};
 	}
 
 	@Override
 	public void stop() {
-		leadMotor.setVoltage(0);
+		rightMotor.setVoltage(0);
+		leftMotor.setVoltage(0);
 	}
 }

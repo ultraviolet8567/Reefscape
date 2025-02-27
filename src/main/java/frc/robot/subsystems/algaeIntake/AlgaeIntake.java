@@ -1,7 +1,7 @@
 package frc.robot.subsystems.algaeIntake;
 
-import frc.robot.Constants.IntakeConstants;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.IntakeConstants;
 
 public class AlgaeIntake extends SubsystemBase {
 	private final AlgaeIntakeIO io;
@@ -18,11 +18,13 @@ public class AlgaeIntake extends SubsystemBase {
 		io.stop();
 	}
 
-	
-	public void pickup() { io.set(IntakeConstants.kAlgaeIntakeVoltage); }
-	
-	public void drop() { io.set(-IntakeConstants.kAlgaeIntakeVoltage); }
-	 
+	public void pickup() {
+		io.set(IntakeConstants.kAlgaeIntakeVoltage);
+	}
+
+	public void drop() {
+		io.set(-IntakeConstants.kAlgaeIntakeVoltage);
+	}
 
 	// Periodic method called in every cycle (e.g., 20ms)
 	@Override

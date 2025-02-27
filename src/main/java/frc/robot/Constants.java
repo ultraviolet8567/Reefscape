@@ -30,7 +30,7 @@ public final class Constants {
 
 	public static class IntakeConstants {
 		// TODO: CHANGE LATER:
-		public static final int kAlgaeIntakeVoltage = 9;
+		public static final int kAlgaeIntakeVoltage = 5;
 		public static final int kCoralIntakeVoltage = 9;
 
 	}
