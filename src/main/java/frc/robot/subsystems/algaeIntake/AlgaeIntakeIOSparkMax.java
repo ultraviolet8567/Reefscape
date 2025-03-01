@@ -29,8 +29,8 @@ public class AlgaeIntakeIOSparkMax implements AlgaeIntakeIO {
 	@Override
 	public void set(double voltage) {
 		// Set the power to the main motor
-		rightMotor.setVoltage(voltage);
-		leftMotor.setVoltage(-voltage);
+		rightMotor.setVoltage(voltage * 0.3);
+		leftMotor.setVoltage(-voltage * 0.3);
 	}
 
 	// Will be called periodically

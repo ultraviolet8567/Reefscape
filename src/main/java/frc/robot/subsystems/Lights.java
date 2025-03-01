@@ -11,7 +11,7 @@ import frc.robot.util.VirtualSubsystem;
 
 public class Lights extends VirtualSubsystem {
 	private static Lights instance;
-	
+
 	public static Lights getInstance() {
 		if (instance == null)
 			instance = new Lights();
@@ -122,10 +122,9 @@ public class Lights extends VirtualSubsystem {
 	@Override
 	public void periodic() {
 
-		//Do all of the light settings HERE
-		//Startup lights, starting up vs radio active are different
-		//Lighting when Intakes are running
-	
+		// Do all of the light settings HERE
+		// Startup lights, starting up vs radio active are different
+		// Lighting when Intakes are running
 
 		loadingNotifier.stop();
 
@@ -136,7 +135,7 @@ public class Lights extends VirtualSubsystem {
 
 		if (Constants.lightsExist) {
 			// Exit during initial cycles
-			loopCycleCount++;         
+			loopCycleCount++;
 			if (loopCycleCount < minLoopCycleCount) {
 				return;
 			}

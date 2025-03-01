@@ -51,8 +51,13 @@ public class Elevator extends SubsystemBase {
 
 	// for manual control
 	public void turn(double factor) {
-		double voltage = factor * 8;
+		double voltage = factor * 4;
 		System.out.println("input: " + factor);
+
+		// easier to motor to go down with gravity, so reduce voltage going down
+		if (factor < 0) {
+			voltage = voltage / 4;
+		}
 
 		if (io.getPositionRads() < ElevatorConstants.kElevatorMax
 				|| io.getPositionRads() > ElevatorConstants.kElevatorMin
