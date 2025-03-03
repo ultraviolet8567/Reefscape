@@ -1,6 +1,9 @@
 package frc.robot.subsystems.wrist;
 
+import org.littletonrobotics.junction.AutoLog;
+
 public interface WristIO {
+	@AutoLog
 	public static class WristIOInputs {
 		public double currentVoltage = 0.0;
 		public double appliedVoltage = 0.0;

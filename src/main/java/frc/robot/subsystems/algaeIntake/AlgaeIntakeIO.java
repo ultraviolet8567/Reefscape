@@ -1,6 +1,9 @@
 package frc.robot.subsystems.algaeIntake;
 
+import org.littletonrobotics.junction.AutoLog;
+
 public interface AlgaeIntakeIO {
+	@AutoLog
 	public static class AlgaeIntakeIOInputs {
 		public double[] currentVoltage = {0.0, 0.0};
 		public double[] appliedVoltage = {0.0, 0.0};
