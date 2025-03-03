@@ -17,20 +17,6 @@ public interface CoralIntakeIO {
 	public default void set(double voltage) {
 	}
 
-	public default double getPosition() {
-		return 0;
-	}
-
-	public default void setPosition(double position) {
-	}
-
-	public default double getVelocity() {
-		return 0;
-	}
-
-	public default void resetPosition() {
-	}
-
 	public default void stop() {
 	}
 }

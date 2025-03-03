@@ -1,4 +1,5 @@
 package frc.robot.subsystems.coralIntake;
+
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
@@ -12,7 +13,6 @@ public class CoralIntakeIOSparkMax implements CoralIntakeIO {
 		System.out.println("[Init] Creating CoralIntakeIOSparkMax");
 
 		// Initialize the CANSparkMax motors for main and follower
-
 		motor = new SparkMax(5, MotorType.kBrushless);
 		// followerMotor = new SparkMax(6, MotorType.kBrushless);
 		config = new SparkMaxConfig();
@@ -41,6 +41,7 @@ public class CoralIntakeIOSparkMax implements CoralIntakeIO {
 		inputs.velocityRadsPerSecond = motor.getEncoder().getVelocity();
 		inputs.tempCelsius = motor.getMotorTemperature();
 	}
+  
 	@Override
 	public void stop() {
 		motor.setVoltage(0);

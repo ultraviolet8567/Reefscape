@@ -25,16 +25,8 @@ public class AlgaeIntakeIOSparkMax implements AlgaeIntakeIO {
 		rightMotor.configure(rightConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 		leftMotor.configure(leftConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 	}
-
-	@Override
-	public void set(double voltage) {
-		// Set the power to the main motor
-		rightMotor.setVoltage(voltage * 0.3);
-		leftMotor.setVoltage(-voltage * 0.3);
-	}
-
-	// Will be called periodically
-	@Override
+  
+  @Override
 	public void updateInputs(AlgaeIntakeIOInputs inputs) {
 		// this is in rpm, convert
 		inputs.currentVoltage = new double[]{rightMotor.getOutputCurrent(), leftMotor.getOutputCurrent()};
@@ -43,6 +35,13 @@ public class AlgaeIntakeIOSparkMax implements AlgaeIntakeIO {
 		inputs.velocityRadsPerSecond = new double[]{rightMotor.getEncoder().getVelocity(),
 				leftMotor.getEncoder().getVelocity()};
 		inputs.tempCelsius = new double[]{rightMotor.getMotorTemperature(), leftMotor.getMotorTemperature()};
+	}
+
+	@Override
+	public void set(double voltage) {
+		// Set the power to the main motor
+		rightMotor.setVoltage(voltage * 0.3);
+		leftMotor.setVoltage(-voltage * 0.3);
 	}
 
 	@Override

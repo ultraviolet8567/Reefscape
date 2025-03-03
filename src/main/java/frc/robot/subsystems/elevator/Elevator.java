@@ -34,7 +34,7 @@ public class Elevator extends SubsystemBase {
 	// Periodic method called in every cycle (e.g., 20ms)
 	@Override
 	public void periodic() {
-		// io.updateInputs(inputs);
+		io.updateInputs(inputs);
 	}
 
 	public double getPositionRads() {
@@ -43,10 +43,11 @@ public class Elevator extends SubsystemBase {
 
 	public double getVelocity() {
 		return io.getVelocity();
-	}
-
-	public void resetPosition() {
-		io.resetPosition();
+  }
+  
+	// Method to stop the elevator
+	public void stop() {
+		io.stop();
 	}
 
 	// for manual control

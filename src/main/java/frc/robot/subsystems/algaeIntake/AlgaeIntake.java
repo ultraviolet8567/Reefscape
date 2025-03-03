@@ -10,6 +10,12 @@ public class AlgaeIntake extends SubsystemBase {
 		this.io = io;
 	}
 
+  // Periodic method called in every cycle (e.g., 20ms)
+	@Override
+	public void periodic() {
+		// io.updateInputs(inputs);
+	}
+
 	public void setVoltage(double voltage) {
 		io.set(voltage);
 	}
@@ -24,11 +30,5 @@ public class AlgaeIntake extends SubsystemBase {
 
 	public void drop() {
 		io.set(-IntakeConstants.kAlgaeIntakeVoltage);
-	}
-
-	// Periodic method called in every cycle (e.g., 20ms)
-	@Override
-	public void periodic() {
-		// io.updateInputs(inputs);
 	}
 }

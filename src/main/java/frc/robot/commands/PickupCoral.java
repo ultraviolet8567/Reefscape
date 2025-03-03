@@ -22,5 +22,4 @@ public class PickupCoral extends Command {
 	public void end(boolean interrupted) {
 		intake.stop();
 	}
-
 }
