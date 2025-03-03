@@ -26,6 +26,7 @@ public final class Constants {
 		public static final double kD = 0.0;
 		public static final double kElevatorMax = 10.0;
 		public static final double kElevatorMin = 0.0;
+		public static final int kElevatorFactor = 4;
 	}
 
 	public static class IntakeConstants {

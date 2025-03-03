@@ -94,7 +94,8 @@ public class RobotContainer {
 				() -> -driverController.getLeftX(), () -> -driverController.getRightX(),
 				() -> driverController.getHID().getRightBumper()));
 
-		elevator.setDefaultCommand(new ManualElevator(elevator, () -> -operatorController.getLeftY()));
+		elevator.setDefaultCommand(new ManualElevator(elevator, () -> -operatorController.getLeftY(),
+				() -> operatorController.getHID().getLeftBumper()));
 
 		configureBindings();
 
