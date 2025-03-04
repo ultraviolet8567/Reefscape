@@ -1,51 +1,49 @@
-package frc.robot.subsystems.algaeIntake;
+package frc.robot.subsystems.coralIntake;
 
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.SparkMaxConfig;
-import frc.robot.Constants.CAN;
 
-public class AlgaeIntakeIOSparkMax implements AlgaeIntakeIO {
-	private final SparkMax leftIntakeMotor, rightIntakeMotor;
-	private final RelativeEncoder leftIntakeEncoder, rightIntakeEncoder;
+public class CoralIntakeIOSparkMax implements CoralIntakeIO {
+	private final SparkMax motor;
+	private final SparkMaxConfig config;
+	public CoralIntakeIOSparkMax() {
+		System.out.println("[Init] Creating CoralIntakeIOSparkMax");
 
-    // TODO: still need to code possible sensor
+		// Initialize the CANSparkMax motors for main and follower
+		motor = new SparkMax(5, MotorType.kBrushless);
+		// followerMotor = new SparkMax(6, MotorType.kBrushless);
+		config = new SparkMaxConfig();
+		// followerConfig = new SparkMaxConfig();
 
-	// Constructor
-	public AlgaeIntakeIOSparkMax() {
-		// Initialize the CANSparkMax motors for left and right
-		leftIntakeMotor = new CANSparkMax(CAN.kLeftAlgaeIntakePort, MotorType.kBrushless);
-		SparkConfig.config(leftIntakeEncoder, SparkType.kSparkMax);
-		rightIntakeMotor = new CANSparkMax(CAN.kRightAlgaeIntakePort, MotorType.kBrushless);
-		SparkConfig.config(rightIntakeEncoder, SparkType.kSparkMax);
+		// followerConfig.inverted(true);
+		// followerConfig.follow(leadMotor);
 
-		leftIntakeEncoder = leftIntakeMotor.getEncoder();
-		rightIntakeEncoder = rightIntakeMotor.getEncoder();
-
-        leftIntakeMotor.setIdleMode(IdleMode.kBrake);
-    	rightIntakeMotor.setIdleMode(IdleMode.kBrake);
-	}
-
-	@Override
-	public void updateInputs(IntakeIOInputs inputs) {
-		inputs.velocityRadPerSec = leftIntakeEncoder.getVelocity();
-		inputs.appliedVoltage = leftIntakeMotor.getAppliedOutput() * intakeMotor.getBusVoltage();
-		inputs.currentAmps = new double[]{leftIntakeMotor.getOutputCurrent()};
-		inputs.tempCelsius = new double[]{leftIntakeMotor.getMotorTemperature()};
+		motor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+		// followerMotor.configure(followerConfig, ResetMode.kResetSafeParameters,
+		// PersistMode.kPersistParameters);
 	}
 
 	@Override
 	public void set(double voltage) {
 		// Set the power to the main motor
-		leftIntakeMotor.setVoltage(voltage);
-		rightIntakeMotor.setVoltage(voltage);
+		motor.setVoltage(voltage);
 	}
 
+	// Will be called periodically
+	@Override
+	public void updateInputs(CoralIntakeIOInputs inputs) {
+		// this is in rpm, convert
+		inputs.currentVoltage = motor.getOutputCurrent();
+		inputs.appliedVoltage = motor.getAppliedOutput() * motor.getBusVoltage();
+		inputs.velocityRadsPerSecond = motor.getEncoder().getVelocity();
+		inputs.tempCelsius = motor.getMotorTemperature();
+	}
+  
 	@Override
 	public void stop() {
-		leftIntakeMotor.setVoltage(0);
-		rightIntakeMotor.setVoltage(0);
+		motor.setVoltage(0);
 	}
 }

@@ -1,14 +1,8 @@
 package frc.robot.subsystems.coralIntake;
 
-public class AlgaeIntakeIOSim implements AlgaeIntakeIO {
-	public AlgaeIntakeIOSim() {
-
+public class CoralIntakeIOSim implements CoralIntakeIO {
+	public CoralIntakeIOSim() {
 	}
-
-	@Override
-	public void updateInputs(IntakeIOInputs inputs) {
-	}
-
 
 	@Override
 	public void set(double voltage) {

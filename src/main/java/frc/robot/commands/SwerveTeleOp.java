@@ -12,6 +12,7 @@ import frc.robot.RobotContainer;
 import frc.robot.subsystems.Odometry;
 import frc.robot.subsystems.Swerve;
 import java.util.function.Supplier;
+//import frc.robot.Constants.DriveConstants;
 
 public class SwerveTeleOp extends Command {
 	private final Swerve swerve;
@@ -74,11 +75,11 @@ public class SwerveTeleOp extends Command {
 		// double teleMaxAngularSpeed = Lights.getInstance().isDemo?
 		// DriveConstants.kDemoTeleDriveMaxAngularSpeedRadiansPerSecond
 		// : DriveConstants.kTeleDriveMaxAngularSpeedRadiansPerSecond;
-		double teleMaxSpeed = 0.01;
-		double teleMaxAngularSpeed = 0.01;
-		xSpeed = xLimiter.calculate(xSpeed) * teleMaxSpeed;
-		ySpeed = yLimiter.calculate(ySpeed) * teleMaxSpeed;
-		turningSpeed = turningLimiter.calculate(turningSpeed) * teleMaxAngularSpeed;
+
+		xSpeed = xLimiter.calculate(xSpeed) * DriveConstants.kTeleDriveMaxSpeedMetersPerSecond;
+		ySpeed = yLimiter.calculate(ySpeed) * DriveConstants.kTeleDriveMaxSpeedMetersPerSecond;
+		turningSpeed = turningLimiter.calculate(turningSpeed)
+				* DriveConstants.kTeleDriveMaxAngularSpeedRadiansPerSecond;
 
 		ChassisSpeeds chassisSpeeds;
 		if (Constants.fieldOriented) {

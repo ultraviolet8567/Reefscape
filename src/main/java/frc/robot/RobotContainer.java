@@ -4,19 +4,27 @@
 
 package frc.robot;
 
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.config.PIDConstants;
+import com.pathplanner.lib.controllers.PPHolonomicDriveController;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.Constants.*;
+import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.commands.AlgaeIntakeCommand;
+import frc.robot.commands.DropAlgae;
+import frc.robot.commands.ManualElevator;
+import frc.robot.commands.PickupAlgae;
 import frc.robot.commands.SwerveTeleOp;
+import frc.robot.subsystems.AutoChooser;
 import frc.robot.subsystems.Odometry;
 import frc.robot.subsystems.Swerve;
 import frc.robot.subsystems.algaeIntake.*;
-import frc.robot.subsystems.coralIntake.*;
 import frc.robot.subsystems.elevator.*;
 
 /**
@@ -31,9 +39,9 @@ public class RobotContainer {
 	private final Swerve swerve;
 	private final Odometry odometry;
 	private final Elevator elevator;
-	// private final CoralIntake coralIntake;
 	private final AlgaeIntake algaeIntake;
-
+	// private final CoralIntake coralIntake;
+	private final AutoChooser autoChooser;
 	// Replace with CommandPS4Controller or CommandJoystick if needed
 	private static final CommandXboxController driverController = new CommandXboxController(
 			OperatorConstants.kDriverControllerPort);
@@ -47,20 +55,21 @@ public class RobotContainer {
 		switch (Constants.currentMode) {
 			case REAL -> {
 				elevator = new Elevator(new ElevatorIOSparkMax());
-				// coralIntake = new CoralIntake(new CoralIntakeIOSparkMax());
 				algaeIntake = new AlgaeIntake(new AlgaeIntakeIOSparkMax());
+				// coralIntake = new CoralIntake(new CoralIntakeIOSparkMax());
 			}
 			case SIM -> {
 				elevator = new Elevator(new ElevatorIOSim());
-				// coralIntake = new CoralIntake(new CoralIntakeIOSim());
 				algaeIntake = new AlgaeIntake(new AlgaeIntakeIOSim());
+				// coralIntake = new CoralIntake(new CoralIntakeIOSim());
 			}
 			default -> {
 				elevator = new Elevator(new ElevatorIO() {
 				});
-				// coralIntake = new CoralIntake(new CoralIntakeIO() {});
 				algaeIntake = new AlgaeIntake(new AlgaeIntakeIO() {
 				});
+				// coralIntake = new CoralIntake(new CoralIntakeIO() {
+				// });
 			}
 		}
 
@@ -68,18 +77,32 @@ public class RobotContainer {
 		odometry = new Odometry(swerve);
 
 		// Configure the PathPlanner auto-builder
-		// AutoBuilder.configureHolonomic(odometry::getOdometerPose,
-		// odometry::resetOdometerPose,
-		// swerve::getRobotRelativeSpeeds, swerve::setModuleStates,
-		// DriveConstants.kHolonomicConfig, () -> {
+		AutoBuilder.configure(odometry::getOdometerPose, odometry::resetOdometerPose, swerve::getRobotRelativeSpeeds,
+				(speeds, feedforwards) -> swerve.setModuleStates(speeds),
+				new PPHolonomicDriveController(new PIDConstants(0.25, 0, 0), // translational PID
+						new PIDConstants(0.5, 0, 0)), // rotational PID
+				DriveConstants.kRobotConfig, () -> {
+					if (DriverStation.getAlliance().isPresent()) {
+						return DriverStation.getAlliance().get() == Alliance.Red;
+					}
+					return false;
+				}, swerve);
 
-		// }, swerve)};
+		autoChooser = new AutoChooser();
 
 		swerve.setDefaultCommand(new SwerveTeleOp(swerve, odometry, () -> -driverController.getLeftY(),
 				() -> -driverController.getLeftX(), () -> -driverController.getRightX(),
 				() -> driverController.getHID().getRightBumper()));
 
+		elevator.setDefaultCommand(new ManualElevator(elevator, () -> -operatorController.getLeftY(),
+				() -> operatorController.getHID().getLeftBumper()));
+
 		configureBindings();
+
+		// thing we need to put in the shuffleboard:
+		// elevator preset position (current) -> do we even need that
+		// whether we have a piece (do we have sensors for that?)
+		Shuffleboard.getTab("Main");
 	}
 
 	/**
@@ -93,14 +116,27 @@ public class RobotContainer {
 	 * Flight joysticks}.
 	 */
 	private void configureBindings() {
-		driverController.b().onTrue(new InstantCommand(() -> elevator.setPosition(10)));
-		driverController.a().onTrue(new InstantCommand(() -> elevator.setPosition(12)));
-		// one of these is gonna be output
-		driverController.rightBumper()
-				.whileTrue(new AlgaeIntakeCommand(algaeIntake, IntakeConstants.kAlgaeIntakeVoltage));
-		driverController.rightTrigger()
-				.whileTrue(new AlgaeIntakeCommand(algaeIntake, -IntakeConstants.kAlgaeIntakeVoltage));
-		// left side is gonna be used for coral stuff
+		driverController.back().onTrue(new InstantCommand(() -> swerve.resetEncoders()));
+		driverController.start().onTrue(new InstantCommand(() -> swerve.resetEncoders()));
+
+		// ground
+		operatorController.a().onTrue(new InstantCommand(() -> elevator.setPosition(0)));
+		// processor
+		operatorController.x().onTrue(new InstantCommand(() -> elevator.setPosition(2)));
+		// L3
+		operatorController.b().onTrue(new InstantCommand(() -> elevator.setPosition(4)));
+		// L4
+		operatorController.y().onTrue(new InstantCommand(() -> elevator.setPosition(6)));
+
+		// right for algae, left for coral
+		operatorController.rightBumper().whileTrue(new PickupAlgae(algaeIntake));
+		operatorController.rightTrigger().whileTrue(new DropAlgae(algaeIntake));
+		// operatorController.leftBumper().whileTrue(new PickupCoral(coralIntake));
+		// operatorController.leftTrigger().whileTrue(new DropCoral(coralIntake));
+		// right side for algae, left for coral
+		// autochooser
+		// timer
+		// current presets elevator & algae
 	}
 
 	/**
@@ -109,12 +145,10 @@ public class RobotContainer {
 	 * @return the command to run in autonomous
 	 */
 	public Command getAutonomousCommand() {
-		// An example command will be run in autonomous
-		return null;
+		return autoChooser.getSelectedAuto();
 	}
 
 	public static XboxController getDriverJoystick() {
 		return driverController.getHID();
 	}
-
 }

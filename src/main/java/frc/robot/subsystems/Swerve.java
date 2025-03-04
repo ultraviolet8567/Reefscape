@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.CAN;
 import frc.robot.Constants.DriveConstants;
 import java.util.Arrays;
+import org.littletonrobotics.junction.Logger;
 
 //import org.littletonrobotics.junction.Logger;
 
@@ -39,6 +40,16 @@ public class Swerve extends SubsystemBase {
 				DriveConstants.kBackRightDriveAbsoluteEncoderReversed);
 	}
 
+	@Override
+	public void periodic() {
+		frontLeft.dataLogging("Front Left");
+		frontRight.dataLogging("Front Right");
+		backLeft.dataLogging("Back Left");
+		backRight.dataLogging("Back Right");
+
+		Logger.recordOutput("Swerve/Measured", getModuleStates());
+	}
+
 	public SwerveModulePosition[] getModulePositions() {
 		return new SwerveModulePosition[]{frontLeft.getModulePosition(), frontRight.getModulePosition(),
 				backLeft.getModulePosition(), backRight.getModulePosition()};
@@ -47,6 +58,10 @@ public class Swerve extends SubsystemBase {
 	public SwerveModuleState[] getModuleStates() {
 		return new SwerveModuleState[]{frontLeft.getState(), frontRight.getState(), backLeft.getState(),
 				backRight.getState()};
+	}
+
+	public ChassisSpeeds getRobotRelativeSpeeds() {
+		return DriveConstants.kDriveKinematics.toChassisSpeeds(getModuleStates());
 	}
 
 	public void setModuleStates(ChassisSpeeds chassisSpeeds) {
@@ -66,6 +81,8 @@ public class Swerve extends SubsystemBase {
 		frontRight.setDesiredState(desiredStates[1]);
 		backLeft.setDesiredState(desiredStates[2]);
 		backRight.setDesiredState(desiredStates[3]);
+
+		Logger.recordOutput("Swerve/Setpoints", desiredStates);
 	}
 
 	// Sets the wheels to 45 degree angles so it doesn't move

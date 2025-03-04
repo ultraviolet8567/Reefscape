@@ -3,15 +3,11 @@ package frc.robot.subsystems.elevator;
 import org.littletonrobotics.junction.AutoLog;
 
 public interface ElevatorIO {
-
 	@AutoLog
 	class ElevatorIOInputs {
-		public double velocityRadPerSec = 0.0;
-		public double positionRads = 0.0;
-		public double appliedVoltage = 0.0;
-		public double[] currentAmps = new double[]{};
-		public double[] tempCelsius = new double[]{};
-		// public boolean withinRange = false;
+		public double[] currentVoltage = {0, 0};
+		public double[] appliedVoltage = {0, 0};
+		public double[] angleRadians = {0, 0};
 	}
 
 	public default void updateInputs(ElevatorIOInputs inputs) {
@@ -22,7 +18,7 @@ public interface ElevatorIO {
 	}
 
 	// Gets the current position of the elevator (in encoder units)
-	public default double getPosition() {
+	public default double getPositionRads() {
 		return 0;
 	}
 
@@ -32,6 +28,10 @@ public interface ElevatorIO {
 	// Gets the current velocity of the elevator
 	public default double getVelocity() {
 		return 0;
+	}
+
+	public default boolean limit() {
+		return true;
 	}
 
 	// Resets the encoder position to a specific value

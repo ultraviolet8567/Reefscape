@@ -8,42 +8,45 @@ import com.revrobotics.spark.config.SparkMaxConfig;
 import frc.robot.Constants.CAN;
 
 public class AlgaeIntakeIOSparkMax implements AlgaeIntakeIO {
-	private final SparkMax leftIntakeMotor, rightIntakeMotor;
-	private final RelativeEncoder leftIntakeEncoder, rightIntakeEncoder;
+	private final SparkMax rightMotor, leftMotor;
+	private final SparkMaxConfig rightConfig, leftConfig;
+	// private final RelativeEncoder encoder;
 
 	// Constructor
 	public AlgaeIntakeIOSparkMax() {
-		// Initialize the CANSparkMax motors for left and right
-		leftIntakeMotor = new CANSparkMax(CAN.kLeftAlgaeIntakePort, MotorType.kBrushless);
-		SparkConfig.config(leftIntakeEncoder, SparkType.kSparkMax);
-		rightIntakeMotor = new CANSparkMax(CAN.kRightAlgaeIntakePort, MotorType.kBrushless);
-		SparkConfig.config(rightIntakeEncoder, SparkType.kSparkMax);
+		System.out.println("[Init] Creating AlgaeIntakeIOSparkMax");
 
-		leftIntakeEncoder = leftIntakeMotor.getEncoder();
-		rightIntakeEncoder = rightIntakeMotor.getEncoder();
+		// Initialize the CANSparkMax motors for right and left
+		rightMotor = new SparkMax(CAN.kAlgaeLeftMotorPort, MotorType.kBrushless);
+		leftMotor = new SparkMax(CAN.kAlgaeRightMotorPort, MotorType.kBrushless);
+		rightConfig = new SparkMaxConfig();
+		leftConfig = new SparkMaxConfig();
 
-		leftIntakeMotor.setIdleMode(IdleMode.kBrake);
-    	rightIntakeMotor.setIdleMode(IdleMode.kBrake);
+		rightMotor.configure(rightConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+		leftMotor.configure(leftConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 	}
-
-	@Override
-	public void updateInputs(IntakeIOInputs inputs) {
-		inputs.velocityRadPerSec = leftIntakeEncoder.getVelocity();
-		inputs.appliedVoltage = leftIntakeMotor.getAppliedOutput() * intakeMotor.getBusVoltage();
-		inputs.currentAmps = new double[]{leftIntakeMotor.getOutputCurrent()};
-		inputs.tempCelsius = new double[]{leftIntakeMotor.getMotorTemperature()};
+  
+  @Override
+	public void updateInputs(AlgaeIntakeIOInputs inputs) {
+		// this is in rpm, convert
+		inputs.currentVoltage = new double[]{rightMotor.getOutputCurrent(), leftMotor.getOutputCurrent()};
+		inputs.appliedVoltage = new double[]{rightMotor.getAppliedOutput() * rightMotor.getBusVoltage(),
+				leftMotor.getAppliedOutput() * leftMotor.getBusVoltage()};
+		inputs.velocityRadsPerSecond = new double[]{rightMotor.getEncoder().getVelocity(),
+				leftMotor.getEncoder().getVelocity()};
+		inputs.tempCelsius = new double[]{rightMotor.getMotorTemperature(), leftMotor.getMotorTemperature()};
 	}
 
 	@Override
 	public void set(double voltage) {
 		// Set the power to the main motor
-		leftIntakeMotor.setVoltage(voltage);
-		rightIntakeMotor.setVoltage(voltage);
+		rightMotor.setVoltage(voltage * 0.3);
+		leftMotor.setVoltage(-voltage * 0.3);
 	}
 
 	@Override
 	public void stop() {
-		leftIntakeMotor.setVoltage(0);
-		rightIntakeMotor.setVoltage(0);
+		rightMotor.setVoltage(0);
+		leftMotor.setVoltage(0);
 	}
 }
