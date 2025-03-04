@@ -41,7 +41,7 @@ public class CoralIntakeIOSparkMax implements CoralIntakeIO {
 		inputs.velocityRadsPerSecond = motor.getEncoder().getVelocity();
 		inputs.tempCelsius = motor.getMotorTemperature();
 	}
-  
+
 	@Override
 	public void stop() {
 		motor.setVoltage(0);

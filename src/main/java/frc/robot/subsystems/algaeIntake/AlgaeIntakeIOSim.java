@@ -2,13 +2,11 @@ package frc.robot.subsystems.algaeIntake;
 
 public class AlgaeIntakeIOSim implements AlgaeIntakeIO {
 	public AlgaeIntakeIOSim() {
-
 	}
 
 	@Override
-	public void updateInputs(IntakeIOInputs inputs) {
+	public void updateInputs(AlgaeIntakeIOInputs inputs) {
 	}
-
 
 	@Override
 	public void set(double voltage) {

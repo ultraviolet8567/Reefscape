@@ -5,15 +5,16 @@ import frc.robot.Constants.IntakeConstants;
 
 public class AlgaeIntake extends SubsystemBase {
 	private final AlgaeIntakeIO io;
+	private final AlgaeIntakeIOInputsAutoLogged inputs = new AlgaeIntakeIOInputsAutoLogged();
 
 	public AlgaeIntake(AlgaeIntakeIO io) {
 		this.io = io;
 	}
 
-  // Periodic method called in every cycle (e.g., 20ms)
+	// Periodic method called in every cycle (e.g., 20ms)
 	@Override
 	public void periodic() {
-		// io.updateInputs(inputs);
+		io.updateInputs(inputs);
 	}
 
 	public void setVoltage(double voltage) {

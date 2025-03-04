@@ -4,31 +4,12 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ElevatorConstants;
 
 public class Elevator extends SubsystemBase {
-
 	private final ElevatorIO io;
-	// private final ElevatorIOInputsAutoLogged inputs = new
-	// ElevatorIOInputsAutoLogged();
+	private final ElevatorIOInputsAutoLogged inputs = new ElevatorIOInputsAutoLogged();
 
 	// Constructor
 	public Elevator(ElevatorIO io) {
 		this.io = io;
-	}
-
-	// Method to set power for the elevator
-	public void set(double voltage) {
-		System.out.println("Elevator position: " + getPositionRads());
-		io.set(voltage);
-	}
-
-	// Method to stop the elevator
-	public void stop() {
-		io.stop();
-	}
-
-	// Set the elevator to a specific position
-	public void setPosition(double position) {
-		// System.out.println("Elevator position: " + getPosition());
-		io.setPosition(position);
 	}
 
 	// Periodic method called in every cycle (e.g., 20ms)
@@ -43,8 +24,20 @@ public class Elevator extends SubsystemBase {
 
 	public double getVelocity() {
 		return io.getVelocity();
-  }
-  
+	}
+
+	// Method to set power for the elevator
+	public void set(double voltage) {
+		System.out.println("Elevator position: " + getPositionRads());
+		io.set(voltage);
+	}
+
+	// Set the elevator to a specific position
+	public void setPosition(double position) {
+		// System.out.println("Elevator position: " + getPosition());
+		io.setPosition(position);
+	}
+
 	// Method to stop the elevator
 	public void stop() {
 		io.stop();

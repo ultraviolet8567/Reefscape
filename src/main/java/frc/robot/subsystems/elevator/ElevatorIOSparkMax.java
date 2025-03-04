@@ -46,7 +46,7 @@ public class ElevatorIOSparkMax implements ElevatorIO {
 		leadEncoder = leadMotor.getEncoder();
 	}
 
-  @Override
+	@Override
 	public void updateInputs(ElevatorIOInputs inputs) {
 		// this is in rpm, convert
 		inputs.currentVoltage = new double[]{leadMotor.getOutputCurrent(), followerMotor.getOutputCurrent()};
@@ -54,7 +54,7 @@ public class ElevatorIOSparkMax implements ElevatorIO {
 				followerMotor.getAppliedOutput() * followerMotor.getBusVoltage()};
 		inputs.angleRadians = new double[]{getPositionRads()};
 	}
-  
+
 	@Override
 	public void set(double voltage) {
 		// Set the power to the main motor

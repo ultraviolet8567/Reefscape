@@ -1,9 +1,11 @@
 package frc.robot.subsystems.coralIntake;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.IntakeConstants;
 
 public class CoralIntake extends SubsystemBase {
 	private final CoralIntakeIO io;
+	private final CoralIntakeIOInputsAutoLogged inputs = new CoralIntakeIOInputsAutoLogged();
 
 	// still need to code possible sensor
 
@@ -18,11 +20,11 @@ public class CoralIntake extends SubsystemBase {
 	}
 
 	public void pickup() {
-		io.setInputVoltage(IntakeConstants.kIntakeVoltage.get());
+		io.set(IntakeConstants.kCoralIntakeVoltage);
 	}
 
 	public void drop() {
-		io.setInputVoltage(-IntakeConstants.kIntakeVoltage.get());
+		io.set(-IntakeConstants.kCoralIntakeVoltage);
 	}
 
 	public void stop() {

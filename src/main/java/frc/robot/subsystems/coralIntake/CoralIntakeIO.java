@@ -4,7 +4,7 @@ import org.littletonrobotics.junction.AutoLog;
 
 public interface CoralIntakeIO {
 	@AutoLog
-	public static class CoralIntakeIOInputs {
+	class CoralIntakeIOInputs {
 		public double currentVoltage = 0.0;
 		public double appliedVoltage = 0.0;
 		public double velocityRadsPerSecond = 0.0;

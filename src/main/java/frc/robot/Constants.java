@@ -161,10 +161,6 @@ public final class Constants {
 		public static final int kFollowElevatorPort = 0;
 	}
 
-	public static final class IntakeConstants {
-		public static final LoggedTunableNumber kIntakeVoltage = new LoggedTunableNumber("Intake/Voltage", 10);
-	}
-
 	public static class OIConstants {
 		public static final ControllerType controllerTypeDriver = ControllerType.XBOX;
 		public static final ControllerType controllerTypeOperator = ControllerType.XBOX;

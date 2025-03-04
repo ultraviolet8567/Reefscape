@@ -1,11 +1,10 @@
 package frc.robot.subsystems.wrist;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.subsystems.wrist.WristIO.WristIOInputs;
 
 public class Wrist extends SubsystemBase {
 	private final WristIO io;
-	private final WristIOInputs inputs = new WristIOInputs();
+	private final WristIOInputsAutoLogged inputs = new WristIOInputsAutoLogged();
 	// these values will need to be changed
 
 	public Wrist(WristIO io) {
@@ -14,6 +13,7 @@ public class Wrist extends SubsystemBase {
 
 	@Override
 	public void periodic() {
+		io.updateInputs(inputs);
 	}
 
 	public void setWrist(double position) {

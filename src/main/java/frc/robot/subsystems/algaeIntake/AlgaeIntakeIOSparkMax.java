@@ -25,8 +25,8 @@ public class AlgaeIntakeIOSparkMax implements AlgaeIntakeIO {
 		rightMotor.configure(rightConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 		leftMotor.configure(leftConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 	}
-  
-  @Override
+
+	@Override
 	public void updateInputs(AlgaeIntakeIOInputs inputs) {
 		// this is in rpm, convert
 		inputs.currentVoltage = new double[]{rightMotor.getOutputCurrent(), leftMotor.getOutputCurrent()};

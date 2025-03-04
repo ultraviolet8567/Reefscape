@@ -1,7 +1,6 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants.IntakeConstants;
 import frc.robot.subsystems.algaeIntake.AlgaeIntake;
 
 public class PickupAlgae extends Command {
@@ -15,7 +14,7 @@ public class PickupAlgae extends Command {
 
 	@Override
 	public void initialize() {
-		intake.setVoltage(IntakeConstants.kAlgaeIntakeVoltage);
+		intake.pickup();
 	}
 
 	@Override

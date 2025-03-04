@@ -92,10 +92,10 @@ public class RobotContainer {
 
 		swerve.setDefaultCommand(new SwerveTeleOp(swerve, odometry, () -> -driverController.getLeftY(),
 				() -> -driverController.getLeftX(), () -> -driverController.getRightX(),
-				() -> driverController.getHID().getRightBumper()));
+				() -> driverController.getHID().getRightBumperButton()));
 
 		elevator.setDefaultCommand(new ManualElevator(elevator, () -> -operatorController.getLeftY(),
-				() -> operatorController.getHID().getLeftBumper()));
+				() -> operatorController.getHID().getLeftBumperButton()));
 
 		configureBindings();
 
