@@ -2,7 +2,6 @@ package frc.robot.subsystems.elevator;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ElevatorConstants;
-import org.littletonrobotics.junction.Logger;
 
 public class Elevator extends SubsystemBase {
 	private final ElevatorIO io;
@@ -45,8 +44,8 @@ public class Elevator extends SubsystemBase {
 	}
 
 	// for manual control
-	public void turn(double factor, int limit) {
-		double voltage = factor * ElevatorConstants.kElevatorFactor * limit;
+	public void turn(double factor) {
+		double voltage = factor * ElevatorConstants.kElevatorFactor;
 		System.out.println("input: " + factor);
 
 		// easier to motor to go down with gravity, so reduce voltage going down
@@ -54,10 +53,7 @@ public class Elevator extends SubsystemBase {
 			voltage = voltage / 4;
 		}
 
-		if (io.getPositionRads() < ElevatorConstants.kElevatorMax
-				|| io.getPositionRads() > ElevatorConstants.kElevatorMin
-				|| (io.getPositionRads() >= ElevatorConstants.kElevatorMax && voltage <= 0)
-				|| (io.getPositionRads() <= ElevatorConstants.kElevatorMin && voltage >= 0)) {
+		if (!io.tooLow(voltage) && !io.tooHigh(voltage)) {
 			io.set(voltage);
 			System.out.println(io.getVelocity());
 		} else {

@@ -24,9 +24,19 @@ public final class Constants {
 		public static final double kP = 0.027;
 		public static final double kI = 0.0;
 		public static final double kD = 0.0;
-		public static final double kElevatorMax = 10.0;
-		public static final double kElevatorMin = 0.0;
-		public static final int kElevatorFactor = 4;
+		public static final double kElevatorMaxRadians = 10.0;
+		public static final double kElevatorMinRadians = 0.0;
+
+		// Is in meters
+		public static final double kElevatorMaxHeight = 1.27;
+		public static final double kElevatorMinHeight = 0.0;
+
+		public static final double kElevatorStartHeight = 0;
+		public static final double kElevatorCarriageWeight = 1.0;
+		public static final double kElevatorDrumRadius = 0.0254;
+		public static final double kElevatorGearing = 1.0 / 6;
+
+		public static final int kElevatorFactor = 3;
 	}
 
 	public static class IntakeConstants {
@@ -149,12 +159,11 @@ public final class Constants {
 		public static final int kAlgaeLeftMotorPort = 2;
 		public static final int kAlgaeRightMotorPort = 4;
 
-		//TODO: FIND
+		// TODO: FIND
 		public static final int kAlgaeIntakeExtensionMotorPort = 0;
 
 		public static final int kLeftCoralIntakePort = 0;
 		public static final int kRightCoralIntakePort = 0;
-
 
 		public static final int kLeadElevatorPort = 0;
 		public static final int kFollowElevatorPort = 0;

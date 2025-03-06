@@ -19,20 +19,11 @@ public class ManualElevator extends Command {
 
 	@Override
 	public void execute() {
-
-		if (leftBumper.get()) {
-			if (Math.abs(leftJoystick.get()) > 0.1) {
-				elevator.turn(leftJoystick.get(), 2);
-				System.out.println(elevator.getPositionRads());
-
-			} else {
-				if (Math.abs(leftJoystick.get()) > 0.1) {
-					elevator.turn(leftJoystick.get(), 1);
-					System.out.println(elevator.getPositionRads());
-
-				}
-
-			}
+		if (Math.abs(leftJoystick.get()) > 0.1) {
+			elevator.turn(leftJoystick.get());
+			System.out.println(elevator.getPositionRads());
+		} else {
+			elevator.turn(0);
 		}
 	}
 }

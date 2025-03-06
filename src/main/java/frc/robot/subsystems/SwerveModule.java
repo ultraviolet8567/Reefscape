@@ -97,7 +97,7 @@ public class SwerveModule {
 
 		return angle * (ConfigReversed ? -1 : 1);
 	}
-	
+
 	public void resetEncoders() {
 		driveMotor.getEncoder().setPosition(0);
 		turningMotor.getEncoder().setPosition(getAbsoluteEncoderAngle());

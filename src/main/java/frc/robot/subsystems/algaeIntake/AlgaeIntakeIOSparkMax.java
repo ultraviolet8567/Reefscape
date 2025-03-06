@@ -5,7 +5,6 @@ import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.SparkMaxConfig;
-
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.AnalogInput;
@@ -23,7 +22,7 @@ public class AlgaeIntakeIOSparkMax implements AlgaeIntakeIO {
 	public AlgaeIntakeIOSparkMax() {
 		System.out.println("[Init] Creating AlgaeIntakeIOSparkMax");
 
-		//TODO: configure the position/velocity conversion factors
+		// TODO: configure the position/velocity conversion factors
 
 		// Initialize the CANSparkMax motors for right and left
 		rightMotor = new SparkMax(CAN.kAlgaeLeftMotorPort, MotorType.kBrushless);

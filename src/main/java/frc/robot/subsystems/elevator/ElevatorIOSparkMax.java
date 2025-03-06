@@ -24,7 +24,7 @@ public class ElevatorIOSparkMax implements ElevatorIO {
 	public ElevatorIOSparkMax() {
 		System.out.println("[Init] Creating ElevatorIOSparkMax");
 
-		//TODO: configure the position/velocity conversion factors
+		// TODO: configure the position/velocity conversion factors
 
 		// Defaults from Penn State
 		leadPidController = new PIDController(ElevatorConstants.kP, ElevatorConstants.kI, ElevatorConstants.kD);
@@ -51,7 +51,7 @@ public class ElevatorIOSparkMax implements ElevatorIO {
 	@Override
 	public void updateInputs(ElevatorIOInputs inputs) {
 		// this is in rpm, convert
-		inputs.currentVoltage = new double[]{leadMotor.getOutputCurrent(), followerMotor.getOutputCurrent()};
+		inputs.currentAmps = new double[]{leadMotor.getOutputCurrent(), followerMotor.getOutputCurrent()};
 		inputs.appliedVoltage = new double[]{leadMotor.getAppliedOutput() * leadMotor.getBusVoltage(),
 				followerMotor.getAppliedOutput() * followerMotor.getBusVoltage()};
 		inputs.angleRadians = new double[]{getPositionRads()};
@@ -90,16 +90,14 @@ public class ElevatorIOSparkMax implements ElevatorIO {
 				-ElevatorConstants.kElevatorVoltage, ElevatorConstants.kElevatorVoltage));
 	}
 
-	public void turn(double factor) {
-		double voltage = factor * 0;
+	@Override
+	public boolean tooLow(double voltage) {
+		return getPositionRads() >= ElevatorConstants.kElevatorMaxHeight && voltage > 0;
+	}
 
-		if (getPositionRads() < ElevatorConstants.kElevatorMax && getPositionRads() > ElevatorConstants.kElevatorMin
-				|| (getPositionRads() >= ElevatorConstants.kElevatorMax && voltage <= 0)
-				|| (getPositionRads() <= ElevatorConstants.kElevatorMin && voltage >= 0)) {
-			set(voltage);
-		} else {
-			stop();
-		}
+	@Override
+	public boolean tooHigh(double voltage) {
+		return getPositionRads() <= ElevatorConstants.kElevatorMinHeight && voltage < 0;
 	}
 
 	@Override

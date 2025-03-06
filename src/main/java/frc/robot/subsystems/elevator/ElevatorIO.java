@@ -5,7 +5,7 @@ import org.littletonrobotics.junction.AutoLog;
 public interface ElevatorIO {
 	@AutoLog
 	class ElevatorIOInputs {
-		public double[] currentVoltage = {0, 0};
+		public double[] currentAmps = {0, 0};
 		public double[] appliedVoltage = {0, 0};
 		public double[] angleRadians = {0, 0};
 	}
@@ -39,5 +39,13 @@ public interface ElevatorIO {
 	}
 
 	public default void stop() {
+	}
+
+	public default boolean tooLow(double voltage) {
+		return true;
+	}
+
+	public default boolean tooHigh(double voltage) {
+		return true;
 	}
 }

@@ -12,7 +12,7 @@ public class CoralIntakeIOSparkMax implements CoralIntakeIO {
 	public CoralIntakeIOSparkMax() {
 		System.out.println("[Init] Creating CoralIntakeIOSparkMax");
 
-		//TODO: configure the position/velocity conversion factors
+		// TODO: configure the position/velocity conversion factors
 
 		// Initialize the CANSparkMax motors for main and follower
 		motor = new SparkMax(5, MotorType.kBrushless);
