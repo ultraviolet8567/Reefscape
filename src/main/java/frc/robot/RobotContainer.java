@@ -5,6 +5,7 @@
 package frc.robot;
 
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -101,6 +102,14 @@ public class RobotContainer {
 				() -> operatorController.getHID().getLeftBumperButton()));
 
 		configureBindings();
+
+		NamedCommands.registerCommand("DropCoral", new DropCoral(coralIntake));
+		NamedCommands.registerCommand("PickupCoral", new PickupCoral(coralIntake));
+		NamedCommands.registerCommand("ElevatorL1", new InstantCommand(() -> elevator.setPosition(0))); //needs real pos
+		NamedCommands.registerCommand("ElevatorL2", new InstantCommand(() -> elevator.setPosition(0))); //needs real pos
+		NamedCommands.registerCommand("ElevatorL3", new InstantCommand(() -> elevator.setPosition(0))); //needs real pos
+		NamedCommands.registerCommand("ElevatorL4", new InstantCommand(() -> elevator.setPosition(0))); //needs real pos
+		NamedCommands.registerCommand("ElevatorIntakeCoral", new InstantCommand(() -> elevator.setPosition(0))); //needs real pos
 
 		// thing we need to put in the shuffleboard:
 		// elevator preset position (current) -> do we even need that
