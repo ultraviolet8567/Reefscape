@@ -12,24 +12,13 @@ public class CoralIntakeIOSparkMax implements CoralIntakeIO {
 	public CoralIntakeIOSparkMax() {
 		System.out.println("[Init] Creating CoralIntakeIOSparkMax");
 
+		//TODO: configure the position/velocity conversion factors
+
 		// Initialize the CANSparkMax motors for main and follower
 		motor = new SparkMax(5, MotorType.kBrushless);
-		// followerMotor = new SparkMax(6, MotorType.kBrushless);
 		config = new SparkMaxConfig();
-		// followerConfig = new SparkMaxConfig();
-
-		// followerConfig.inverted(true);
-		// followerConfig.follow(leadMotor);
 
 		motor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-		// followerMotor.configure(followerConfig, ResetMode.kResetSafeParameters,
-		// PersistMode.kPersistParameters);
-	}
-
-	@Override
-	public void set(double voltage) {
-		// Set the power to the main motor
-		motor.setVoltage(voltage);
 	}
 
 	// Will be called periodically
@@ -40,6 +29,12 @@ public class CoralIntakeIOSparkMax implements CoralIntakeIO {
 		inputs.appliedVoltage = motor.getAppliedOutput() * motor.getBusVoltage();
 		inputs.velocityRadsPerSecond = motor.getEncoder().getVelocity();
 		inputs.tempCelsius = motor.getMotorTemperature();
+	}
+
+	@Override
+	public void set(double voltage) {
+		// Set the power to the main motor
+		motor.setVoltage(voltage);
 	}
 
 	@Override

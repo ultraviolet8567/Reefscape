@@ -24,6 +24,8 @@ public class ElevatorIOSparkMax implements ElevatorIO {
 	public ElevatorIOSparkMax() {
 		System.out.println("[Init] Creating ElevatorIOSparkMax");
 
+		//TODO: configure the position/velocity conversion factors
+
 		// Defaults from Penn State
 		leadPidController = new PIDController(ElevatorConstants.kP, ElevatorConstants.kI, ElevatorConstants.kD);
 
