@@ -2,6 +2,7 @@ package frc.robot.subsystems.algaeIntake;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.IntakeConstants;
+import org.littletonrobotics.junction.Logger;
 
 public class AlgaeIntake extends SubsystemBase {
 	private final AlgaeIntakeIO io;
@@ -31,5 +32,13 @@ public class AlgaeIntake extends SubsystemBase {
 
 	public void drop() {
 		io.set(-IntakeConstants.kAlgaeIntakeVoltage);
+	}
+
+	public void extend() {
+		io.setExtension(IntakeConstants.kAlgaeIntakeExtendedPosition);
+	}
+
+	public void retract() {
+		io.setExtension(IntakeConstants.kAlgaeIntakeRetractedPosition);
 	}
 }

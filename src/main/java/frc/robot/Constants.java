@@ -19,7 +19,7 @@ public final class Constants {
 	public static final boolean fieldOriented = true;
 
 	public static class ElevatorConstants {
-		// CHANGE LATER:
+		// TODO: FINALIZE
 		public static final double kElevatorVoltage = 12;
 		public static final double kP = 0.027;
 		public static final double kI = 0.0;
@@ -30,22 +30,20 @@ public final class Constants {
 	}
 
 	public static class IntakeConstants {
-		// TODO: CHANGE LATER:
+		// TODO: FINALIZE
 		public static final int kAlgaeIntakeVoltage = 5;
 		public static final int kCoralIntakeVoltage = 9;
 
-	}
+		public static final int kAlgaeIntakeExtensionAbsoluteEncoderPort = 5;
+		public static final double kAlgaeIntakeAbosluteEncoderOffset = 0.0;
+		public static final boolean kAlgaeIntakeExtensionAbsoluteEncoderReversed = false;
 
-	public static class WristConstants {
-		// TODO: CHANGE LATER:
-		public static final double kWristVoltage = 12;
-
-		public static final double kFFS = 0.0;
-		public static final double kFFG = 0.0;
-		public static final double kFFV = 0.0;
-		public static final double kP = 0.0;
+		public static final double kP = 0.1;
 		public static final double kI = 0.0;
 		public static final double kD = 0.0;
+
+		public static final double kAlgaeIntakeRetractedPosition = 0.0;
+		public static final double kAlgaeIntakeExtendedPosition = 0.0;
 	}
 
 	public static class OperatorConstants {
@@ -151,11 +149,12 @@ public final class Constants {
 		public static final int kAlgaeLeftMotorPort = 2;
 		public static final int kAlgaeRightMotorPort = 4;
 
-		public static final int kLeftAlgaeIntakePort = 0;
-		public static final int kRightAlgaeIntakePort = 0;
+		//TODO: FIND
+		public static final int kAlgaeIntakeExtensionMotorPort = 0;
 
 		public static final int kLeftCoralIntakePort = 0;
 		public static final int kRightCoralIntakePort = 0;
+
 
 		public static final int kLeadElevatorPort = 0;
 		public static final int kFollowElevatorPort = 0;
