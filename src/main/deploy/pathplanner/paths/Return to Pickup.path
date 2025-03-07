@@ -3,28 +3,28 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.919722261845107,
-        "y": 5.2532691989914495
+        "x": 3.9441120992573517,
+        "y": 5.205323842103798
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.279484562821483,
-        "y": 5.244332748121468
+        "x": 4.3038744002337275,
+        "y": 5.1963873912338165
       },
       "isLocked": false,
       "linkedName": "place 2nd Coral End"
     },
     {
       "anchor": {
-        "x": 1.287,
-        "y": 7.05725
+        "x": 1.235447926741141,
+        "y": 7.100883610591987
       },
       "prevControl": {
-        "x": 1.0811415978795718,
-        "y": 7.199103157442561
+        "x": 1.0295895246207127,
+        "y": 7.242736768034549
       },
       "nextControl": null,
-      "isLocked": false,
+      "isLocked": true,
       "linkedName": "After 2nd Coral Pickup End"
     }
   ],
@@ -48,7 +48,7 @@
   "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -151.43023099682918
+    "rotation": -150.30927348798306
   },
   "useDefaultConstraints": true
 }

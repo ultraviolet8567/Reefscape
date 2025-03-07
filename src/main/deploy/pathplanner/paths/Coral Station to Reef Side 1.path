@@ -3,28 +3,28 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.3065000000000004,
-        "y": 7.03775
+        "x": 1.187083673574208,
+        "y": 7.0522052483733315
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.301,
-        "y": 7.145
+        "x": 2.181583673574208,
+        "y": 7.159455248373331
       },
       "isLocked": false,
       "linkedName": "Reef Side 1 Pickup end"
     },
     {
       "anchor": {
-        "x": 5.148,
-        "y": 5.2145
+        "x": 5.00700711996696,
+        "y": 5.211708523988884
       },
       "prevControl": {
-        "x": 4.6995,
-        "y": 5.71175
+        "x": 4.55850711996696,
+        "y": 5.708958523988884
       },
       "nextControl": null,
-      "isLocked": false,
+      "isLocked": true,
       "linkedName": null
     }
   ],

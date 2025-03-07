@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.29425,
-        "y": 5.117
+        "x": 5.264004041944247,
+        "y": 5.055614231742227
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.214409740374065,
-        "y": 4.872305619537604
+        "x": 5.184163782318312,
+        "y": 4.810919851279831
       },
       "isLocked": false,
       "linkedName": "Reef Side 1 End"
@@ -24,7 +24,7 @@
         "y": 6.197114315072131
       },
       "nextControl": null,
-      "isLocked": false,
+      "isLocked": true,
       "linkedName": null
     }
   ],

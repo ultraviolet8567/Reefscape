@@ -3,28 +3,28 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.3065000000000004,
-        "y": 7.03775
+        "x": 1.187083673574208,
+        "y": 7.0522052483733315
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.1079448098769293,
-        "y": 6.149164333736395
+        "x": 1.9885284834511372,
+        "y": 6.163619582109726
       },
       "isLocked": false,
       "linkedName": "Reef Side 1 Pickup end"
     },
     {
       "anchor": {
-        "x": 3.6855,
-        "y": 5.1267499999999995
+        "x": 3.6724202634409937,
+        "y": 5.039712659025406
       },
       "prevControl": {
-        "x": 2.885313937683573,
-        "y": 5.742361859679892
+        "x": 2.8722342011245665,
+        "y": 5.655324518705299
       },
       "nextControl": null,
-      "isLocked": false,
+      "isLocked": true,
       "linkedName": "Place Coral side 3 End"
     }
   ],

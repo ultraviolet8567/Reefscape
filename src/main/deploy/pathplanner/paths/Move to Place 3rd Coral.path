@@ -3,28 +3,28 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.287,
-        "y": 7.05725
+        "x": 1.235447926741141,
+        "y": 7.100883610591987
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.9912280299867748,
-        "y": 6.167755841680792
+        "x": 1.9396759567279158,
+        "y": 6.21138945227278
       },
       "isLocked": false,
       "linkedName": "After 2nd Coral Pickup End"
     },
     {
       "anchor": {
-        "x": 3.6031186847861445,
-        "y": 5.087108831918982
+        "x": 3.6816410662449233,
+        "y": 5.043866281462421
       },
       "prevControl": {
-        "x": 2.8020855208335362,
-        "y": 5.699953772800594
+        "x": 2.880607902292315,
+        "y": 5.656711222344033
       },
       "nextControl": null,
-      "isLocked": false,
+      "isLocked": true,
       "linkedName": "place 3rd Coral End"
     }
   ],

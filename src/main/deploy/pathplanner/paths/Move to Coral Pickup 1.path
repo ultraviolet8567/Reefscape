@@ -3,12 +3,12 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.843526738921013,
+        "x": 5.77814591635663,
         "y": 4.17125
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.7433030724625125,
+        "x": 6.677922249898129,
         "y": 6.03834570973823
       },
       "isLocked": false,
@@ -16,15 +16,15 @@
     },
     {
       "anchor": {
-        "x": 1.2480000000000002,
-        "y": 6.989
+        "x": 1.1767993023683823,
+        "y": 7.0397175414836
       },
       "prevControl": {
-        "x": 1.0919999999999999,
-        "y": 7.25225
+        "x": 1.020799302368382,
+        "y": 7.3029675414836
       },
       "nextControl": null,
-      "isLocked": false,
+      "isLocked": true,
       "linkedName": "Coral Pickup1 End"
     }
   ],
@@ -42,7 +42,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 124.90249561592475
+    "rotation": 126.97276248956813
   },
   "reversed": false,
   "folder": null,
