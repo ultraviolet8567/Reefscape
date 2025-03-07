@@ -16,11 +16,9 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.Constants.DriveConstants;
-import frc.robot.Constants.OperatorConstants;
-import frc.robot.commands.DropAlgae;
+import frc.robot.Constants.*;
+import frc.robot.commands.*;
 import frc.robot.commands.DropCoral;
-import frc.robot.commands.ManualElevator;
 import frc.robot.commands.PickupAlgae;
 import frc.robot.commands.PickupCoral;
 import frc.robot.commands.SwerveTeleOp;
@@ -30,6 +28,7 @@ import frc.robot.subsystems.Swerve;
 import frc.robot.subsystems.algaeIntake.*;
 import frc.robot.subsystems.coralIntake.*;
 import frc.robot.subsystems.elevator.*;
+import frc.robot.subsystems.elevator.Elevator.ElevatorMode;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -92,24 +91,25 @@ public class RobotContainer {
 					return false;
 				}, swerve);
 
+		NamedCommands.registerCommand("DropCoral", new DropCoral(coralIntake));
+		NamedCommands.registerCommand("PickupCoral", new PickupCoral(coralIntake));
+		NamedCommands.registerCommand("ElevatorL1", new InstantCommand(() -> elevator.setMode(ElevatorMode.L1)));
+		NamedCommands.registerCommand("ElevatorL2", new InstantCommand(() -> elevator.setMode(ElevatorMode.L2)));
+		NamedCommands.registerCommand("ElevatorL3", new InstantCommand(() -> elevator.setMode(ElevatorMode.L3)));
+		NamedCommands.registerCommand("ElevatorL4", new InstantCommand(() -> elevator.setMode(ElevatorMode.L4)));
+		NamedCommands.registerCommand("ElevatorIntakeCoral",
+				new InstantCommand(() -> elevator.setMode(ElevatorMode.STATION)));
+
 		autoChooser = new AutoChooser();
 
 		swerve.setDefaultCommand(new SwerveTeleOp(swerve, odometry, () -> -driverController.getLeftY(),
 				() -> -driverController.getLeftX(), () -> -driverController.getRightX(),
 				() -> driverController.getHID().getRightBumperButton()));
 
-		elevator.setDefaultCommand(new ManualElevator(elevator, () -> -operatorController.getLeftY(),
+		elevator.setDefaultCommand(new MoveElevator(elevator, () -> -operatorController.getLeftY(),
 				() -> operatorController.getHID().getLeftBumperButton()));
 
 		configureBindings();
-
-		NamedCommands.registerCommand("DropCoral", new DropCoral(coralIntake));
-		NamedCommands.registerCommand("PickupCoral", new PickupCoral(coralIntake));
-		NamedCommands.registerCommand("ElevatorL1", new InstantCommand(() -> elevator.setPosition(0))); //needs real pos
-		NamedCommands.registerCommand("ElevatorL2", new InstantCommand(() -> elevator.setPosition(0))); //needs real pos
-		NamedCommands.registerCommand("ElevatorL3", new InstantCommand(() -> elevator.setPosition(0))); //needs real pos
-		NamedCommands.registerCommand("ElevatorL4", new InstantCommand(() -> elevator.setPosition(0))); //needs real pos
-		NamedCommands.registerCommand("ElevatorIntakeCoral", new InstantCommand(() -> elevator.setPosition(0))); //needs real pos
 
 		// thing we need to put in the shuffleboard:
 		// elevator preset position (current) -> do we even need that
@@ -131,14 +131,14 @@ public class RobotContainer {
 		driverController.back().onTrue(new InstantCommand(() -> swerve.resetEncoders()));
 		driverController.start().onTrue(new InstantCommand(() -> swerve.resetEncoders()));
 
-		// ground
-		operatorController.a().onTrue(new InstantCommand(() -> elevator.setPosition(0)));
-		// processor
-		operatorController.x().onTrue(new InstantCommand(() -> elevator.setPosition(2)));
-		// L3
-		operatorController.b().onTrue(new InstantCommand(() -> elevator.setPosition(4)));
-		// L4
-		operatorController.y().onTrue(new InstantCommand(() -> elevator.setPosition(6)));
+		// Ground height
+		operatorController.a().onTrue(new InstantCommand(() -> elevator.setMode(ElevatorMode.GROUND)));
+		// Processor height
+		operatorController.x().onTrue(new InstantCommand(() -> elevator.setMode(ElevatorMode.PROCESSOR)));
+		// L3 height
+		operatorController.b().onTrue(new InstantCommand(() -> elevator.setMode(ElevatorMode.L3)));
+		// L4 height
+		operatorController.y().onTrue(new InstantCommand(() -> elevator.setMode(ElevatorMode.L4)));
 
 		// right for algae, left for coral
 		operatorController.rightBumper().whileTrue(new PickupAlgae(algaeIntake));

@@ -7,22 +7,12 @@ public interface ElevatorIO {
 	class ElevatorIOInputs {
 		public double[] currentAmps = {0, 0};
 		public double[] appliedVoltage = {0, 0};
-		public double[] angleRadians = {0, 0};
+		public double angleRadians = 0;
+		public double heightMeters = 0;
+		public double velocity = 0;
 	}
 
 	public default void updateInputs(ElevatorIOInputs inputs) {
-	}
-
-	// Sets the power to the elevator motor
-	public default void set(double voltage) {
-	}
-
-	// Gets the current position of the elevator (in encoder units)
-	public default double getPositionRads() {
-		return 0;
-	}
-
-	public default void setPosition(double position) {
 	}
 
 	// Gets the current velocity of the elevator
@@ -30,22 +20,40 @@ public interface ElevatorIO {
 		return 0;
 	}
 
-	public default boolean limit() {
-		return true;
+	// Gets the current rotation of the elevator shaft
+	public default double getRotationRads() {
+		return 0;
 	}
 
-	// Resets the encoder position to a specific value
-	public default void resetPosition() {
+	// Gets the current height of the elevator
+	public default double getHeight() {
+		return 0;
+	}
+
+	// Sets the power to the elevator motor
+	public default void setVoltage(double voltage) {
+	}
+
+	// Moves the elevator to the given height
+	public default void setHeight(double height) {
+	}
+
+	// Resets the encoder rotation to a specific value
+	public default void resetEncoder() {
 	}
 
 	public default void stop() {
 	}
 
-	public default boolean tooLow(double voltage) {
+	public default boolean withinRange() {
+		return false;
+	}
+
+	public default boolean tooLow() {
 		return true;
 	}
 
-	public default boolean tooHigh(double voltage) {
+	public default boolean tooHigh() {
 		return true;
 	}
 }

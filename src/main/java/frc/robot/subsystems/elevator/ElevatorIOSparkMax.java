@@ -16,7 +16,7 @@ import frc.robot.Constants.ElevatorConstants;
 public class ElevatorIOSparkMax implements ElevatorIO {
 	private final SparkMax leadMotor, followerMotor;
 	private final SparkMaxConfig leadConfig, followerConfig;
-	private final PIDController leadPidController/* , followerPidController */;
+	private final PIDController leadPidController;
 	private final RelativeEncoder leadEncoder;
 	private final DutyCycleEncoder absoluteEncoder;
 
@@ -35,6 +35,9 @@ public class ElevatorIOSparkMax implements ElevatorIO {
 		leadConfig = new SparkMaxConfig();
 		followerConfig = new SparkMaxConfig();
 
+		leadConfig.encoder.positionConversionFactor(ElevatorConstants.kElevatorGearing);
+		followerConfig.encoder.positionConversionFactor(ElevatorConstants.kElevatorGearing);
+
 		leadConfig.idleMode(IdleMode.kBrake);
 		followerConfig.idleMode(IdleMode.kBrake);
 
@@ -46,6 +49,8 @@ public class ElevatorIOSparkMax implements ElevatorIO {
 
 		absoluteEncoder = new DutyCycleEncoder(CAN.kElevatorAbsoluteEncoderPort);
 		leadEncoder = leadMotor.getEncoder();
+
+		resetEncoder();
 	}
 
 	@Override
@@ -54,50 +59,65 @@ public class ElevatorIOSparkMax implements ElevatorIO {
 		inputs.currentAmps = new double[]{leadMotor.getOutputCurrent(), followerMotor.getOutputCurrent()};
 		inputs.appliedVoltage = new double[]{leadMotor.getAppliedOutput() * leadMotor.getBusVoltage(),
 				followerMotor.getAppliedOutput() * followerMotor.getBusVoltage()};
-		inputs.angleRadians = new double[]{getPositionRads()};
+		inputs.angleRadians = getRotationRads();
+		inputs.heightMeters = getHeight();
+		inputs.velocity = getVelocity();
+	}
+
+	// Gets the current velocity of the elevator
+	@Override
+	public double getVelocity() {
+		return leadEncoder.getVelocity();
+	}
+
+	// Gets the absoltue rotation of the elevator shaft
+	public double getAbsoluteRotationRads() {
+		return absoluteEncoder.get() * 2 * Math.PI;
+	}
+
+	// Gets the current rotation of the elevator shaft
+	public double getRotationRads() {
+		return leadEncoder.getPosition();
+	}
+
+	// Gets the current height of the elevator
+	public double getHeight() {
+		return getRotationRads() * ElevatorConstants.kElevatorMetersPerRad;
 	}
 
 	@Override
-	public void set(double voltage) {
+	public void setVoltage(double voltage) {
 		// Set the power to the main motor
 		leadMotor.setVoltage(voltage);
 	}
 
-	// this should be from the absolute encoder
-	@Override
-	public double getPositionRads() {
-		// Get the position from the encoder
-		return absoluteEncoder.get() * 2 * Math.PI;
+	// Moves the elevator to the given height
+	public void setHeight(double height) {
+		// PID computed voltage to move to the given height
+		double voltage = MathUtil.clamp(leadPidController.calculate(getHeight(), height),
+				-ElevatorConstants.kElevatorVoltage, ElevatorConstants.kElevatorVoltage);
+
+		setVoltage(voltage);
+	}
+
+	// Resets the encoder rotation to a specific value
+	public void resetEncoder() {
+		leadEncoder.setPosition(getAbsoluteRotationRads());
 	}
 
 	@Override
-	public double getVelocity() {
-		// Get the velocity from the encoder
-		return leadEncoder.getVelocity();
-	}
-
-	// What is this
-	@Override
-	public void resetPosition() {
-		// Reset the encoder to the specified position
-		setPosition(0);
+	public boolean withinRange() {
+		return !tooLow() && !tooHigh();
 	}
 
 	@Override
-	public void setPosition(double position) {
-		// Check if this method returns voltage as a parameter of set()
-		set(MathUtil.clamp(leadPidController.calculate(getPositionRads(), position),
-				-ElevatorConstants.kElevatorVoltage, ElevatorConstants.kElevatorVoltage));
+	public boolean tooLow() {
+		return getHeight() < ElevatorConstants.kElevatorMinHeight;
 	}
 
 	@Override
-	public boolean tooLow(double voltage) {
-		return getPositionRads() >= ElevatorConstants.kElevatorMaxHeight && voltage > 0;
-	}
-
-	@Override
-	public boolean tooHigh(double voltage) {
-		return getPositionRads() <= ElevatorConstants.kElevatorMinHeight && voltage < 0;
+	public boolean tooHigh() {
+		return getHeight() > ElevatorConstants.kElevatorMaxHeight;
 	}
 
 	@Override

@@ -24,19 +24,33 @@ public final class Constants {
 		public static final double kP = 0.027;
 		public static final double kI = 0.0;
 		public static final double kD = 0.0;
-		public static final double kElevatorMaxRadians = 10.0;
-		public static final double kElevatorMinRadians = 0.0;
 
-		// Is in meters
-		public static final double kElevatorMaxHeight = 1.27;
-		public static final double kElevatorMinHeight = 0.0;
+		public static final int kManualVoltage = 3;
 
+		// Elevator attributes
 		public static final double kElevatorStartHeight = 0;
 		public static final double kElevatorCarriageWeight = 1.0;
 		public static final double kElevatorDrumRadius = 0.0254;
 		public static final double kElevatorGearing = 1.0 / 6;
+		public static final double kElevatorMetersPerRad = 1; // Dummy value
 
-		public static final int kElevatorFactor = 3;
+		// Limits
+		public static final double kElevatorMaxRadians = 10.0; // Dummy value
+		public static final double kElevatorMinRadians = 0.0; // Dummy value
+
+		public static final double kElevatorMaxHeight = 1.27; // in meters
+		public static final double kElevatorMinHeight = 0.0; // in meters
+
+		// Setpoints
+		public static final double kHeightDefault = 1.0; // Dummy value
+		public static final double kHeightGround = 1.0; // Dummy value
+		public static final double kHeightStation = 1.0; // Dummy value
+		public static final double kHeightProcessor = 1.0; // Dummy value
+		public static final double kHeightL1 = 1.0; // Dummy value
+		public static final double kHeightL2 = 1.0; // Dummy value
+		public static final double kHeightL3 = 1.0; // Dummy value
+		public static final double kHeightL4 = 1.0; // Dummy value
+
 	}
 
 	public static class IntakeConstants {
