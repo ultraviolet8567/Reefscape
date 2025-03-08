@@ -4,12 +4,12 @@
     {
       "anchor": {
         "x": 5.77814591635663,
-        "y": 4.17125
+        "y": 4.0
       },
       "prevControl": null,
       "nextControl": {
         "x": 6.059764015620941,
-        "y": 5.260398089934634
+        "y": 5.089148089934635
       },
       "isLocked": false,
       "linkedName": "Move out end"

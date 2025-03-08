@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.77814591635663,
-        "y": 4.0
+        "x": 8.2,
+        "y": 1.9189999999999998
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.677922249898129,
-        "y": 5.86709570973823
+        "x": 7.421888123196371,
+        "y": 2.16888321292373
       },
       "isLocked": false,
-      "linkedName": "Move out end"
+      "linkedName": null
     },
     {
       "anchor": {
-        "x": 1.1767993023683823,
-        "y": 7.0397175414836
+        "x": 5.11875,
+        "y": 2.855
       },
       "prevControl": {
-        "x": 1.020799302368382,
-        "y": 7.3029675414836
+        "x": 5.831792901531314,
+        "y": 2.6492119338922095
       },
       "nextControl": null,
       "isLocked": true,
-      "linkedName": "Coral Pickup1 End"
+      "linkedName": "Side 5 R End"
     }
   ],
   "rotationTargets": [],
@@ -42,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 126.97276248956813
+    "rotation": 32.574057134572506
   },
   "reversed": false,
   "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 90.0
+    "rotation": 0.0
   },
   "useDefaultConstraints": true
 }

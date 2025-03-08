@@ -112,12 +112,10 @@ public class AutoChooser extends VirtualSubsystem {
 
 		if (coralNumber.getSelected().equals("Do Nothing")) {
 			return "Do Nothing";
-
 		}
 
 		else if (side.getSelected().equals("")) {
 			return " Do Nothing";
-
 		}
 
 		else if (startPos.getSelected().equals("")) {

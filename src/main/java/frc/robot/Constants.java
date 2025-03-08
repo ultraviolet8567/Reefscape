@@ -175,12 +175,7 @@ public final class Constants {
 
 		// TODO: FIND
 		public static final int kAlgaeIntakeExtensionMotorPort = 0;
-
-		public static final int kLeftCoralIntakePort = 0;
-		public static final int kRightCoralIntakePort = 0;
-
-		public static final int kLeadElevatorPort = 0;
-		public static final int kFollowElevatorPort = 0;
+		public static final int kCoralIntakePort = 0;
 	}
 
 	public static class OIConstants {

@@ -2,20 +2,23 @@ package frc.robot.subsystems.algaeIntake;
 
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
+import com.revrobotics.spark.SparkFlex;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.config.SparkFlexConfig;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.wpilibj.AnalogInput;
-import edu.wpi.first.wpilibj.RobotController;
+import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import frc.robot.Constants.CAN;
 import frc.robot.Constants.IntakeConstants;
 
 public class AlgaeIntakeIOSparkMax implements AlgaeIntakeIO {
-	private final SparkMax rightMotor, leftMotor, extensionMotor;
-	private final SparkMaxConfig rightConfig, leftConfig, extensionConfig;
-	private final AnalogInput absoluteEncoder;
+	private final SparkMax rightMotor, leftMotor;
+	private final SparkFlex extensionMotor;
+	private final SparkMaxConfig rightConfig, leftConfig;
+	private final SparkFlexConfig extensionConfig;
+	private final DutyCycleEncoder absoluteEncoder;
 	private final PIDController extensionPidController;
 
 	// Constructor
@@ -34,12 +37,12 @@ public class AlgaeIntakeIOSparkMax implements AlgaeIntakeIO {
 		leftMotor.configure(leftConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
 		// Initialize the CANSparkMax motors & absolute encoder for the extender
-		extensionMotor = new SparkMax(CAN.kAlgaeIntakeExtensionMotorPort, MotorType.kBrushless);
-		extensionConfig = new SparkMaxConfig();
+		extensionMotor = new SparkFlex(CAN.kAlgaeIntakeExtensionMotorPort, MotorType.kBrushless);
+		extensionConfig = new SparkFlexConfig();
 
 		extensionMotor.configure(extensionConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
-		absoluteEncoder = new AnalogInput(IntakeConstants.kAlgaeIntakeExtensionAbsoluteEncoderPort);
+		absoluteEncoder = new DutyCycleEncoder(IntakeConstants.kAlgaeIntakeExtensionAbsoluteEncoderPort);
 
 		extensionPidController = new PIDController(IntakeConstants.kP, IntakeConstants.kI, IntakeConstants.kD);
 		extensionPidController.enableContinuousInput(-Math.PI, Math.PI);
@@ -69,7 +72,7 @@ public class AlgaeIntakeIOSparkMax implements AlgaeIntakeIO {
 	}
 
 	public double getAbsoluteEncoderAngle() {
-		double angle = absoluteEncoder.getAverageVoltage() / RobotController.getVoltage5V();
+		double angle = absoluteEncoder.get();
 		angle *= 2 * Math.PI;
 		angle += IntakeConstants.kAlgaeIntakeAbosluteEncoderOffset;
 		angle = MathUtil.inputModulus(angle, -Math.PI, Math.PI);
