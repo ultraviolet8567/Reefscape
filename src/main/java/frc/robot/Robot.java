@@ -58,6 +58,8 @@ public class Robot extends LoggedRobot {
 		// Start AdvantageKit logger
 		Logger.start();
 		System.out.println("[Init] Starting AdvantageKit");
+
+		m_robotContainer.resetEncoder();
 	}
 
 	/**

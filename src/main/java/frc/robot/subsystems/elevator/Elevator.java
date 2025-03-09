@@ -106,4 +106,8 @@ public class Elevator extends SubsystemBase {
 		/** Manual movement */
 		MANUAL
 	}
+
+	public void resetEncoder() {
+		io.resetEncoder();
+	}
 }

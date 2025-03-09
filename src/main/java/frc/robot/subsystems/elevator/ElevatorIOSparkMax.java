@@ -62,6 +62,7 @@ public class ElevatorIOSparkMax implements ElevatorIO {
 		inputs.angleRadians = getRotationRads();
 		inputs.heightMeters = getHeight();
 		inputs.velocity = getVelocity();
+		inputs.absoluteEncoderValue = getAbsoluteRotationRads();
 	}
 
 	// Gets the current velocity of the elevator
@@ -80,12 +81,14 @@ public class ElevatorIOSparkMax implements ElevatorIO {
 		return angle * (ElevatorConstants.kAbsoluteEncoderReversed ? -1 : 1);
 	}
 
-	// Gets the current rotation of the elevator shaft
+	// Gets the current rotation of the elevator shaft\
+	@Override
 	public double getRotationRads() {
 		return leadEncoder.getPosition();
 	}
 
 	// Gets the current height of the elevator
+	@Override
 	public double getHeight() {
 		return getRotationRads() * ElevatorConstants.kElevatorMetersPerRad;
 	}
@@ -97,6 +100,7 @@ public class ElevatorIOSparkMax implements ElevatorIO {
 	}
 
 	// Moves the elevator to the given height
+	@Override
 	public void setHeight(double height) {
 		// PID computed voltage to move to the given height
 		double voltage = MathUtil.clamp(leadPidController.calculate(getHeight(), height),
@@ -106,6 +110,7 @@ public class ElevatorIOSparkMax implements ElevatorIO {
 	}
 
 	// Resets the encoder rotation to a specific value
+	@Override
 	public void resetEncoder() {
 		leadEncoder.setPosition(getAbsoluteRotationRads());
 	}

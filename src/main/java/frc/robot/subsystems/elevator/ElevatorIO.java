@@ -5,11 +5,12 @@ import org.littletonrobotics.junction.AutoLog;
 public interface ElevatorIO {
 	@AutoLog
 	class ElevatorIOInputs {
-		public double[] currentAmps = {0, 0};
-		public double[] appliedVoltage = {0, 0};
-		public double angleRadians = 0;
-		public double heightMeters = 0;
-		public double velocity = 0;
+		public double[] currentAmps = {0.0, 0.0};
+		public double[] appliedVoltage = {0.0, 0.0};
+		public double angleRadians = 0.0;
+		public double heightMeters = 0.0;
+		public double velocity = 0.0;
+		public double absoluteEncoderValue = 0.0;
 	}
 
 	public default void updateInputs(ElevatorIOInputs inputs) {
