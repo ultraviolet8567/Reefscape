@@ -16,7 +16,7 @@ import org.littletonrobotics.junction.Logger;
 
 public class AutoChooser extends VirtualSubsystem {
 	private static final ShuffleboardTab main = Shuffleboard.getTab("Main");
-	private final SendableChooser<String> driveOut, coralNumber, startPos, side;
+	private final SendableChooser<String> driveOut, coralNumber, startPos, side, direction;
 	private final GenericEntry autoName;
 
 	private final Map<String, PathPlannerAuto> allAutos = new HashMap<String, PathPlannerAuto>();
@@ -46,52 +46,29 @@ public class AutoChooser extends VirtualSubsystem {
 		// reef side selection
 		side = new SendableChooser<>();
 		side.setDefaultOption("None", "");
-		side.addOption("Reef Side 0", "Side 0");
-		side.addOption("Reef Side 1", "Side 1");
-		side.addOption("Reef Side 2", "Side 2");
-		side.addOption("Reef Side 3", "Side 3");
-		side.addOption("Reef Side 4", "Side 4");
-		side.addOption("Reef Side 5", "Side 5");
+		side.addOption("Reef Side D", "Side 0 ");
+		side.addOption("Reef Side C", "Side 1 ");
+		side.addOption("Reef Side B", "Side 2 ");
+		side.addOption("Reef Side A", "Side 3 ");
+		side.addOption("Reef Side F", "Side 4 ");
+		side.addOption("Reef Side E", "Side 5 ");
+
+		direction = new SendableChooser<>();
+		direction.setDefaultOption("None", "");
+		direction.addOption("Right", "R");
+		direction.addOption("Left", "L");
 
 		// add selectors to shuffleboard
 
 		main.add("Drive Out", driveOut).withWidget(BuiltInWidgets.kComboBoxChooser).withSize(2, 1).withPosition(3, 1);
 		main.add("Number of Coral", coralNumber).withWidget(BuiltInWidgets.kComboBoxChooser).withSize(2, 1)
 				.withPosition(6, 1);
-		main.add("Start Location", startPos).withWidget(BuiltInWidgets.kComboBoxChooser).withSize(2, 1).withPosition(9,
-				1);
+		main.add("Start Location", startPos).withWidget(BuiltInWidgets.kComboBoxChooser).withSize(2, 1).withPosition(0,
+				0);
 		main.add("Reef Side", side).withWidget(BuiltInWidgets.kComboBoxChooser).withSize(2, 1).withPosition(3, 3);
+		main.add("Direction", direction).withWidget(BuiltInWidgets.kComboBoxChooser).withSize(2, 1).withPosition(1, 1);
 		autoName = main.add("Auto Name", "").withWidget(BuiltInWidgets.kTextView).withSize(2, 1).withPosition(3, 4)
 				.getEntry();
-
-		/*
-		 * pieceNumber = new SendableChooser<>(); u // noteNumber.addOption("1 Note",
-		 * "1 Note"); // noteNumber.addOption("2 Note", "2 Note"); //
-		 * noteNumber.addOption("3 Note", "3 Note"); // noteNumber.addOption("4 Note",
-		 * "4 Note"); // noteNumber.addOption("5 Note", "5 Note");
-		 *
-		 * sideOfField = new SendableChooser<>(); // sideOfField.setDefaultOption("Amp",
-		 * "Amp Side"); // sideOfField.addOption("Source", "Source Side"); //
-		 * sideOfField.addOption("Center", "Center");
-		 *
-		 * otherStuff = new SendableChooser<>(); otherStuff.setDefaultOption("None",
-		 * ""); // otherStuff.addOption("Test", "Test"); // otherStuff.addOption("Rush",
-		 * "Rush "); // otherStuff.addOption("Inner", "Inner "); //
-		 * otherStuff.addOption("Shark", "Shark "); //
-		 * otherStuff.addOption("Out of Way", "Out Of Way "); //
-		 * otherStuff.addOption("Don't Move", "Don't Move ");
-		 */
-
-		// Post the selectors to the ShuffleBoard
-		// main.add("Side of Field",
-		// sideOfField).withWidget(BuiltInWidgets.kComboBoxChooser).withSize(2, 1)
-		// .withPosition(3, 2);
-		// main.add("Other Variables",
-		// otherStuff).withWidget(BuiltInWidgets.kComboBoxChooser).withSize(2, 1)
-		// .withPosition(3, 3);
-		// autoName = main.add("Auto Name",
-		// "").withWidget(BuiltInWidgets.kTextView).withSize(2, 1).withPosition(3, 4)
-		// .getEntry();
 
 		for (String pathName : AutoBuilder.getAllAutoNames()) {
 			allAutos.put(pathName, new PathPlannerAuto(pathName));
@@ -109,19 +86,12 @@ public class AutoChooser extends VirtualSubsystem {
 
 	// Returns name of pre-defined autonomous command based on Shuffleboard input
 	public String getAutoCommandName() {
-
-		if (coralNumber.getSelected().equals("Do Nothing")) {
-			return "Do Nothing";
-		}
-
-		else if (side.getSelected().equals("")) {
-			return " Do Nothing";
-		}
-
-		else if (startPos.getSelected().equals("")) {
+		if (coralNumber.getSelected().equals("Do Nothing") || side.getSelected().equals("")
+				|| startPos.getSelected().equals("")) {
 			return "Do Nothing";
 		} else {
-			return "Start " + startPos.getSelected() + coralNumber.getSelected() + side.getSelected();
+			return "Start " + startPos.getSelected() + coralNumber.getSelected() + side.getSelected()
+					+ direction.getSelected();
 		}
 	}
 
@@ -129,8 +99,7 @@ public class AutoChooser extends VirtualSubsystem {
 		if (getAutoCommandName().equals("Do Nothing")) {
 			return new Pose2d();
 		} else {
-			PathPlannerAuto pathPlanner = new PathPlannerAuto(getAutoCommandName());
-			return pathPlanner.getStartingPose();
+			return allAutos.get(getAutoCommandName()).getStartingPose();
 		}
 	}
 
