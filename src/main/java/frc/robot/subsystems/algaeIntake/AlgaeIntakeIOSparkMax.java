@@ -12,6 +12,7 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import frc.robot.Constants.CAN;
 import frc.robot.Constants.IntakeConstants;
+import org.littletonrobotics.junction.Logger;
 
 public class AlgaeIntakeIOSparkMax implements AlgaeIntakeIO {
 	private final SparkMax rightMotor, leftMotor;
@@ -57,6 +58,7 @@ public class AlgaeIntakeIOSparkMax implements AlgaeIntakeIO {
 		inputs.velocityRadsPerSecond = new double[]{rightMotor.getEncoder().getVelocity(),
 				leftMotor.getEncoder().getVelocity()};
 		inputs.tempCelsius = new double[]{rightMotor.getMotorTemperature(), leftMotor.getMotorTemperature()};
+		inputs.absoluteEncoderValue = getAbsoluteEncoderAngle();
 	}
 
 	@Override
@@ -73,7 +75,6 @@ public class AlgaeIntakeIOSparkMax implements AlgaeIntakeIO {
 	public double getAbsoluteEncoderAngle() {
 		double angle = absoluteEncoder.get();
 		angle *= 2 * Math.PI;
-		angle += IntakeConstants.kAlgaeIntakeAbsoluteEncoderOffset;
 		angle = MathUtil.inputModulus(angle, -Math.PI, Math.PI);
 
 		return angle * (IntakeConstants.kAlgaeIntakeExtensionAbsoluteEncoderReversed ? -1 : 1);
@@ -81,6 +82,7 @@ public class AlgaeIntakeIOSparkMax implements AlgaeIntakeIO {
 
 	public void setExtension(double setpoint) {
 		extensionMotor.set(extensionPidController.calculate(getAbsoluteEncoderAngle(), setpoint));
+		Logger.recordOutput("q", extensionPidController.calculate(getAbsoluteEncoderAngle(), setpoint));
 	}
 
 	@Override

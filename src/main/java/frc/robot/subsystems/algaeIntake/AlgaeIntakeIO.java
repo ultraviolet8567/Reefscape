@@ -9,6 +9,7 @@ public interface AlgaeIntakeIO {
 		public double[] appliedVoltage = {0.0, 0.0};
 		public double[] velocityRadsPerSecond = {0.0, 0.0};
 		public double[] tempCelsius = {0.0, 0.0};
+		public double absoluteEncoderValue = 0.0;
 	}
 
 	public default void updateInputs(AlgaeIntakeIOInputs inputs) {

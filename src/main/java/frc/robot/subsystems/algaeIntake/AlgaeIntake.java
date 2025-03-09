@@ -7,9 +7,12 @@ import org.littletonrobotics.junction.Logger;
 public class AlgaeIntake extends SubsystemBase {
 	private final AlgaeIntakeIO io;
 	private final AlgaeIntakeIOInputsAutoLogged inputs = new AlgaeIntakeIOInputsAutoLogged();
+	private boolean algaeExtended;
 
 	public AlgaeIntake(AlgaeIntakeIO io) {
 		this.io = io;
+
+		algaeExtended = false;
 	}
 
 	// Periodic method called in every cycle (e.g., 20ms)
@@ -28,11 +31,19 @@ public class AlgaeIntake extends SubsystemBase {
 	}
 
 	public void pickup() {
-		io.set(IntakeConstants.kAlgaeIntakeVoltage);
+		io.set(-IntakeConstants.kAlgaeIntakeVoltage);
 	}
 
 	public void drop() {
-		io.set(-IntakeConstants.kAlgaeIntakeVoltage);
+		io.set(IntakeConstants.kAlgaeIntakeVoltage);
+	}
+
+	public void toggleAlgaeRetraction() {
+		if (algaeExtended) {
+			retract();
+		} else {
+			extend();
+		}
 	}
 
 	public void extend() {

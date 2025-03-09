@@ -128,13 +128,20 @@ public class RobotContainer {
 	 * Flight joysticks}.
 	 */
 	private void configureBindings() {
+		// Reset gyro
 		driverController.back().onTrue(new InstantCommand(() -> swerve.resetEncoders()));
-		driverController.start().onTrue(new InstantCommand(() -> swerve.resetEncoders()));
+
+		// Toggle
+		driverController.start().onTrue(new ToggleAlgaeRetraction(algaeIntake));
 
 		// Ground height
 		operatorController.a().onTrue(new InstantCommand(() -> elevator.setMode(ElevatorMode.GROUND)));
 		// Processor height
 		operatorController.x().onTrue(new InstantCommand(() -> elevator.setMode(ElevatorMode.PROCESSOR)));
+		// L1 height
+		operatorController.start().onTrue(new InstantCommand(() -> elevator.setMode(ElevatorMode.L1)));
+		// L2 height
+		operatorController.back().onTrue(new InstantCommand(() -> elevator.setMode(ElevatorMode.L2)));
 		// L3 height
 		operatorController.b().onTrue(new InstantCommand(() -> elevator.setMode(ElevatorMode.L3)));
 		// L4 height
@@ -162,5 +169,9 @@ public class RobotContainer {
 
 	public static XboxController getDriverJoystick() {
 		return driverController.getHID();
+	}
+
+	public void resetEncoder() {
+		elevator.resetEncoder();
 	}
 }
