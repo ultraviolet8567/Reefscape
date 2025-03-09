@@ -47,7 +47,7 @@ public class ElevatorIOSparkMax implements ElevatorIO {
 		leadMotor.configure(leadConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 		followerMotor.configure(followerConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
-		absoluteEncoder = new DutyCycleEncoder(CAN.kElevatorAbsoluteEncoderPort);
+		absoluteEncoder = new DutyCycleEncoder(ElevatorConstants.kElevatorAbsoluteEncoderPort);
 		leadEncoder = leadMotor.getEncoder();
 
 		resetEncoder();
@@ -72,7 +72,12 @@ public class ElevatorIOSparkMax implements ElevatorIO {
 
 	// Gets the absoltue rotation of the elevator shaft
 	public double getAbsoluteRotationRads() {
-		return absoluteEncoder.get() * 2 * Math.PI;
+		double angle = absoluteEncoder.get();
+		angle *= 2 * Math.PI;
+		angle += ElevatorConstants.kAbsoluteEncoderOffset;
+		angle = MathUtil.inputModulus(angle, -Math.PI, Math.PI);
+
+		return angle * (ElevatorConstants.kAbsoluteEncoderReversed ? -1 : 1);
 	}
 
 	// Gets the current rotation of the elevator shaft

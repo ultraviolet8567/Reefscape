@@ -68,20 +68,19 @@ public class AlgaeIntakeIOSparkMax implements AlgaeIntakeIO {
 
 	public double getTurningPosition() {
 		return getAbsoluteEncoderAngle();
-		// return turningMotor.getEncoder().getPosition();
 	}
 
 	public double getAbsoluteEncoderAngle() {
 		double angle = absoluteEncoder.get();
 		angle *= 2 * Math.PI;
-		angle += IntakeConstants.kAlgaeIntakeAbosluteEncoderOffset;
+		angle += IntakeConstants.kAlgaeIntakeAbsoluteEncoderOffset;
 		angle = MathUtil.inputModulus(angle, -Math.PI, Math.PI);
 
 		return angle * (IntakeConstants.kAlgaeIntakeExtensionAbsoluteEncoderReversed ? -1 : 1);
 	}
 
 	public void setExtension(double setpoint) {
-		extensionMotor.set(extensionPidController.calculate(getTurningPosition(), setpoint));
+		extensionMotor.set(extensionPidController.calculate(getAbsoluteEncoderAngle(), setpoint));
 	}
 
 	@Override

@@ -34,6 +34,11 @@ public final class Constants {
 		public static final double kElevatorGearing = 1.0 / 6;
 		public static final double kElevatorMetersPerRad = 1; // Dummy value
 
+		// Encoder
+		public static final int kElevatorAbsoluteEncoderPort = 9;
+		public static final double kAbsoluteEncoderOffset = 0;
+		public static final boolean kAbsoluteEncoderReversed = false;
+
 		// Limits
 		public static final double kElevatorMaxRadians = 10.0; // Dummy value
 		public static final double kElevatorMinRadians = 0.0; // Dummy value
@@ -58,8 +63,8 @@ public final class Constants {
 		public static final int kAlgaeIntakeVoltage = 5;
 		public static final int kCoralIntakeVoltage = 9;
 
-		public static final int kAlgaeIntakeExtensionAbsoluteEncoderPort = 5;
-		public static final double kAlgaeIntakeAbosluteEncoderOffset = 0.0;
+		public static final int kAlgaeIntakeExtensionAbsoluteEncoderPort = 8;
+		public static final double kAlgaeIntakeAbsoluteEncoderOffset = 0.0;
 		public static final boolean kAlgaeIntakeExtensionAbsoluteEncoderReversed = false;
 
 		public static final double kP = 0.1;
@@ -167,8 +172,6 @@ public final class Constants {
 
 		public static final int kElevatorLeadMotorPort = 1;
 		public static final int kElevatorFollowerMotorPort = 3;
-
-		public static final int kElevatorAbsoluteEncoderPort = 9;
 
 		public static final int kAlgaeLeftMotorPort = 2;
 		public static final int kAlgaeRightMotorPort = 4;
