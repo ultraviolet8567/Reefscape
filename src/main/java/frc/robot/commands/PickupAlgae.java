@@ -15,10 +15,16 @@ public class PickupAlgae extends Command {
 	@Override
 	public void initialize() {
 		intake.pickup();
+
+		// Uncomment this after algae extension/retraction is tested
+		// intake.extend();
 	}
 
 	@Override
 	public void end(boolean interrupted) {
 		intake.stop();
+
+		// Uncomment this after algae extension/retraction is tested
+		// intake.retract();
 	}
 }
