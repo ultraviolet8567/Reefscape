@@ -10,10 +10,8 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.*;
 import edu.wpi.first.math.kinematics.*;
-import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.RobotController;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.ModuleConstants;
 
@@ -64,12 +62,6 @@ public class SwerveModule {
 		turningPidController.enableContinuousInput(-Math.PI, Math.PI);
 
 		resetEncoders();
-	}
-
-	public void dataLogging(String moduleID) {
-		SmartDashboard.putNumber(moduleID + "/Absolute Encoder", getAbsoluteEncoderAngle());
-		SmartDashboard.putNumber(moduleID + "/Turn Encoder", getTurningPosition());
-		SmartDashboard.putNumber(moduleID + "/Drive Encoder", getDrivePosition());
 	}
 
 	public double getDrivePosition() {

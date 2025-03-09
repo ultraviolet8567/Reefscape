@@ -8,8 +8,6 @@ import frc.robot.Constants.DriveConstants;
 import java.util.Arrays;
 import org.littletonrobotics.junction.Logger;
 
-//import org.littletonrobotics.junction.Logger;
-
 public class Swerve extends SubsystemBase {
 	private final SwerveModule frontLeft, frontRight, backLeft, backRight;
 
@@ -42,11 +40,6 @@ public class Swerve extends SubsystemBase {
 
 	@Override
 	public void periodic() {
-		frontLeft.dataLogging("Front Left");
-		frontRight.dataLogging("Front Right");
-		backLeft.dataLogging("Back Left");
-		backRight.dataLogging("Back Right");
-
 		Logger.recordOutput("Swerve/Measured", getModuleStates());
 	}
 
