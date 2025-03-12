@@ -11,7 +11,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Move out to reef"
+                  "pathName": "Start Right Move Side 5"
                 }
               },
               {
@@ -24,15 +24,28 @@
           }
         },
         {
-          "type": "named",
+          "type": "race",
           "data": {
-            "name": "DropCoral"
+            "commands": [
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 0.5
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "DropCoral"
+                }
+              }
+            ]
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Leave Reef"
+            "pathName": "Leave Side 5 R"
           }
         }
       ]

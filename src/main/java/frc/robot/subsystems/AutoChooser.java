@@ -16,7 +16,7 @@ import org.littletonrobotics.junction.Logger;
 
 public class AutoChooser extends VirtualSubsystem {
 	private static final ShuffleboardTab main = Shuffleboard.getTab("Main");
-	private final SendableChooser<String> driveOut, coralNumber, startPos, side, direction;
+	private final SendableChooser<String> coralNumber, startPos, side, direction;
 	private final GenericEntry autoName;
 
 	private final Map<String, PathPlannerAuto> allAutos = new HashMap<String, PathPlannerAuto>();
@@ -24,13 +24,9 @@ public class AutoChooser extends VirtualSubsystem {
 	public AutoChooser() {
 		System.out.println("[Init] Creating AutoChooser");
 
-		driveOut = new SendableChooser<>();
-		driveOut.setDefaultOption("None", "");
-		driveOut.addOption("move", "move also");
-
 		// number of coral
 		coralNumber = new SendableChooser<>();
-		coralNumber.setDefaultOption("0", "do nothing");
+		coralNumber.setDefaultOption("0", "Do Nothing");
 		coralNumber.addOption("1 Coral", "Place 1 ");
 		coralNumber.addOption("2 Coral", "Place 2 ");
 		coralNumber.addOption("3 coral", "Place 3 ");
@@ -46,28 +42,28 @@ public class AutoChooser extends VirtualSubsystem {
 		// reef side selection
 		side = new SendableChooser<>();
 		side.setDefaultOption("None", "");
-		side.addOption("Reef Side D", "Side 0 ");
-		side.addOption("Reef Side C", "Side 1 ");
-		side.addOption("Reef Side B", "Side 2 ");
-		side.addOption("Reef Side A", "Side 3 ");
-		side.addOption("Reef Side F", "Side 4 ");
-		side.addOption("Reef Side E", "Side 5 ");
+		side.addOption("Reef Side 0", "Side 0 ");
+		side.addOption("Reef Side 1", "Side 1 ");
+		side.addOption("Reef Side 2", "Side 2 ");
+		side.addOption("Reef Side 3", "Side 3 ");
+		side.addOption("Reef Side 4", "Side 4 ");
+		side.addOption("Reef Side 5", "Side 5 ");
 
 		direction = new SendableChooser<>();
 		direction.setDefaultOption("None", "");
+		direction.setDefaultOption("Drive Out", "Drive Out");
 		direction.addOption("Right", "R");
 		direction.addOption("Left", "L");
 
 		// add selectors to shuffleboard
 
-		main.add("Drive Out", driveOut).withWidget(BuiltInWidgets.kComboBoxChooser).withSize(2, 1).withPosition(3, 1);
 		main.add("Number of Coral", coralNumber).withWidget(BuiltInWidgets.kComboBoxChooser).withSize(2, 1)
-				.withPosition(6, 1);
+				.withPosition(0, 1);
 		main.add("Start Location", startPos).withWidget(BuiltInWidgets.kComboBoxChooser).withSize(2, 1).withPosition(0,
 				0);
-		main.add("Reef Side", side).withWidget(BuiltInWidgets.kComboBoxChooser).withSize(2, 1).withPosition(3, 3);
-		main.add("Direction", direction).withWidget(BuiltInWidgets.kComboBoxChooser).withSize(2, 1).withPosition(1, 1);
-		autoName = main.add("Auto Name", "").withWidget(BuiltInWidgets.kTextView).withSize(2, 1).withPosition(3, 4)
+		main.add("Reef Side", side).withWidget(BuiltInWidgets.kComboBoxChooser).withSize(2, 1).withPosition(0, 2);
+		main.add("Direction", direction).withWidget(BuiltInWidgets.kComboBoxChooser).withSize(2, 1).withPosition(0, 3);
+		autoName = main.add("Auto Name", "").withWidget(BuiltInWidgets.kTextView).withSize(2, 1).withPosition(0, 4)
 				.getEntry();
 
 		for (String pathName : AutoBuilder.getAllAutoNames()) {
@@ -86,9 +82,10 @@ public class AutoChooser extends VirtualSubsystem {
 
 	// Returns name of pre-defined autonomous command based on Shuffleboard input
 	public String getAutoCommandName() {
-		if (coralNumber.getSelected().equals("Do Nothing") || side.getSelected().equals("")
-				|| startPos.getSelected().equals("")) {
+		if (coralNumber.getSelected().equals("Do Nothing")) {
 			return "Do Nothing";
+		} else if (direction.getSelected().equals("Drive Out")) {
+			return "Drive Out";
 		} else {
 			return "Start " + startPos.getSelected() + coralNumber.getSelected() + side.getSelected()
 					+ direction.getSelected();

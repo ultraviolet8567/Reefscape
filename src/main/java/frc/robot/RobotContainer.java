@@ -18,10 +18,6 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.*;
 import frc.robot.commands.*;
-import frc.robot.commands.DropCoral;
-import frc.robot.commands.PickupAlgae;
-import frc.robot.commands.PickupCoral;
-import frc.robot.commands.SwerveTeleOp;
 import frc.robot.subsystems.AutoChooser;
 import frc.robot.subsystems.Odometry;
 import frc.robot.subsystems.Swerve;
@@ -129,13 +125,13 @@ public class RobotContainer {
 	 */
 	private void configureBindings() {
 		// Reset gyro
-		driverController.back().onTrue(new InstantCommand(() -> swerve.resetEncoders()));
+		driverController.back().onTrue(new InstantCommand(() -> odometry.resetGyrometerHeading()));
 
 		// Toggle
-		driverController.start().onTrue(new ToggleAlgaeRetraction(algaeIntake));
+		// driverController.start().onTrue(new ToggleAlgaeRetraction(algaeIntake));
 
 		// Ground height
-		operatorController.a().onTrue(new InstantCommand(() -> elevator.setMode(ElevatorMode.GROUND)));
+		operatorController.a().onTrue(new InstantCommand(() -> elevator.setMode(ElevatorMode.STATION)));
 		// Processor height
 		operatorController.x().onTrue(new InstantCommand(() -> elevator.setMode(ElevatorMode.PROCESSOR)));
 		// L1 height
@@ -148,8 +144,8 @@ public class RobotContainer {
 		operatorController.y().onTrue(new InstantCommand(() -> elevator.setMode(ElevatorMode.L4)));
 
 		// right for algae, left for coral
-		operatorController.rightBumper().whileTrue(new PickupAlgae(algaeIntake));
-		operatorController.rightTrigger().whileTrue(new DropAlgae(algaeIntake));
+		// operatorController.rightBumper().whileTrue(new PickupAlgae(algaeIntake));
+		// operatorController.rightTrigger().whileTrue(new DropAlgae(algaeIntake));
 		operatorController.leftBumper().whileTrue(new PickupCoral(coralIntake));
 		operatorController.leftTrigger().whileTrue(new DropCoral(coralIntake));
 		// right side for algae, left for coral

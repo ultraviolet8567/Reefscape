@@ -12,6 +12,7 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import frc.robot.Constants.CAN;
 import frc.robot.Constants.ElevatorConstants;
+import org.littletonrobotics.junction.Logger;
 
 public class ElevatorIOSparkMax implements ElevatorIO {
 	private final SparkMax leadMotor, followerMotor;
@@ -105,6 +106,7 @@ public class ElevatorIOSparkMax implements ElevatorIO {
 		// PID computed voltage to move to the given height
 		double voltage = MathUtil.clamp(leadPidController.calculate(getHeight(), height),
 				-ElevatorConstants.kElevatorVoltage, ElevatorConstants.kElevatorVoltage);
+		Logger.recordOutput("Elevator/applied voltage", voltage);
 
 		setVoltage(voltage);
 	}

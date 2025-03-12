@@ -21,7 +21,7 @@ public final class Constants {
 	public static class ElevatorConstants {
 		// TODO: FINALIZE
 		public static final double kElevatorVoltage = 12;
-		public static final double kP = 0.027;
+		public static final double kP = 12;
 		public static final double kI = 0.0;
 		public static final double kD = 0.0;
 
@@ -43,25 +43,25 @@ public final class Constants {
 		public static final double kElevatorMaxRadians = 4.25;
 		public static final double kElevatorMinRadians = 0.1;
 
-		public static final double kElevatorMaxHeight = 1.75; // in meters
+		public static final double kElevatorMaxHeight = 2; // in meters
 		public static final double kElevatorMinHeight = 0.05; // in meters
 
 		// Setpoints
-		public static final double kHeightDefault = 1.0; // Dummy value
-		public static final double kHeightGround = 1.0; // Dummy value
-		public static final double kHeightStation = 1.0; // Dummy value
-		public static final double kHeightProcessor = 1.0; // Dummy value
-		public static final double kHeightL1 = 1.0; // Dummy value
-		public static final double kHeightL2 = 1.0; // Dummy value
-		public static final double kHeightL3 = 1.0; // Dummy value
-		public static final double kHeightL4 = 1.0; // Dummy value
+		public static final double kHeightDefault = 0.1381; // Dummy value
+		public static final double kHeightGround = 0.1381; // Dummy value
+		public static final double kHeightStation = 0.2861; // Dummy value
+		public static final double kHeightProcessor = 1.0381; // Dummy value
+		public static final double kHeightL1 = 0.1381; // Dummy value
+		public static final double kHeightL2 = 0.4661; // Dummy value
+		public static final double kHeightL3 = 1.1751; // Dummy value
+		public static final double kHeightL4 = 1.85; // Dummy value
 
 	}
 
 	public static class IntakeConstants {
 		// TODO: FINALIZE
 		public static final int kAlgaeIntakeVoltage = 5;
-		public static final int kCoralIntakeVoltage = 3;
+		public static final double kCoralIntakeVoltage = 1.35;
 
 		public static final int kAlgaeIntakeExtensionAbsoluteEncoderPort = 8;
 		public static final boolean kAlgaeIntakeExtensionAbsoluteEncoderReversed = false;
@@ -186,7 +186,7 @@ public final class Constants {
 		public static final int kDriverControllerPort = 0;
 		public static final int kOperatorControllerPort = 1;
 
-		public static final double kDeadband = 0.05;
+		public static final double kDeadband = 0.1;
 	}
 
 	public static enum RobotType {

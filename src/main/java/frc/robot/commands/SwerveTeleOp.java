@@ -57,9 +57,9 @@ public class SwerveTeleOp extends Command {
 
 		if (rightBumper.get()) {
 			RobotContainer.getDriverJoystick().setRumble(RumbleType.kRightRumble, 0.025);
-			xSpeed *= 0.33;
-			ySpeed *= 0.33;
-			turningSpeed *= 0.33;
+			xSpeed *= 0.25;
+			ySpeed *= 0.25;
+			turningSpeed *= 0.25;
 		} else {
 			RobotContainer.getDriverJoystick().setRumble(RumbleType.kBothRumble, 0);
 
