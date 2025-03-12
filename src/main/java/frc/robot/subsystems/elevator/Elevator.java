@@ -14,7 +14,7 @@ public class Elevator extends SubsystemBase {
 	public Elevator(ElevatorIO io) {
 		this.io = io;
 
-		mode = ElevatorMode.DEFAULT;
+		mode = ElevatorMode.MANUAL;
 	}
 
 	// Periodic method called in every cycle (e.g., 20ms)
@@ -45,6 +45,7 @@ public class Elevator extends SubsystemBase {
 		}
 
 		if (io.withinRange() || io.tooLow() && voltage >= 0 || io.tooHigh() && voltage <= 0) {
+			Logger.recordOutput("Elevator/Voltage Setpoint", voltage);
 			io.setVoltage(voltage);
 		} else {
 			stop();

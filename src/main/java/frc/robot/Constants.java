@@ -54,7 +54,7 @@ public final class Constants {
 		public static final double kHeightL1 = 0.1381; // Dummy value
 		public static final double kHeightL2 = 0.4661; // Dummy value
 		public static final double kHeightL3 = 1.1751; // Dummy value
-		public static final double kHeightL4 = 1.85; // Dummy value
+		public static final double kHeightL4 = 1.95; // Dummy value
 
 	}
 
