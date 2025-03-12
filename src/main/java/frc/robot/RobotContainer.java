@@ -105,6 +105,8 @@ public class RobotContainer {
 		elevator.setDefaultCommand(new MoveElevator(elevator, () -> -operatorController.getLeftY(),
 				() -> operatorController.getHID().getLeftBumperButton()));
 
+		elevator.setMode(ElevatorMode.MANUAL);
+
 		configureBindings();
 
 		// thing we need to put in the shuffleboard:
