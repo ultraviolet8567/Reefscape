@@ -8,9 +8,13 @@ import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
+import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -18,6 +22,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.*;
 import frc.robot.commands.*;
+import frc.robot.commands.auto.AutoDriveOut;
 import frc.robot.subsystems.AutoChooser;
 import frc.robot.subsystems.Odometry;
 import frc.robot.subsystems.Swerve;
@@ -47,10 +52,19 @@ public class RobotContainer {
 	private static final CommandXboxController operatorController = new CommandXboxController(
 			OperatorConstants.kOperatorControllerPort);
 
+	public final UsbCamera driverCam = CameraServer.startAutomaticCapture(0);
+
 	/**
 	 * The container for the robot. Contains subsystems, OI devices, and commands.
 	 */
 	public RobotContainer() {
+		// Configure camera limitations
+		if (RobotBase.isReal()) {
+			driverCam.setFPS(60);
+			driverCam.setResolution(320, 240);
+		}
+
+		// Create subsystems real or simulated depending on mode
 		switch (Constants.currentMode) {
 			case REAL -> {
 				elevator = new Elevator(new ElevatorIOSparkMax());
@@ -89,7 +103,7 @@ public class RobotContainer {
 
 		NamedCommands.registerCommand("DropCoral",
 				new DropCoral(coralIntake,
-						(elevator.getPresetHeight() == ElevatorConstants.kHeightL4)
+						elevator.getMode() == ElevatorMode.L4
 								? IntakeConstants.kCoralIntakeVoltageL4
 								: IntakeConstants.kCoralIntakeVoltage));
 		NamedCommands.registerCommand("PickupCoral", new PickupCoral(coralIntake));
@@ -113,10 +127,11 @@ public class RobotContainer {
 
 		configureBindings();
 
-		// thing we need to put in the shuffleboard:
-		// elevator preset position (current) -> do we even need that
-		// whether we have a piece (do we have sensors for that?)
-		Shuffleboard.getTab("Main");
+		// Shuffleboard setup
+		Shuffleboard.getTab("Main").add("Camera", driverCam).withWidget(BuiltInWidgets.kCameraStream).withSize(4, 4)
+				.withPosition(5, 0);
+		Shuffleboard.getTab("Main").add("Elevator Setpoint", elevator.getMode()).withWidget(BuiltInWidgets.kTextView)
+				.withSize(1, 2).withPosition(5, 4);
 	}
 
 	/**
@@ -155,13 +170,9 @@ public class RobotContainer {
 		operatorController.leftBumper().whileTrue(new PickupCoral(coralIntake));
 		operatorController.leftTrigger()
 				.whileTrue(new DropCoral(coralIntake,
-						(elevator.getPresetHeight() == ElevatorConstants.kHeightL4)
+						elevator.getMode() == ElevatorMode.L4
 								? IntakeConstants.kCoralIntakeVoltageL4
 								: IntakeConstants.kCoralIntakeVoltage));
-
-		// autochooser
-		// timer
-		// current presets elevator & algae
 	}
 
 	/**
@@ -171,7 +182,10 @@ public class RobotContainer {
 	 */
 	public Command getAutonomousCommand() {
 		System.out.println(autoChooser.getSelectedAuto().getName());
-		return autoChooser.getSelectedAuto();
+
+		return autoChooser.getSelectedAuto().getName().equals("Drive Out")
+				? new AutoDriveOut(swerve, odometry)
+				: autoChooser.getSelectedAuto();
 	}
 
 	public static XboxController getDriverJoystick() {
