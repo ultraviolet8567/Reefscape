@@ -159,6 +159,13 @@ public final class Constants {
 
 	}
 
+	public static class AutoConstants {
+		// Speeds from -1 to 1
+		public static final double kAutoXDriveSpeed = 0.0;
+		public static final double kAutoYDriveSpeed = 0.5;
+		public static final double kAutoTurningSpeed = 0.0;
+	}
+
 	// CAN = computer area network
 	public static class CAN {
 		public static final int kFrontLeftDriveMotorPort = 10;

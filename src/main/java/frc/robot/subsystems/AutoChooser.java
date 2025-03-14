@@ -56,7 +56,6 @@ public class AutoChooser extends VirtualSubsystem {
 		direction.addOption("Left", "L");
 
 		// add selectors to shuffleboard
-
 		main.add("Number of Coral", coralNumber).withWidget(BuiltInWidgets.kComboBoxChooser).withSize(2, 1)
 				.withPosition(0, 1);
 		main.add("Start Location", startPos).withWidget(BuiltInWidgets.kComboBoxChooser).withSize(2, 1).withPosition(0,
@@ -78,6 +77,8 @@ public class AutoChooser extends VirtualSubsystem {
 
 		autoName.setString(
 				allAutos.containsKey(getAutoCommandName()) ? getAutoCommandName() : "Auto routine does not exist");
+
+		System.out.println(allAutos.containsKey(getAutoCommandName()));
 	}
 
 	// Returns name of pre-defined autonomous command based on Shuffleboard input
@@ -106,7 +107,6 @@ public class AutoChooser extends VirtualSubsystem {
 
 	public PathPlannerAuto getSelectedAuto() {
 		String autoCommandName = getAutoCommandName();
-		System.out.println(autoCommandName);
 
 		if (autoCommandName.equals("Do Nothing")) {
 			return null;
