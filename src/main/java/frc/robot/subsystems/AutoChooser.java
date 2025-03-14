@@ -82,10 +82,10 @@ public class AutoChooser extends VirtualSubsystem {
 
 	// Returns name of pre-defined autonomous command based on Shuffleboard input
 	public String getAutoCommandName() {
-		if (coralNumber.getSelected().equals("Do Nothing")) {
-			return "Do Nothing";
-		} else if (direction.getSelected().equals("Drive Out")) {
+		if (direction.getSelected().equals("Drive Out")) {
 			return "Drive Out";
+		} else if (coralNumber.getSelected().equals("Do Nothing")) {
+			return "Do Nothing";
 		} else {
 			return "Start " + startPos.getSelected() + coralNumber.getSelected() + side.getSelected()
 					+ direction.getSelected();
@@ -106,6 +106,7 @@ public class AutoChooser extends VirtualSubsystem {
 
 	public PathPlannerAuto getSelectedAuto() {
 		String autoCommandName = getAutoCommandName();
+		System.out.println(autoCommandName);
 
 		if (autoCommandName.equals("Do Nothing")) {
 			return null;

@@ -49,8 +49,10 @@ public class SwerveTeleOp extends Command {
 		xSpeed *= (xSpeed > 0) ? (1.0 / 0.8) : (1.0 / 0.9);
 		ySpeed *= (1.0 / 0.9);
 
-		if (Math.sqrt(Math.pow(xSpeed, 2)) < OIConstants.kDeadband) {
+		if (Math.abs(xSpeed) < OIConstants.kDeadband) {
 			xSpeed = 0;
+		}
+		if (Math.abs(ySpeed) < OIConstants.kDeadband) {
 			ySpeed = 0;
 		}
 		turningSpeed = Math.abs(turningSpeed) > OIConstants.kDeadband ? turningSpeed : 0;

@@ -25,8 +25,8 @@ public class CoralIntake extends SubsystemBase {
 		io.set(IntakeConstants.kCoralIntakeVoltage);
 	}
 
-	public void drop() {
-		io.set(-IntakeConstants.kCoralIntakeVoltage);
+	public void drop(double voltage) {
+		io.set(-voltage);
 	}
 
 	public void stop() {

@@ -8,6 +8,7 @@ import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.controller.ElevatorFeedforward;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import frc.robot.Constants.CAN;
@@ -18,6 +19,7 @@ public class ElevatorIOSparkMax implements ElevatorIO {
 	private final SparkMax leadMotor, followerMotor;
 	private final SparkMaxConfig leadConfig, followerConfig;
 	private final PIDController leadPidController;
+	private final ElevatorFeedforward leadFFController;
 	private final RelativeEncoder leadEncoder;
 	private final DutyCycleEncoder absoluteEncoder;
 
@@ -25,10 +27,9 @@ public class ElevatorIOSparkMax implements ElevatorIO {
 	public ElevatorIOSparkMax() {
 		System.out.println("[Init] Creating ElevatorIOSparkMax");
 
-		// TODO: configure the position/velocity conversion factors
-
 		// Defaults from Penn State
 		leadPidController = new PIDController(ElevatorConstants.kP, ElevatorConstants.kI, ElevatorConstants.kD);
+		leadFFController = new ElevatorFeedforward(ElevatorConstants.kS, ElevatorConstants.kG, ElevatorConstants.kV);
 
 		// Initialize the CANSparkMax motors for main and follower
 		leadMotor = new SparkMax(CAN.kElevatorLeadMotorPort, MotorType.kBrushless);
@@ -42,7 +43,10 @@ public class ElevatorIOSparkMax implements ElevatorIO {
 		leadConfig.idleMode(IdleMode.kBrake);
 		followerConfig.idleMode(IdleMode.kBrake);
 
-		followerConfig.inverted(true);
+		leadConfig.smartCurrentLimit(80);
+		followerConfig.smartCurrentLimit(80);
+
+		followerConfig.inverted(false);
 		followerConfig.follow(leadMotor);
 
 		leadMotor.configure(leadConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
@@ -104,9 +108,12 @@ public class ElevatorIOSparkMax implements ElevatorIO {
 	@Override
 	public void setHeight(double height) {
 		// PID computed voltage to move to the given height
-		double voltage = MathUtil.clamp(leadPidController.calculate(getHeight(), height),
+		double voltage = MathUtil.clamp(
+				leadPidController.calculate(getHeight(), height)
+						+ leadFFController.calculate(leadEncoder.getVelocity()),
 				-ElevatorConstants.kElevatorVoltage, ElevatorConstants.kElevatorVoltage);
-		Logger.recordOutput("Elevator/applied voltage", voltage);
+
+		Logger.recordOutput("Elevator/PID Voltage", voltage);
 
 		setVoltage(voltage);
 	}

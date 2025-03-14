@@ -20,12 +20,15 @@ public final class Constants {
 
 	public static class ElevatorConstants {
 		// TODO: FINALIZE
-		public static final double kElevatorVoltage = 12;
+		public static final double kElevatorVoltage = 7;
 		public static final double kP = 12;
 		public static final double kI = 0.0;
 		public static final double kD = 0.0;
+		public static final double kS = 0.1;
+		public static final double kG = 1.3;
+		public static final double kV = 0.0;
 
-		public static final int kManualVoltage = 3;
+		public static final int kManualVoltage = 5;
 
 		// Elevator attributes
 		public static final double kElevatorStartHeight = 0;
@@ -47,21 +50,22 @@ public final class Constants {
 		public static final double kElevatorMinHeight = 0.05; // in meters
 
 		// Setpoints
-		public static final double kHeightDefault = 0.1381; // Dummy value
-		public static final double kHeightGround = 0.1381; // Dummy value
+		public static final double kHeightDefault = 0.1; // Dummy value
+		public static final double kHeightGround = 0.1; // Dummy value o0
 		public static final double kHeightStation = 0.2861; // Dummy value
 		public static final double kHeightProcessor = 1.0381; // Dummy value
-		public static final double kHeightL1 = 0.1381; // Dummy value
-		public static final double kHeightL2 = 0.4661; // Dummy value
-		public static final double kHeightL3 = 1.1751; // Dummy value
-		public static final double kHeightL4 = 1.95; // Dummy value
+		public static final double kHeightL1 = 0.1; // Dummy value
+		public static final double kHeightL2 = 0.1725;
+		public static final double kHeightL3 = 0.753;
+		public static final double kHeightL4 = 1.736;
 
 	}
 
 	public static class IntakeConstants {
 		// TODO: FINALIZE
 		public static final int kAlgaeIntakeVoltage = 5;
-		public static final double kCoralIntakeVoltage = 1.35;
+		public static final double kCoralIntakeVoltage = 1.5;
+		public static final double kCoralIntakeVoltageL4 = 1.35;
 
 		public static final int kAlgaeIntakeExtensionAbsoluteEncoderPort = 8;
 		public static final boolean kAlgaeIntakeExtensionAbsoluteEncoderReversed = false;

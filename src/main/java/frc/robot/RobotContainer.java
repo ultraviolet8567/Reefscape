@@ -87,7 +87,11 @@ public class RobotContainer {
 					return false;
 				}, swerve);
 
-		NamedCommands.registerCommand("DropCoral", new DropCoral(coralIntake));
+		NamedCommands.registerCommand("DropCoral",
+				new DropCoral(coralIntake,
+						(elevator.getPresetHeight() == ElevatorConstants.kHeightL4)
+								? IntakeConstants.kCoralIntakeVoltageL4
+								: IntakeConstants.kCoralIntakeVoltage));
 		NamedCommands.registerCommand("PickupCoral", new PickupCoral(coralIntake));
 		NamedCommands.registerCommand("ElevatorL1", new InstantCommand(() -> elevator.setMode(ElevatorMode.L1)));
 		NamedCommands.registerCommand("ElevatorL2", new InstantCommand(() -> elevator.setMode(ElevatorMode.L2)));
@@ -149,8 +153,12 @@ public class RobotContainer {
 		// operatorController.rightBumper().whileTrue(new PickupAlgae(algaeIntake));
 		// operatorController.rightTrigger().whileTrue(new DropAlgae(algaeIntake));
 		operatorController.leftBumper().whileTrue(new PickupCoral(coralIntake));
-		operatorController.leftTrigger().whileTrue(new DropCoral(coralIntake));
-		// right side for algae, left for coral
+		operatorController.leftTrigger()
+				.whileTrue(new DropCoral(coralIntake,
+						(elevator.getPresetHeight() == ElevatorConstants.kHeightL4)
+								? IntakeConstants.kCoralIntakeVoltageL4
+								: IntakeConstants.kCoralIntakeVoltage));
+
 		// autochooser
 		// timer
 		// current presets elevator & algae
@@ -162,6 +170,7 @@ public class RobotContainer {
 	 * @return the command to run in autonomous
 	 */
 	public Command getAutonomousCommand() {
+		System.out.println(autoChooser.getSelectedAuto().getName());
 		return autoChooser.getSelectedAuto();
 	}
 

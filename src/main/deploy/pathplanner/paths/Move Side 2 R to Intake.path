@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.9,
-        "y": 5.155999999999999
+        "x": 5.46975,
+        "y": 4.960999999999999
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.5311291785895937,
-        "y": 5.46104896997624
+        "x": 5.0992500000000005,
+        "y": 5.204749999999999
       },
       "isLocked": false,
-      "linkedName": "place 3rd Coral End"
+      "linkedName": "Reef Side 1 End"
     },
     {
       "anchor": {
-        "x": 1.2709507580080477,
-        "y": 7.100296145474602
+        "x": 1.187083673574208,
+        "y": 7.0522052483733315
       },
       "prevControl": {
-        "x": 2.110387813929178,
-        "y": 6.2008771353735055
+        "x": 1.558889427548659,
+        "y": 6.603774533085504
       },
       "nextControl": null,
-      "isLocked": true,
-      "linkedName": "Pickup 3rd Coral End"
+      "isLocked": false,
+      "linkedName": "Reef Side 1 Pickup end"
     }
   ],
   "rotationTargets": [],
@@ -42,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 126.52885536698517
+    "rotation": 126.656108415967
   },
   "reversed": false,
   "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -149.4822835046816
+    "rotation": 149.98163257239088
   },
   "useDefaultConstraints": true
 }
