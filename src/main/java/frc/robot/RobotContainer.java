@@ -146,7 +146,7 @@ public class RobotContainer {
 		driverController.back().onTrue(new InstantCommand(() -> odometry.resetGyrometerHeading()));
 
 		// Toggle
-		// driverController.start().onTrue(new ToggleAlgaeRetraction(algaeIntake));
+		driverController.start().onTrue(new ToggleAlgaeRetraction(algaeIntake));
 
 		// Ground height
 		operatorController.a().onTrue(new InstantCommand(() -> elevator.setMode(ElevatorMode.L1)));
@@ -162,8 +162,8 @@ public class RobotContainer {
 		operatorController.y().onTrue(new InstantCommand(() -> elevator.setMode(ElevatorMode.L4)));
 
 		// right for algae, left for coral
-		// operatorController.rightBumper().whileTrue(new PickupAlgae(algaeIntake));
-		// operatorController.rightTrigger().whileTrue(new DropAlgae(algaeIntake));
+		operatorController.rightBumper().whileTrue(new PickupAlgae(algaeIntake));
+		operatorController.rightTrigger().whileTrue(new DropAlgae(algaeIntake));
 		operatorController.leftBumper().whileTrue(new PickupCoral(coralIntake, elevator.getCoralVoltage()));
 		operatorController.leftTrigger().whileTrue(new DropCoral(coralIntake, elevator.getCoralVoltage()));
 	}

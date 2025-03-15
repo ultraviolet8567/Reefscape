@@ -47,7 +47,7 @@ public class AlgaeIntake extends SubsystemBase {
 	}
 
 	public void extend() {
-		io.setExtension(IntakeConstants.kAlgaeIntakeExtendedPosition);
+		io.stop();
 	}
 
 	public void retract() {
