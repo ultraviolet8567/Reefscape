@@ -37,8 +37,8 @@ public class ElevatorIOSparkMax implements ElevatorIO {
 		leadConfig = new SparkMaxConfig();
 		followerConfig = new SparkMaxConfig();
 
-		leadConfig.encoder.positionConversionFactor(ElevatorConstants.kElevatorGearing);
-		followerConfig.encoder.positionConversionFactor(ElevatorConstants.kElevatorGearing);
+		leadConfig.encoder.positionConversionFactor(ElevatorConstants.kElevatorGearing * 2 * Math.PI);
+		followerConfig.encoder.positionConversionFactor(ElevatorConstants.kElevatorGearing * 2 * Math.PI);
 
 		leadConfig.idleMode(IdleMode.kBrake);
 		followerConfig.idleMode(IdleMode.kBrake);
@@ -109,8 +109,7 @@ public class ElevatorIOSparkMax implements ElevatorIO {
 	public void setHeight(double height) {
 		// PID computed voltage to move to the given height
 		double voltage = MathUtil.clamp(
-				leadPidController.calculate(getHeight(), height)
-						+ leadFFController.calculate(leadEncoder.getVelocity()),
+				leadPidController.calculate(getHeight(), height) + leadFFController.calculate(0),
 				-ElevatorConstants.kElevatorVoltage, ElevatorConstants.kElevatorVoltage);
 
 		Logger.recordOutput("Elevator/PID Voltage", voltage);

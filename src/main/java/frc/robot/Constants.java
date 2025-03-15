@@ -35,12 +35,12 @@ public final class Constants {
 		public static final double kElevatorCarriageWeight = 1.0;
 		public static final double kElevatorDrumRadius = 0.0254;
 		public static final double kElevatorGearing = 1.0 / 6;
-		public static final double kElevatorMetersPerRad = 0.413;
+		public static final double kElevatorMetersPerRad = 0.413 / (2 * Math.PI);
 
 		// Encoder
 		public static final int kElevatorAbsoluteEncoderPort = 9;
 		public static final double kAbsoluteEncoderOffset = -0.417;
-		public static final boolean kAbsoluteEncoderReversed = false;
+		public static final boolean kAbsoluteEncoderReversed = true;
 
 		// Limits
 		public static final double kElevatorMaxRadians = 4.25;
@@ -50,41 +50,37 @@ public final class Constants {
 		public static final double kElevatorMinHeight = 0.05; // in meters
 
 		// Setpoints
-		public static final double kHeightDefault = 0.05; // Dummy value
-		public static final double kHeightGround = 0.05; // Dummy value
+		public static final double kHeightDefault = 0.1; // Dummy value
+		public static final double kHeightGround = 0.1; // Dummy value
 		public static final double kHeightStation = 0.2861;
 		public static final double kHeightProcessor = 1.0381;
-		public static final double kHeightL1 = 0.05; // Dummy value
+		public static final double kHeightL1 = 0.1; // Dummy value
 		public static final double kHeightL2 = 0.1525;
 		public static final double kHeightL3 = 0.76;
-		public static final double kHeightL4 = 1.718;
-		public static final double kHeightAlgaeLower = 0.05; // Dummy value
+		public static final double kHeightL4 = 1.758;
+		public static final double kHeightAlgaeLower = 0.1; // Dummy value
 		public static final double kHeightAlgaeHigher = 0.5; // Dummy value
 		public static final double kHeightAlgaeCandlestick = 1.0; // Dummy value
 	}
 
 	public static class IntakeConstants {
-		// TODO: FINALIZE
-		public static final int kAlgaeIntakeVoltage = 5;
+		public static final int kAlgaeIntakeVoltage = 10;
 
 		public static final double kCoralVoltageDefault = 1.5; // Dummy value
-		public static final double kCoralVoltageGround = 1.5; // Dummy value
-		public static final double kCoralVoltageStation = 1.5;
-		public static final double kCoralVoltageProcessor = 1.5;
 		public static final double kCoralVoltageL1 = 1.5; // Dummy value
 		public static final double kCoralVoltageL2 = 1.5;
 		public static final double kCoralVoltageL3 = 1.5;
-		public static final double kCoralVoltageL4 = 1.2;
+		public static final double kCoralVoltageL4 = 1;
 
 		public static final int kAlgaeIntakeExtensionAbsoluteEncoderPort = 8;
 		public static final boolean kAlgaeIntakeExtensionAbsoluteEncoderReversed = false;
 
-		public static final double kP = 20.0; // need to tune
+		public static final double kP = 20.0; // Need to tune
 		public static final double kI = 0.0;
 		public static final double kD = 0.0;
 
-		public static final double kAlgaeIntakeRetractedPosition = -2.55;
-		public static final double kAlgaeIntakeExtendedPosition = 2.00;
+		public static final double kAlgaeIntakeRetractedPosition = 5.785;
+		public static final double kAlgaeIntakeExtendedPosition = 3.425;
 	}
 
 	public static class OperatorConstants {
@@ -146,6 +142,8 @@ public final class Constants {
 
 		public static final double kTeleDriveMaxSpeedMetersPerSecond = kPhysicalMaxSpeedMetersPerSecond;
 		public static final double kTeleDriveMaxAngularSpeedRadiansPerSecond = kPhysicalMaxSpeedMetersPerSecond * 0.7;
+		public static final double kTeleDriveFastMaxAngularSpeedRadiansPerSecond = kPhysicalMaxSpeedMetersPerSecond
+				* 0.95;
 
 		public static final double kTeleDriveMaxAccelerationUnitsPerSecond = 3;
 		public static final double kTeleDriveMaxAngularAccelerationUnitsPerSecond = 3;

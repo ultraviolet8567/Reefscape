@@ -101,8 +101,8 @@ public class RobotContainer {
 					return false;
 				}, swerve);
 
-		NamedCommands.registerCommand("DropCoral", new DropCoral(coralIntake, elevator.getCoralVoltage()));
-		NamedCommands.registerCommand("PickupCoral", new PickupCoral(coralIntake, elevator.getCoralVoltage()));
+		NamedCommands.registerCommand("DropCoral", new DropCoral(coralIntake, () -> elevator.getCoralVoltage()));
+		NamedCommands.registerCommand("PickupCoral", new PickupCoral(coralIntake, () -> elevator.getCoralVoltage()));
 		NamedCommands.registerCommand("ElevatorL1", new InstantCommand(() -> elevator.setMode(ElevatorMode.L1)));
 		NamedCommands.registerCommand("ElevatorL2", new InstantCommand(() -> elevator.setMode(ElevatorMode.L2)));
 		NamedCommands.registerCommand("ElevatorL3", new InstantCommand(() -> elevator.setMode(ElevatorMode.L3)));
@@ -114,7 +114,8 @@ public class RobotContainer {
 
 		swerve.setDefaultCommand(new SwerveTeleOp(swerve, odometry, () -> -driverController.getLeftY(),
 				() -> -driverController.getLeftX(), () -> -driverController.getRightX(),
-				() -> driverController.getHID().getRightBumperButton()));
+				() -> driverController.getHID().getRightBumperButton(),
+				() -> driverController.getHID().getLeftBumperButton()));
 
 		elevator.setDefaultCommand(new MoveElevator(elevator, () -> -operatorController.getLeftY(),
 				() -> operatorController.getHID().getLeftBumperButton()));
@@ -171,8 +172,8 @@ public class RobotContainer {
 		// right for algae, left for coral
 		operatorController.rightBumper().whileTrue(new PickupAlgae(algaeIntake));
 		operatorController.rightTrigger().whileTrue(new DropAlgae(algaeIntake));
-		operatorController.leftBumper().whileTrue(new PickupCoral(coralIntake, elevator.getCoralVoltage()));
-		operatorController.leftTrigger().whileTrue(new DropCoral(coralIntake, elevator.getCoralVoltage()));
+		operatorController.leftBumper().whileTrue(new PickupCoral(coralIntake, () -> elevator.getCoralVoltage()));
+		operatorController.leftTrigger().whileTrue(new DropCoral(coralIntake, () -> elevator.getCoralVoltage()));
 	}
 
 	/**

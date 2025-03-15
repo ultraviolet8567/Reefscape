@@ -17,17 +17,18 @@ public class SwerveTeleOp extends Command {
 	private final Swerve swerve;
 	private final Odometry odometry;
 	private final Supplier<Double> xSpdFunction, ySpdFunction, turningSpdFunction;
-	private final Supplier<Boolean> rightBumper;
+	private final Supplier<Boolean> rightBumper, leftBumper;
 	private final SlewRateLimiter xLimiter, yLimiter, turningLimiter;
 
 	public SwerveTeleOp(Swerve swerve, Odometry odometry, Supplier<Double> xSpdFunction, Supplier<Double> ySpdFunction,
-			Supplier<Double> turningSpdFunction, Supplier<Boolean> rightBumper) {
+			Supplier<Double> turningSpdFunction, Supplier<Boolean> rightBumper, Supplier<Boolean> leftBumper) {
 		this.swerve = swerve;
 		this.odometry = odometry;
 		this.xSpdFunction = xSpdFunction;
 		this.ySpdFunction = ySpdFunction;
 		this.turningSpdFunction = turningSpdFunction;
 		this.rightBumper = rightBumper;
+		this.leftBumper = leftBumper;
 		this.xLimiter = new SlewRateLimiter(DriveConstants.kTeleDriveMaxAccelerationUnitsPerSecond);
 		this.yLimiter = new SlewRateLimiter(DriveConstants.kTeleDriveMaxAccelerationUnitsPerSecond);
 		this.turningLimiter = new SlewRateLimiter(DriveConstants.kTeleDriveMaxAngularAccelerationUnitsPerSecond);
@@ -79,8 +80,14 @@ public class SwerveTeleOp extends Command {
 
 		xSpeed = xLimiter.calculate(xSpeed) * DriveConstants.kTeleDriveMaxSpeedMetersPerSecond;
 		ySpeed = yLimiter.calculate(ySpeed) * DriveConstants.kTeleDriveMaxSpeedMetersPerSecond;
-		turningSpeed = turningLimiter.calculate(turningSpeed)
-				* DriveConstants.kTeleDriveMaxAngularSpeedRadiansPerSecond;
+
+		if (leftBumper.get()) {
+			turningSpeed = turningLimiter.calculate(turningSpeed)
+					* DriveConstants.kTeleDriveFastMaxAngularSpeedRadiansPerSecond;
+		} else {
+			turningSpeed = turningLimiter.calculate(turningSpeed)
+					* DriveConstants.kTeleDriveMaxAngularSpeedRadiansPerSecond;
+		}
 
 		ChassisSpeeds chassisSpeeds;
 		if (Constants.fieldOriented) {

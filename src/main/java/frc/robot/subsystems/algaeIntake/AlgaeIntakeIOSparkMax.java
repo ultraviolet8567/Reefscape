@@ -46,7 +46,6 @@ public class AlgaeIntakeIOSparkMax implements AlgaeIntakeIO {
 		absoluteEncoder = new DutyCycleEncoder(IntakeConstants.kAlgaeIntakeExtensionAbsoluteEncoderPort);
 
 		extensionPidController = new PIDController(IntakeConstants.kP, IntakeConstants.kI, IntakeConstants.kD);
-		extensionPidController.enableContinuousInput(-Math.PI, Math.PI);
 	}
 
 	@Override
@@ -75,7 +74,7 @@ public class AlgaeIntakeIOSparkMax implements AlgaeIntakeIO {
 	public double getAbsoluteEncoderAngle() {
 		double angle = absoluteEncoder.get();
 		angle *= 2 * Math.PI;
-		angle = MathUtil.inputModulus(angle, -Math.PI, Math.PI);
+		angle = MathUtil.inputModulus(angle, 0, 2 * Math.PI);
 
 		return angle * (IntakeConstants.kAlgaeIntakeExtensionAbsoluteEncoderReversed ? -1 : 1);
 	}

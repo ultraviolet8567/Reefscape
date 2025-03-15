@@ -28,7 +28,7 @@ public class AutoDriveOut extends Command {
 	// Called every time the scheduler runs while the command is scheduled.
 	@Override
 	public void execute() {
-		if (timer.get() > 1 && timer.get() < 10) {
+		if (timer.get() > 1) {
 			swerve.setModuleStates(ChassisSpeeds.fromFieldRelativeSpeeds(AutoConstants.kAutoXDriveSpeed,
 					AutoConstants.kAutoYDriveSpeed, AutoConstants.kAutoTurningSpeed, odometry.getGyrometerHeading()));
 		}
@@ -44,6 +44,6 @@ public class AutoDriveOut extends Command {
 	// Returns true when the command should end.
 	@Override
 	public boolean isFinished() {
-		return timer.get() >= 15;
+		return timer.get() >= 5;
 	}
 }

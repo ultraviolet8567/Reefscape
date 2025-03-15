@@ -13,12 +13,13 @@ public class ToggleAlgaeRetraction extends Command {
 	}
 
 	@Override
-	public void initialize() {
+	public void execute() {
 		intake.toggleAlgaeRetraction();
 	}
 
 	@Override
 	public void end(boolean interrupted) {
+		intake.setExtension();
 		intake.stop();
 	}
 }

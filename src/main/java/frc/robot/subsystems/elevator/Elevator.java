@@ -83,12 +83,6 @@ public class Elevator extends SubsystemBase {
 
 	public double getCoralVoltage() {
 		switch (mode) {
-			case GROUND :
-				return IntakeConstants.kCoralVoltageGround;
-			case STATION :
-				return IntakeConstants.kCoralVoltageStation;
-			case PROCESSOR :
-				return IntakeConstants.kCoralVoltageProcessor;
 			case L1 :
 				return IntakeConstants.kCoralVoltageL1;
 			case L2 :

@@ -38,6 +38,14 @@ public class AlgaeIntake extends SubsystemBase {
 		io.set(IntakeConstants.kAlgaeIntakeVoltage);
 	}
 
+	public void setExtension() {
+		if (algaeExtended) {
+			algaeExtended = false;
+		} else {
+			algaeExtended = true;
+		}
+	}
+
 	public void toggleAlgaeRetraction() {
 		if (algaeExtended) {
 			retract();
