@@ -75,7 +75,7 @@ public final class Constants {
 		public static final double kCoralVoltageL2 = 1.5;
 		public static final double kCoralVoltageL3 = 1.5;
 		public static final double kCoralVoltageL4 = 1.2;
-		
+
 		public static final int kAlgaeIntakeExtensionAbsoluteEncoderPort = 8;
 		public static final boolean kAlgaeIntakeExtensionAbsoluteEncoderReversed = false;
 
@@ -150,22 +150,18 @@ public final class Constants {
 		public static final double kTeleDriveMaxAccelerationUnitsPerSecond = 3;
 		public static final double kTeleDriveMaxAngularAccelerationUnitsPerSecond = 3;
 
-		// TODO: these are also placeholders
-		public static final double kRobotMass = 100.0;
-		public static final double kRobotMOI = 100.0;
+		public static final double kRobotMass = 51.25;
 
-		// TODO: THESE ARE ALL PLACEHOLDERS
-		public static final ModuleConfig kRobotModuleConfig = new ModuleConfig(1.0, // TODO: radius of drive wheels, m
-				kPhysicalMaxSpeedMetersPerSecond, // max spd while driving full output, m/s
+		// TODO
+		public static final double kRobotMOI = 5.0;
+
+		public static final ModuleConfig kRobotModuleConfig = new ModuleConfig(0.0508, kPhysicalMaxSpeedMetersPerSecond,
 				1, // friction coefficient between wheel and carpet, (unsure so 1.0)
-				new DCMotor(1.0, 1.0, 1.0, 1.0, 1.0, 1), // TODO: drive motor gearbox, including gear reduction
-				1, // TODO: current limit of drive motor, Amps
-				1); // number of motors per module (1 for swerve)
+				new DCMotor(12.0, 2.6, 105, 1.8, 5676, 1), 5.9, 80, 1); // number of motors per module (1 for swerve)
 		public static final RobotConfig kRobotConfig = new RobotConfig(kRobotMass, // mass, kg
 				kRobotMOI, // moment of inertia (why), kgm^2
 				kRobotModuleConfig, // module config
 				kDriveKinematics.getModules()); // locations of modules relative of robot center
-
 	}
 
 	public static class AutoConstants {

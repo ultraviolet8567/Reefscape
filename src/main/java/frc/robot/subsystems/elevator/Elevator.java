@@ -70,11 +70,11 @@ public class Elevator extends SubsystemBase {
 				return ElevatorConstants.kHeightL3;
 			case L4 :
 				return ElevatorConstants.kHeightL4;
-			case ALGAELOWER:
+			case ALGAELOWER :
 				return ElevatorConstants.kHeightAlgaeLower;
-			case ALGAEHIGHER:
+			case ALGAEHIGHER :
 				return ElevatorConstants.kHeightAlgaeHigher;
-			case ALGAECANDLESTICK:
+			case ALGAECANDLESTICK :
 				return ElevatorConstants.kHeightAlgaeCandlestick;
 			default :
 				return ElevatorConstants.kHeightDefault;

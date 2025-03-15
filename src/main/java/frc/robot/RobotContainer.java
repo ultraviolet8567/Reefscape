@@ -91,8 +91,8 @@ public class RobotContainer {
 
 		// Configure the PathPlanner auto-builder
 		AutoBuilder.configure(odometry::getOdometerPose, odometry::resetOdometerPose, swerve::getRobotRelativeSpeeds,
-				(speeds, feedforwards) -> swerve.setModuleStates(speeds),
-				new PPHolonomicDriveController(new PIDConstants(0.25, 0, 0), // translational PID
+				swerve::setModuleStates, new PPHolonomicDriveController(new PIDConstants(0.25, 0, 0), // translational
+																										// PID
 						new PIDConstants(0.5, 0, 0)), // rotational PID
 				DriveConstants.kRobotConfig, () -> {
 					if (DriverStation.getAlliance().isPresent()) {
