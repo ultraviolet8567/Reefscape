@@ -145,7 +145,7 @@ public class RobotContainer {
 		// Reset gyro
 		driverController.back().onTrue(new InstantCommand(() -> odometry.resetGyrometerHeading()));
 
-		// Toggle
+		// Toggle algae extension/retraction
 		driverController.start().onTrue(new ToggleAlgaeRetraction(algaeIntake));
 
 		// Ground height
@@ -160,6 +160,13 @@ public class RobotContainer {
 		operatorController.b().onTrue(new InstantCommand(() -> elevator.setMode(ElevatorMode.L2)));
 		// L4 height
 		operatorController.y().onTrue(new InstantCommand(() -> elevator.setMode(ElevatorMode.L4)));
+		// Algae candlestick height
+		operatorController.pov(0).onTrue(new InstantCommand(() -> elevator.setMode(ElevatorMode.ALGAECANDLESTICK)));
+		// Algae lower height
+		operatorController.pov(90).onTrue(new InstantCommand(() -> elevator.setMode(ElevatorMode.ALGAELOWER)));
+		operatorController.pov(270).onTrue(new InstantCommand(() -> elevator.setMode(ElevatorMode.ALGAELOWER)));
+		// Algae higher height
+		operatorController.pov(180).onTrue(new InstantCommand(() -> elevator.setMode(ElevatorMode.ALGAEHIGHER)));
 
 		// right for algae, left for coral
 		operatorController.rightBumper().whileTrue(new PickupAlgae(algaeIntake));

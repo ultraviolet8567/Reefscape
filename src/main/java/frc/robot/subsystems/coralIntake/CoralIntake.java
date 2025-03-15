@@ -26,6 +26,7 @@ public class CoralIntake extends SubsystemBase {
 
 	public void drop(double voltage) {
 		io.set(-voltage);
+		Logger.recordOutput("Coral Intake/Voltage Setpoint", voltage);
 	}
 
 	public void stop() {

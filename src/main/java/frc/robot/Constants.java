@@ -50,14 +50,17 @@ public final class Constants {
 		public static final double kElevatorMinHeight = 0.05; // in meters
 
 		// Setpoints
-		public static final double kHeightDefault = 0.1; // Dummy value
-		public static final double kHeightGround = 0.1; // Dummy value
+		public static final double kHeightDefault = 0.05; // Dummy value
+		public static final double kHeightGround = 0.05; // Dummy value
 		public static final double kHeightStation = 0.2861;
 		public static final double kHeightProcessor = 1.0381;
-		public static final double kHeightL1 = 0.1; // Dummy value
+		public static final double kHeightL1 = 0.05; // Dummy value
 		public static final double kHeightL2 = 0.1525;
 		public static final double kHeightL3 = 0.76;
 		public static final double kHeightL4 = 1.718;
+		public static final double kHeightAlgaeLower = 0.05; // Dummy value
+		public static final double kHeightAlgaeHigher = 0.5; // Dummy value
+		public static final double kHeightAlgaeCandlestick = 1.0; // Dummy value
 	}
 
 	public static class IntakeConstants {
@@ -69,10 +72,10 @@ public final class Constants {
 		public static final double kCoralVoltageStation = 1.5;
 		public static final double kCoralVoltageProcessor = 1.5;
 		public static final double kCoralVoltageL1 = 1.5; // Dummy value
-		public static final double kCoralVoltageL2 = 1.7;
+		public static final double kCoralVoltageL2 = 1.5;
 		public static final double kCoralVoltageL3 = 1.5;
 		public static final double kCoralVoltageL4 = 1.2;
-
+		
 		public static final int kAlgaeIntakeExtensionAbsoluteEncoderPort = 8;
 		public static final boolean kAlgaeIntakeExtensionAbsoluteEncoderReversed = false;
 
