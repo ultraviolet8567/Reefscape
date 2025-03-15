@@ -5,16 +5,18 @@ import frc.robot.subsystems.coralIntake.CoralIntake;
 
 public class PickupCoral extends Command {
 	private final CoralIntake intake;
+	private final double voltage;
 
-	public PickupCoral(CoralIntake intake) {
+	public PickupCoral(CoralIntake intake, double voltage) {
 		this.intake = intake;
+		this.voltage = voltage;
 
 		addRequirements(intake);
 	}
 
 	@Override
 	public void initialize() {
-		intake.pickup();
+		intake.pickup(voltage);
 	}
 
 	@Override

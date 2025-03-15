@@ -2,6 +2,7 @@ package frc.robot.subsystems.elevator;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ElevatorConstants;
+import frc.robot.Constants.IntakeConstants;
 import org.littletonrobotics.junction.Logger;
 
 public class Elevator extends SubsystemBase {
@@ -71,6 +72,27 @@ public class Elevator extends SubsystemBase {
 				return ElevatorConstants.kHeightL4;
 			default :
 				return ElevatorConstants.kHeightDefault;
+		}
+	}
+
+	public double getCoralVoltage() {
+		switch (mode) {
+			case GROUND :
+				return IntakeConstants.kCoralVoltageGround;
+			case STATION :
+				return IntakeConstants.kCoralVoltageStation;
+			case PROCESSOR :
+				return IntakeConstants.kCoralVoltageProcessor;
+			case L1 :
+				return IntakeConstants.kCoralVoltageL1;
+			case L2 :
+				return IntakeConstants.kCoralVoltageL2;
+			case L3 :
+				return IntakeConstants.kCoralVoltageL3;
+			case L4 :
+				return IntakeConstants.kCoralVoltageL4;
+			default :
+				return IntakeConstants.kCoralVoltageDefault;
 		}
 	}
 

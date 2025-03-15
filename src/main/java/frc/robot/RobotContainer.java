@@ -101,12 +101,8 @@ public class RobotContainer {
 					return false;
 				}, swerve);
 
-		NamedCommands.registerCommand("DropCoral",
-				new DropCoral(coralIntake,
-						elevator.getMode() == ElevatorMode.L4
-								? IntakeConstants.kCoralIntakeVoltageL4
-								: IntakeConstants.kCoralIntakeVoltage));
-		NamedCommands.registerCommand("PickupCoral", new PickupCoral(coralIntake));
+		NamedCommands.registerCommand("DropCoral", new DropCoral(coralIntake, elevator.getCoralVoltage()));
+		NamedCommands.registerCommand("PickupCoral", new PickupCoral(coralIntake, elevator.getCoralVoltage()));
 		NamedCommands.registerCommand("ElevatorL1", new InstantCommand(() -> elevator.setMode(ElevatorMode.L1)));
 		NamedCommands.registerCommand("ElevatorL2", new InstantCommand(() -> elevator.setMode(ElevatorMode.L2)));
 		NamedCommands.registerCommand("ElevatorL3", new InstantCommand(() -> elevator.setMode(ElevatorMode.L3)));
@@ -130,8 +126,9 @@ public class RobotContainer {
 		// Shuffleboard setup
 		Shuffleboard.getTab("Main").add("Camera", driverCam).withWidget(BuiltInWidgets.kCameraStream).withSize(4, 4)
 				.withPosition(5, 0);
-		Shuffleboard.getTab("Main").add("Elevator Setpoint", elevator.getMode()).withWidget(BuiltInWidgets.kTextView)
-				.withSize(1, 2).withPosition(5, 4);
+		// Shuffleboard.getTab("Main").add("Elevator Setpoint",
+		// elevator.getMode()).withWidget(BuiltInWidgets.kTextView)
+		// .withSize(1, 2).withPosition(5, 4);
 	}
 
 	/**
@@ -152,27 +149,23 @@ public class RobotContainer {
 		// driverController.start().onTrue(new ToggleAlgaeRetraction(algaeIntake));
 
 		// Ground height
-		operatorController.a().onTrue(new InstantCommand(() -> elevator.setMode(ElevatorMode.STATION)));
+		operatorController.a().onTrue(new InstantCommand(() -> elevator.setMode(ElevatorMode.L1)));
 		// Processor height
-		operatorController.x().onTrue(new InstantCommand(() -> elevator.setMode(ElevatorMode.PROCESSOR)));
+		operatorController.x().onTrue(new InstantCommand(() -> elevator.setMode(ElevatorMode.L3)));
 		// L1 height
-		operatorController.start().onTrue(new InstantCommand(() -> elevator.setMode(ElevatorMode.L1)));
+		operatorController.start().onTrue(new InstantCommand(() -> elevator.setMode(ElevatorMode.STATION)));
 		// L2 height
-		operatorController.back().onTrue(new InstantCommand(() -> elevator.setMode(ElevatorMode.L2)));
+		operatorController.back().onTrue(new InstantCommand(() -> elevator.setMode(ElevatorMode.PROCESSOR)));
 		// L3 height
-		operatorController.b().onTrue(new InstantCommand(() -> elevator.setMode(ElevatorMode.L3)));
+		operatorController.b().onTrue(new InstantCommand(() -> elevator.setMode(ElevatorMode.L2)));
 		// L4 height
 		operatorController.y().onTrue(new InstantCommand(() -> elevator.setMode(ElevatorMode.L4)));
 
 		// right for algae, left for coral
 		// operatorController.rightBumper().whileTrue(new PickupAlgae(algaeIntake));
 		// operatorController.rightTrigger().whileTrue(new DropAlgae(algaeIntake));
-		operatorController.leftBumper().whileTrue(new PickupCoral(coralIntake));
-		operatorController.leftTrigger()
-				.whileTrue(new DropCoral(coralIntake,
-						elevator.getMode() == ElevatorMode.L4
-								? IntakeConstants.kCoralIntakeVoltageL4
-								: IntakeConstants.kCoralIntakeVoltage));
+		operatorController.leftBumper().whileTrue(new PickupCoral(coralIntake, elevator.getCoralVoltage()));
+		operatorController.leftTrigger().whileTrue(new DropCoral(coralIntake, elevator.getCoralVoltage()));
 	}
 
 	/**

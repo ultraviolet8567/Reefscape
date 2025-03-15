@@ -1,7 +1,6 @@
 package frc.robot.subsystems.coralIntake;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.IntakeConstants;
 import org.littletonrobotics.junction.Logger;
 
 public class CoralIntake extends SubsystemBase {
@@ -21,8 +20,8 @@ public class CoralIntake extends SubsystemBase {
 		Logger.processInputs("CoralIntake", inputs);
 	}
 
-	public void pickup() {
-		io.set(IntakeConstants.kCoralIntakeVoltage);
+	public void pickup(double voltage) {
+		io.set(voltage);
 	}
 
 	public void drop(double voltage) {
