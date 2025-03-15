@@ -58,9 +58,9 @@ public final class Constants {
 		public static final double kHeightL2 = 0.1525;
 		public static final double kHeightL3 = 0.76;
 		public static final double kHeightL4 = 1.69;
-		public static final double kHeightAlgaeLower = 0.1; // Dummy value
-		public static final double kHeightAlgaeHigher = 0.5; // Dummy value
-		public static final double kHeightAlgaeCandlestick = 1.0; // Dummy value
+		public static final double kHeightAlgaeLower = 1.0; // Dummy value
+		public static final double kHeightAlgaeHigher = 1.55; // Dummy value
+		public static final double kHeightAlgaeCandlestick = 0.5; // Dummy value
 	}
 
 	public static class IntakeConstants {
@@ -90,7 +90,7 @@ public final class Constants {
 
 	public static class ModuleConstants {
 		public static final double kWheelDiameterMeters = Units.inchesToMeters(3.75);
-		public static final double kDriveMotorGearRatio = 1 / 6.75;
+		public static final double kDriveMotorGearRatio = 1 / 5.9;
 		public static final double kTurningMotorGearRatio = 1 / (150 / 7.0);
 
 		public static final double kDriveEncoderRot2Meter = kDriveMotorGearRatio * Math.PI * kWheelDiameterMeters;
@@ -149,13 +149,11 @@ public final class Constants {
 		public static final double kTeleDriveMaxAngularAccelerationUnitsPerSecond = 3;
 
 		public static final double kRobotMass = 51.25;
+		public static final double kRobotMOI = 7.0;
 
-		// TODO
-		public static final double kRobotMOI = 5.0;
-
-		public static final ModuleConfig kRobotModuleConfig = new ModuleConfig(0.0508, kPhysicalMaxSpeedMetersPerSecond,
-				1, // friction coefficient between wheel and carpet, (unsure so 1.0)
-				new DCMotor(12.0, 2.6, 105, 1.8, 5676, 1), 5.9, 80, 1); // number of motors per module (1 for swerve)
+		public static final ModuleConfig kRobotModuleConfig = new ModuleConfig(ModuleConstants.kWheelDiameterMeters / 2,
+				kPhysicalMaxSpeedMetersPerSecond, 1, // friction coefficient between wheel and carpet, (unsure so 1.0)
+				DCMotor.getNEO(1), 1 / ModuleConstants.kDriveMotorGearRatio, 80, 1);
 		public static final RobotConfig kRobotConfig = new RobotConfig(kRobotMass, // mass, kg
 				kRobotMOI, // moment of inertia (why), kgm^2
 				kRobotModuleConfig, // module config

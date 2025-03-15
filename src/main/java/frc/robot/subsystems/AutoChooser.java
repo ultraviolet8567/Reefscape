@@ -68,6 +68,7 @@ public class AutoChooser extends VirtualSubsystem {
 		for (String pathName : AutoBuilder.getAllAutoNames()) {
 			allAutos.put(pathName, new PathPlannerAuto(pathName));
 		}
+
 		System.out.println("[Init] Auto routines loaded");
 	}
 
@@ -77,8 +78,6 @@ public class AutoChooser extends VirtualSubsystem {
 
 		autoName.setString(
 				allAutos.containsKey(getAutoCommandName()) ? getAutoCommandName() : "Auto routine does not exist");
-
-		System.out.println(allAutos.containsKey(getAutoCommandName()));
 	}
 
 	// Returns name of pre-defined autonomous command based on Shuffleboard input

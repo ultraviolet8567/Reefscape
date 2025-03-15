@@ -7,23 +7,23 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Start Right Move Side 5"
+            "pathName": "Start Top Move Side 1"
           }
         },
         {
-          "type": "deadline",
+          "type": "race",
           "data": {
             "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "ElevatorL3"
-                }
-              },
               {
                 "type": "wait",
                 "data": {
                   "waitTime": 0.5
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "ElevatorL3"
                 }
               }
             ]
@@ -70,7 +70,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Leave Side 5 R"
+            "pathName": "Leave Side 1"
           }
         }
       ]
