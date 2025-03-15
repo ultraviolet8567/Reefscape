@@ -62,6 +62,7 @@ public class ElevatorIOSparkMax implements ElevatorIO {
 	public void updateInputs(ElevatorIOInputs inputs) {
 		// this is in rpm, convert
 		inputs.currentAmps = new double[]{leadMotor.getOutputCurrent(), followerMotor.getOutputCurrent()};
+		inputs.tempCelsius = new double[]{leadMotor.getMotorTemperature(), followerMotor.getMotorTemperature()};
 		inputs.appliedVoltage = new double[]{leadMotor.getAppliedOutput() * leadMotor.getBusVoltage(),
 				followerMotor.getAppliedOutput() * followerMotor.getBusVoltage()};
 		inputs.angleRadians = getRotationRads();

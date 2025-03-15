@@ -57,7 +57,7 @@ public final class Constants {
 		public static final double kHeightL1 = 0.1; // Dummy value
 		public static final double kHeightL2 = 0.1525;
 		public static final double kHeightL3 = 0.76;
-		public static final double kHeightL4 = 1.758;
+		public static final double kHeightL4 = 1.69;
 		public static final double kHeightAlgaeLower = 0.1; // Dummy value
 		public static final double kHeightAlgaeHigher = 0.5; // Dummy value
 		public static final double kHeightAlgaeCandlestick = 1.0; // Dummy value
