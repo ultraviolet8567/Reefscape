@@ -7,29 +7,29 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Start Right Move Side 5"
+            "pathName": "Start Top Move Side 4"
           }
         },
         {
           "type": "wait",
           "data": {
-            "waitTime": 0.5
+            "waitTime": 1.0
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "ElevatorL4"
+            "name": "ElevatorL2"
           }
         },
         {
           "type": "wait",
           "data": {
-            "waitTime": 0.5
+            "waitTime": 1.5
           }
         },
         {
-          "type": "deadline",
+          "type": "race",
           "data": {
             "commands": [
               {
@@ -52,34 +52,9 @@
           "data": {
             "commands": [
               {
-                "type": "wait",
-                "data": {
-                  "waitTime": 0.5
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "ElevatorMax"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "deadline",
-          "data": {
-            "commands": [
-              {
                 "type": "path",
                 "data": {
-                  "pathName": "Leave Side 5 R"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "ElevatorL2"
+                  "pathName": "Leave Side 4 R"
                 }
               }
             ]

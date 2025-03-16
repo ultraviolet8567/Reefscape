@@ -7,7 +7,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Start Top Move Side 1"
+            "pathName": "Start Right Move Side 5"
           }
         },
         {
@@ -29,7 +29,7 @@
           }
         },
         {
-          "type": "race",
+          "type": "deadline",
           "data": {
             "commands": [
               {
@@ -54,7 +54,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Leave Side 1"
+                  "pathName": "Leave Side 5 R"
                 }
               }
             ]

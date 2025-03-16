@@ -3,28 +3,28 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.07,
-        "y": 2.8939999999999997
+        "x": 4.890983606557377,
+        "y": 2.520543032786885
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.0686645466333955,
-        "y": 1.8284655114087236
+        "x": 5.2386270491803275,
+        "y": 1.465625
       },
       "isLocked": false,
-      "linkedName": "Side 5 R End"
+      "linkedName": null
     },
     {
       "anchor": {
-        "x": 5.11875,
-        "y": 0.8464999999999998
+        "x": 4.099795081967213,
+        "y": 0.8302766393442619
       },
       "prevControl": {
-        "x": 5.344515959969577,
-        "y": 1.8924467346703875
+        "x": 4.639241803278687,
+        "y": 1.2977971311475387
       },
       "nextControl": null,
-      "isLocked": true,
+      "isLocked": false,
       "linkedName": null
     }
   ],
@@ -42,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 178.80651057601796
+    "rotation": -139.6858998395027
   },
   "reversed": false,
   "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 29.577838681261397
+    "rotation": 30.650667957052935
   },
   "useDefaultConstraints": true
 }

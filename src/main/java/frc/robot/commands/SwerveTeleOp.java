@@ -80,14 +80,8 @@ public class SwerveTeleOp extends Command {
 
 		xSpeed = xLimiter.calculate(xSpeed) * DriveConstants.kTeleDriveMaxSpeedMetersPerSecond;
 		ySpeed = yLimiter.calculate(ySpeed) * DriveConstants.kTeleDriveMaxSpeedMetersPerSecond;
-
-		if (leftBumper.get()) {
-			turningSpeed = turningLimiter.calculate(turningSpeed)
-					* DriveConstants.kTeleDriveFastMaxAngularSpeedRadiansPerSecond;
-		} else {
-			turningSpeed = turningLimiter.calculate(turningSpeed)
-					* DriveConstants.kTeleDriveMaxAngularSpeedRadiansPerSecond;
-		}
+		turningSpeed = turningLimiter.calculate(turningSpeed)
+				* DriveConstants.kTeleDriveMaxAngularSpeedRadiansPerSecond;
 
 		ChassisSpeeds chassisSpeeds;
 		if (Constants.fieldOriented) {
