@@ -41,6 +41,9 @@ public class Swerve extends SubsystemBase {
 	@Override
 	public void periodic() {
 		Logger.recordOutput("Swerve/Measured", getModuleStates());
+		Logger.recordOutput("Swerve/Abs",
+				new double[]{frontLeft.getAbsoluteEncoderAngle(), frontRight.getAbsoluteEncoderAngle(),
+						backLeft.getAbsoluteEncoderAngle(), backRight.getAbsoluteEncoderAngle()});
 	}
 
 	public SwerveModulePosition[] getModulePositions() {

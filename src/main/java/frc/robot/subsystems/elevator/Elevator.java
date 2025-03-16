@@ -70,6 +70,8 @@ public class Elevator extends SubsystemBase {
 				return ElevatorConstants.kHeightL3;
 			case L4 :
 				return ElevatorConstants.kHeightL4;
+			case MAX :
+				return ElevatorConstants.kHeightMax;
 			case ALGAELOWER :
 				return ElevatorConstants.kHeightAlgaeLower;
 			case ALGAEHIGHER :
@@ -133,7 +135,9 @@ public class Elevator extends SubsystemBase {
 		/** At algae height between L3 & L4 */
 		ALGAEHIGHER,
 		/** At algae heght for algae above coral on ground */
-		ALGAECANDLESTICK
+		ALGAECANDLESTICK,
+		/** At max elevator height */
+		MAX
 	}
 
 	public void resetEncoder() {

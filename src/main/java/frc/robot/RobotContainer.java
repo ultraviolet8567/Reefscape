@@ -107,6 +107,7 @@ public class RobotContainer {
 		NamedCommands.registerCommand("ElevatorL2", new InstantCommand(() -> elevator.setMode(ElevatorMode.L2)));
 		NamedCommands.registerCommand("ElevatorL3", new InstantCommand(() -> elevator.setMode(ElevatorMode.L3)));
 		NamedCommands.registerCommand("ElevatorL4", new InstantCommand(() -> elevator.setMode(ElevatorMode.L4)));
+		NamedCommands.registerCommand("ElevatorMax", new InstantCommand(() -> elevator.setMode(ElevatorMode.MAX)));
 		NamedCommands.registerCommand("ElevatorIntakeCoral",
 				new InstantCommand(() -> elevator.setMode(ElevatorMode.STATION)));
 

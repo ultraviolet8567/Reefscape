@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.11875,
-        "y": 2.855
+        "x": 5.07,
+        "y": 2.8939999999999997
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.117414546633396,
-        "y": 1.789465511408724
+        "x": 5.0686645466333955,
+        "y": 1.8284655114087236
       },
       "isLocked": false,
       "linkedName": "Side 5 R End"
@@ -48,7 +48,7 @@
   "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 32.574057134572506
+    "rotation": 29.577838681261397
   },
   "useDefaultConstraints": true
 }

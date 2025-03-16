@@ -58,6 +58,7 @@ public final class Constants {
 		public static final double kHeightL2 = 0.1525;
 		public static final double kHeightL3 = 0.76;
 		public static final double kHeightL4 = 1.69;
+		public static final double kHeightMax = 1.8;
 		public static final double kHeightAlgaeLower = 1.0; // Dummy value
 		public static final double kHeightAlgaeHigher = 1.55; // Dummy value
 		public static final double kHeightAlgaeCandlestick = 0.5; // Dummy value
@@ -70,7 +71,7 @@ public final class Constants {
 		public static final double kCoralVoltageL1 = 1.5; // Dummy value
 		public static final double kCoralVoltageL2 = 1.5;
 		public static final double kCoralVoltageL3 = 1.5;
-		public static final double kCoralVoltageL4 = 1;
+		public static final double kCoralVoltageL4 = 1.2;
 
 		public static final int kAlgaeIntakeExtensionAbsoluteEncoderPort = 8;
 		public static final boolean kAlgaeIntakeExtensionAbsoluteEncoderReversed = false;
@@ -132,18 +133,18 @@ public final class Constants {
 		public static final boolean kBackRightDriveAbsoluteEncoderReversed = false;
 		public static final int kBackRightDriveAbsoluteEncoderPort = 3;
 
-		public static final double kFrontLeftDriveAbsoluteEncoderOffsetRad = -2.854;
-		public static final double kFrontRightDriveAbsoluteEncoderOffsetRad = -2.231;
-		public static final double kBackLeftDriveAbsoluteEncoderOffsetRad = 3.022;
-		public static final double kBackRightDriveAbsoluteEncoderOffsetRad = 0.349 + 0.324 + 1.029 + 0.672 - 1.961;
+		public static final double kFrontLeftDriveAbsoluteEncoderOffsetRad = -2.854 - 0.494;
+		public static final double kFrontRightDriveAbsoluteEncoderOffsetRad = -2.231 + 0.060;
+		public static final double kBackLeftDriveAbsoluteEncoderOffsetRad = 3.022 + 0.115;
+		public static final double kBackRightDriveAbsoluteEncoderOffsetRad = 0.349 + 0.324 + 1.029 + 0.672 - 1.961
+				- 0.082;
 
 		public static final double kPhysicalMaxSpeedMetersPerSecond = 4.5;
 		public static final double kPhysicalMaxAngularSpeedRadiansPerSecond = 3 * Math.PI;
 
 		public static final double kTeleDriveMaxSpeedMetersPerSecond = kPhysicalMaxSpeedMetersPerSecond;
-		public static final double kTeleDriveMaxAngularSpeedRadiansPerSecond = kPhysicalMaxSpeedMetersPerSecond * 0.7;
-		public static final double kTeleDriveFastMaxAngularSpeedRadiansPerSecond = kPhysicalMaxSpeedMetersPerSecond
-				* 0.95;
+		public static final double kTeleDriveMaxAngularSpeedRadiansPerSecond = kPhysicalMaxSpeedMetersPerSecond;
+		public static final double kTeleDriveFastMaxAngularSpeedRadiansPerSecond = kPhysicalMaxSpeedMetersPerSecond;
 
 		public static final double kTeleDriveMaxAccelerationUnitsPerSecond = 3;
 		public static final double kTeleDriveMaxAngularAccelerationUnitsPerSecond = 3;
