@@ -33,6 +33,12 @@ public class Odometry extends SubsystemBase {
 		/* Odometry */
 		poseEstimator = new SwerveDrivePoseEstimator(DriveConstants.kDriveKinematics, gyro.getRotation2d(),
 				swerve.getModulePositions(), new Pose2d());
+
+		/* PhotonVision */
+		// System.out.println("[Init] Starting PhotonVision");
+
+		// Add to constants file: PhotonVisionConstants.hostname = "photonvision.local" or whatever the hostname is renamed to in the PhotonVision web interface
+		// PortForwarder.add(5800, PhotonVisionConstants.hostname, 5800);
 	}
 
 	/* Runs periodically (about once every 20 ms) */
