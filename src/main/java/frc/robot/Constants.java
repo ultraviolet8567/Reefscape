@@ -161,6 +161,15 @@ public final class Constants {
 				kRobotMOI, // moment of inertia (why), kgm^2
 				kRobotModuleConfig, // module config
 				kDriveKinematics.getModules()); // locations of modules relative of robot center
+
+		// PID constants for auto alignment
+		public static final double kTranslationP = 0.5;
+		public static final double kTranslationI = 0.0;
+		public static final double kTranslationD = 0.0;
+
+		public static final double kAngleP = 0.5;
+		public static final double kAngleI = 0.0;
+		public static final double kAngleD = 0.0;
 	}
 
 	public static class AutoConstants {

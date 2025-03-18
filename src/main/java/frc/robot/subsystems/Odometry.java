@@ -9,9 +9,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.VisionConstants;
 import frc.robot.util.AllianceFlipUtil;
-
 import java.util.Optional;
-
 import org.littletonrobotics.junction.Logger;
 import org.photonvision.EstimatedRobotPose;
 import org.photonvision.PhotonCamera;
@@ -93,7 +91,8 @@ public class Odometry extends SubsystemBase {
 		Optional<EstimatedRobotPose> frontEstPose = frontPoseEstimator.update(frontResult);
 		if (frontEstPose.isPresent()) {
 			// Could add a standard deviation calculation for more accuracy
-			poseEstimator.addVisionMeasurement(frontEstPose.get().estimatedPose.toPose2d(), frontResult.getTimestampSeconds());
+			poseEstimator.addVisionMeasurement(frontEstPose.get().estimatedPose.toPose2d(),
+					frontResult.getTimestampSeconds());
 		}
 
 		// Could get all unread results rather than just the latest
@@ -101,7 +100,8 @@ public class Odometry extends SubsystemBase {
 		Optional<EstimatedRobotPose> backEstPose = backPoseEstimator.update(backResult);
 		if (backEstPose.isPresent()) {
 			// Could add a standard deviation calculation for more accuracy
-			poseEstimator.addVisionMeasurement(backEstPose.get().estimatedPose.toPose2d(), backResult.getTimestampSeconds());
+			poseEstimator.addVisionMeasurement(backEstPose.get().estimatedPose.toPose2d(),
+					backResult.getTimestampSeconds());
 		}
 	}
 

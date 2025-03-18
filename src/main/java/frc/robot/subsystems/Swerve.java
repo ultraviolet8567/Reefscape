@@ -1,8 +1,10 @@
 package frc.robot.subsystems;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.*;
 import edu.wpi.first.math.kinematics.*;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.Constants.CAN;
 import frc.robot.Constants.DriveConstants;
 import java.util.Arrays;
@@ -10,6 +12,9 @@ import org.littletonrobotics.junction.Logger;
 
 public class Swerve extends SubsystemBase {
 	private final SwerveModule frontLeft, frontRight, backLeft, backRight;
+
+	// Auto alignment PID controllers
+	private PIDController translationPidController, anglePidController;
 
 	public Swerve() {
 		System.out.println("[Init] Creating Swerve");
@@ -36,6 +41,10 @@ public class Swerve extends SubsystemBase {
 				DriveConstants.kBackRightDriveAbsoluteEncoderPort,
 				DriveConstants.kBackRightDriveAbsoluteEncoderOffsetRad,
 				DriveConstants.kBackRightDriveAbsoluteEncoderReversed);
+
+		translationPidController = new PIDController(DriveConstants.kTranslationP, DriveConstants.kTranslationI,
+				DriveConstants.kTranslationD);
+		anglePidController = new PIDController(DriveConstants.kAngleP, DriveConstants.kAngleI, DriveConstants.kAngleD);
 	}
 
 	@Override
@@ -79,6 +88,22 @@ public class Swerve extends SubsystemBase {
 		backRight.setDesiredState(desiredStates[3]);
 
 		Logger.recordOutput("Swerve/Setpoints", desiredStates);
+	}
+
+	// Calculate chassis speeds using PID
+	public ChassisSpeeds calculateChassisSpeed(double xPos, double xSetpoint, double yPos, double ySetpoint,
+			Rotation2d heading, Rotation2d headingSetpoint) {
+		ChassisSpeeds chassisSpeeds;
+		double xSpeed = translationPidController.calculate(xPos, xSetpoint);
+		double ySpeed = translationPidController.calculate(yPos, ySetpoint);
+		double turningSpeed = anglePidController.calculate(heading.getRadians(), headingSetpoint.getRadians());
+		if (Constants.fieldOriented) {
+			chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, turningSpeed, heading);
+		} else {
+			chassisSpeeds = new ChassisSpeeds(xSpeed, ySpeed, turningSpeed);
+		}
+
+		return chassisSpeeds;
 	}
 
 	// Sets the wheels to 45 degree angles so it doesn't move
