@@ -7,8 +7,16 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriveConstants;
+import frc.robot.Constants.VisionConstants;
 import frc.robot.util.AllianceFlipUtil;
+
+import java.util.Optional;
+
 import org.littletonrobotics.junction.Logger;
+import org.photonvision.EstimatedRobotPose;
+import org.photonvision.PhotonCamera;
+import org.photonvision.PhotonPoseEstimator;
+import org.photonvision.PhotonPoseEstimator.PoseStrategy;
 
 public class Odometry extends SubsystemBase {
 	private Swerve swerve;
@@ -16,6 +24,9 @@ public class Odometry extends SubsystemBase {
 
 	private Pigeon2 gyro;
 	private SwerveDriveOdometry odometer;
+
+	private PhotonCamera frontCamera, backCamera;
+	private PhotonPoseEstimator frontPoseEstimator, backPoseEstimator;
 
 	public Odometry(Swerve swerve) {
 		System.out.println("[Init] Creating Odometry");
@@ -35,10 +46,23 @@ public class Odometry extends SubsystemBase {
 				swerve.getModulePositions(), new Pose2d());
 
 		/* PhotonVision */
-		// System.out.println("[Init] Starting PhotonVision");
+		System.out.println("[Init] Starting PhotonVision");
 
-		// Add to constants file: PhotonVisionConstants.hostname = "photonvision.local" or whatever the hostname is renamed to in the PhotonVision web interface
+		// Add to constants file: PhotonVisionConstants.hostname = "photonvision.local"
+		// or whatever the hostname is renamed to in the PhotonVision web interface
 		// PortForwarder.add(5800, PhotonVisionConstants.hostname, 5800);
+		frontCamera = new PhotonCamera("frontCamera");
+		backCamera = new PhotonCamera("backCamera");
+
+		// TODO: Figure out whether to use closest to reference pose or lowest ambiguity
+		frontPoseEstimator = new PhotonPoseEstimator(VisionConstants.kAprilTagFieldLayout,
+				PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, VisionConstants.kFrontCamToRobot);
+		frontPoseEstimator.setMultiTagFallbackStrategy(PoseStrategy.CLOSEST_TO_REFERENCE_POSE);
+		// frontPoseEstimator.setMultiTagFallbackStrategy(PoseStrategy.LOWEST_AMBIGUITY);
+		backPoseEstimator = new PhotonPoseEstimator(VisionConstants.kAprilTagFieldLayout,
+				PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, VisionConstants.kBackCamToRobot);
+		backPoseEstimator.setMultiTagFallbackStrategy(PoseStrategy.CLOSEST_TO_REFERENCE_POSE);
+		// backPoseEstimator.setMultiTagFallbackStrategy(PoseStrategy.LOWEST_AMBIGUITY);
 	}
 
 	/* Runs periodically (about once every 20 ms) */
@@ -53,8 +77,32 @@ public class Odometry extends SubsystemBase {
 		/* Gyro */
 		odometer.update(getGyrometerHeading(), swerve.getModulePositions());
 
+		/* Vision */
+		updateVision();
+
 		/* Odometry */
 		poseEstimator.update(gyro.getRotation2d(), swerve.getModulePositions());
+	}
+
+	public void updateVision() {
+		frontPoseEstimator.setReferencePose(getPose());
+		backPoseEstimator.setReferencePose(getPose());
+
+		// Could get all unread results rather than just the latest
+		var frontResult = frontCamera.getLatestResult();
+		Optional<EstimatedRobotPose> frontEstPose = frontPoseEstimator.update(frontResult);
+		if (frontEstPose.isPresent()) {
+			// Could add a standard deviation calculation for more accuracy
+			poseEstimator.addVisionMeasurement(frontEstPose.get().estimatedPose.toPose2d(), frontResult.getTimestampSeconds());
+		}
+
+		// Could get all unread results rather than just the latest
+		var backResult = backCamera.getLatestResult();
+		Optional<EstimatedRobotPose> backEstPose = backPoseEstimator.update(backResult);
+		if (backEstPose.isPresent()) {
+			// Could add a standard deviation calculation for more accuracy
+			poseEstimator.addVisionMeasurement(backEstPose.get().estimatedPose.toPose2d(), backResult.getTimestampSeconds());
+		}
 	}
 
 	public Pose2d getPose() {

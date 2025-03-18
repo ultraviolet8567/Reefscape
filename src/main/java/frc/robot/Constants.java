@@ -5,6 +5,10 @@
 package frc.robot;
 import com.pathplanner.lib.config.ModuleConfig;
 import com.pathplanner.lib.config.RobotConfig;
+import edu.wpi.first.apriltag.AprilTagFieldLayout;
+import edu.wpi.first.apriltag.AprilTagFields;
+import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.system.plant.DCMotor;
@@ -19,7 +23,6 @@ public final class Constants {
 	public static final boolean fieldOriented = true;
 
 	public static class ElevatorConstants {
-		// TODO: FINALIZE
 		public static final double kElevatorVoltage = 7;
 		public static final double kP = 15;
 		public static final double kI = 0.0;
@@ -165,6 +168,38 @@ public final class Constants {
 		public static final double kAutoXDriveSpeed = 0.0;
 		public static final double kAutoYDriveSpeed = 0.5;
 		public static final double kAutoTurningSpeed = 0.0;
+	}
+
+	public static class VisionConstants {
+		public static final AprilTagFieldLayout kAprilTagFieldLayout = AprilTagFieldLayout
+				.loadField(AprilTagFields.k2025ReefscapeAndyMark);
+
+		// TODO: get these values once they are in the CAD
+
+		// Distances from cameras to robot
+		public static final double kFrontX = 0.0;
+		public static final double kFrontY = 0.0;
+		public static final double kFrontZ = 0.0;
+		// Rotation about x axis (left to right rotation)
+		public static final double kFrontRoll = 0.0;
+		// Rotation about y axis (forward to backward rotation)
+		public static final double kFrontPitch = 0.0;
+		// Rotation about z axis (spinning on the ground)
+		public static final double kFrontYaw = 0.0;
+		public static final Transform3d kFrontCamToRobot = new Transform3d(kFrontX, kFrontY, kFrontZ,
+				new Rotation3d(kFrontRoll, kFrontPitch, kFrontYaw));
+
+		public static final double kBackX = 0.0;
+		public static final double kBackY = 0.0;
+		public static final double kBackZ = 0.0;
+		// Rotation about x axis (left to right rotation)
+		public static final double kBackRoll = 0.0;
+		// Rotation about y axis (forward to backward rotation)
+		public static final double kBackPitch = 0.0;
+		// Rotation about z axis (spinning on the ground)
+		public static final double kBackYaw = 0.0;
+		public static final Transform3d kBackCamToRobot = new Transform3d(kBackX, kBackY, kBackZ,
+				new Rotation3d(kBackRoll, kBackPitch, kBackYaw));
 	}
 
 	// CAN = computer area network
