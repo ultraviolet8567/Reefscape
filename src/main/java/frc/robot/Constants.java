@@ -7,6 +7,7 @@ import com.pathplanner.lib.config.ModuleConfig;
 import com.pathplanner.lib.config.RobotConfig;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
@@ -17,6 +18,23 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.RobotBase;
 
 public final class Constants {
+	/**
+	 * WPILib coordinate system: - uses NWU axes convention (North-West-Up as
+	 * external reference in the world frame) - positive x-axis points forward -
+	 * positive y-axis points left - positive z-axis points up from the floor
+	 *
+	 * When viewed with each positive axis pointing toward you: - counter-clockwise
+	 * (CCW) is a positive value - clockwise (CW) is a negative value
+	 *
+	 * Rotation conventions (from the top view): - 0 degrees is aligned with the
+	 * positive x-axis - 180 degrees is algined with the negative x-axis
+	 *
+	 * Origin: - Since the 2025 field is rotated (rather than mirrored), the origin
+	 * is the right corner of the field - on the alliance side you're on, and the
+	 * positive x-axis always points away from your alliance wall - the positive
+	 * y-axis always points to the left
+	 */
+
 	public static final Mode currentMode = RobotBase.isReal() ? Mode.REAL : Mode.SIM;
 	public static final RobotType currentRobot = (currentMode == Mode.REAL) ? RobotType.REALBOT : RobotType.SIMBOT;
 	public static final boolean lightsExist = true;
@@ -178,13 +196,13 @@ public final class Constants {
 		public static final double kAutoXDriveSpeed = 0.0;
 		public static final double kAutoYDriveSpeed = 0.5;
 		public static final double kAutoTurningSpeed = 0.0;
+
+		public static final double kAutoAlignTolerance = 0.1;
 	}
 
 	public static class VisionConstants {
 		public static final AprilTagFieldLayout kAprilTagFieldLayout = AprilTagFieldLayout
 				.loadField(AprilTagFields.k2025ReefscapeAndyMark);
-
-		// TODO: get these values once they are in the CAD
 
 		// Distances from cameras to robot
 		public static final double kFrontX = Units.inchesToMeters(-9.5);
@@ -195,7 +213,7 @@ public final class Constants {
 		// Rotation about y axis (forward to backward rotation)
 		public static final double kFrontPitch = 0.0;
 		// Rotation about z axis (spinning on the ground)
-		public static final double kFrontYaw = Units.degreesToRadians(135);
+		public static final double kFrontYaw = Units.degreesToRadians(-135);
 		public static final Transform3d kFrontCamToRobot = new Transform3d(kFrontX, kFrontY, kFrontZ,
 				new Rotation3d(kFrontRoll, kFrontPitch, kFrontYaw));
 
@@ -207,22 +225,29 @@ public final class Constants {
 		// Rotation about y axis (forward to backward rotation)
 		public static final double kBackPitch = 0.0;
 		// Rotation about z axis (spinning on the ground)
-		public static final double kBackYaw = Units.degreesToRadians(180);
+		public static final double kBackYaw = Units.degreesToRadians(-90);
 		public static final Transform3d kBackCamToRobot = new Transform3d(kBackX, kBackY, kBackZ,
 				new Rotation3d(kBackRoll, kBackPitch, kBackYaw));
-
-		// Right reef offsets
-		public static final double kReefRightXOffset = 0.0;
-		public static final double kReefRightYOffset = 0.0;
-		public static final Rotation2d kReefRightRotationOffset = new Rotation2d(0);
-
-		// Right reef offsets
-		public static final double kReefLeftXOffset = 0.0;
-		public static final double kReefLeftYOffset = 0.0;
-		public static final Rotation2d kReefLeftRotationOffset = new Rotation2d(0);
 	}
 
-	// CAN = computer area network
+	public static class FieldConstants {
+		public static final Pose2d kReefEdgeA = new Pose2d(Units.inchesToMeters(144), Units.inchesToMeters(158.5),
+				new Rotation2d(Units.degreesToRadians(0)));
+		public static final Pose2d kReefEdgeB = new Pose2d(Units.inchesToMeters(160.37), Units.inchesToMeters(186.86),
+				new Rotation2d(Units.degreesToRadians(-60)));
+		public static final Pose2d kReefEdgeC = new Pose2d(Units.inchesToMeters(193.12), Units.inchesToMeters(186.86),
+				new Rotation2d(Units.degreesToRadians(-120)));
+		public static final Pose2d kReefEdgeD = new Pose2d(Units.inchesToMeters(209.50), Units.inchesToMeters(158.5),
+				new Rotation2d(Units.degreesToRadians(180)));
+		public static final Pose2d kReefEdgeE = new Pose2d(Units.inchesToMeters(193.12), Units.inchesToMeters(130.14),
+				new Rotation2d(Units.degreesToRadians(120)));
+		public static final Pose2d kReefEdgeF = new Pose2d(Units.inchesToMeters(160.37), Units.inchesToMeters(130.14),
+				new Rotation2d(Units.degreesToRadians(60)));
+
+		public static final Translation2d kLeftStalkOffset = new Translation2d(Units.inchesToMeters(6.47), 0.0);
+		public static final Translation2d kRightStalkOffset = new Translation2d(Units.inchesToMeters(-6.47), 0.0);
+	}
+
 	public static class CAN {
 		public static final int kFrontLeftDriveMotorPort = 10;
 		public static final int kFrontLeftTurningMotorPort = 20;
