@@ -10,6 +10,7 @@ import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
@@ -228,6 +229,9 @@ public final class Constants {
 		public static final double kBackYaw = Units.degreesToRadians(-90);
 		public static final Transform3d kBackCamToRobot = new Transform3d(kBackX, kBackY, kBackZ,
 				new Rotation3d(kBackRoll, kBackPitch, kBackYaw));
+
+		// Transform from robot center to coral deploying postion
+		public static final Transform2d kRobotCenterToCoralDeploy = new Transform2d(Units.inchesToMeters(9), Units.inchesToMeters(13), new Rotation2d(Units.degreesToRadians(90)));
 	}
 
 	public static class FieldConstants {
