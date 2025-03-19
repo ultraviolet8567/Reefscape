@@ -4,16 +4,16 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.*;
 import edu.wpi.first.math.kinematics.*;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.Constants.CAN;
 import frc.robot.Constants.DriveConstants;
 import java.util.Arrays;
 import org.littletonrobotics.junction.Logger;
 
+import com.pathplanner.lib.trajectory.PathPlannerTrajectoryState;
+
 public class Swerve extends SubsystemBase {
 	private final SwerveModule frontLeft, frontRight, backLeft, backRight;
-
-	// Auto alignment PID controllers
-	private PIDController forwardPidController, sidewaysPidController, anglePidController;
 
 	public Swerve() {
 		System.out.println("[Init] Creating Swerve");
@@ -40,12 +40,6 @@ public class Swerve extends SubsystemBase {
 				DriveConstants.kBackRightDriveAbsoluteEncoderPort,
 				DriveConstants.kBackRightDriveAbsoluteEncoderOffsetRad,
 				DriveConstants.kBackRightDriveAbsoluteEncoderReversed);
-
-		forwardPidController = new PIDController(DriveConstants.kTranslationP, DriveConstants.kTranslationI,
-				DriveConstants.kTranslationD);
-		sidewaysPidController = new PIDController(DriveConstants.kTranslationP, DriveConstants.kTranslationI,
-				DriveConstants.kTranslationD);
-		anglePidController = new PIDController(DriveConstants.kAngleP, DriveConstants.kAngleI, DriveConstants.kAngleD);
 	}
 
 	@Override
@@ -92,13 +86,8 @@ public class Swerve extends SubsystemBase {
 	}
 
 	// Calculate chassis speeds using PID
-	public ChassisSpeeds calculateChassisSpeed(Pose2d currentPose, Pose2d setpointPose) {
-		double xSpeed = forwardPidController.calculate(currentPose.getX(), setpointPose.getX());
-		double ySpeed = sidewaysPidController.calculate(currentPose.getY(), setpointPose.getY());
-		double turningSpeed = anglePidController.calculate(currentPose.getRotation().getRadians(),
-				setpointPose.getRotation().getRadians());
-
-		return new ChassisSpeeds(xSpeed, ySpeed, turningSpeed);
+	public ChassisSpeeds calculateChassisSpeed(Pose2d currentPose, PathPlannerTrajectoryState setpointPose) {
+		return DriveConstants.kAutoAlignController.calculateRobotRelativeSpeeds(currentPose, setpointPose);
 	}
 
 	// Sets the wheels to 45 degree angles so it doesn't move

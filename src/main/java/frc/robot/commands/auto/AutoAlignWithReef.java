@@ -11,12 +11,15 @@ import frc.robot.subsystems.Odometry.ReefEdge;
 import frc.robot.subsystems.Swerve;
 import java.util.function.Function;
 
+import com.pathplanner.lib.trajectory.PathPlannerTrajectoryState;
+
 public class AutoAlignWithReef extends Command {
 	private Swerve swerve;
 	private Odometry odometry;
 
 	private Function<ReefEdge, Pose2d> setpointFunction;
-	private Pose2d current, setpoint;
+	private Pose2d current;
+	private PathPlannerTrajectoryState setpoint;
 
 	private ChassisSpeeds chassisSpeeds;
 
@@ -38,7 +41,8 @@ public class AutoAlignWithReef extends Command {
 	@Override
 	public void execute() {
 		current = odometry.getPose();
-		setpoint = setpointFunction.apply(odometry.closestReefEdge());
+		setpoint = new PathPlannerTrajectoryState();
+		setpoint.pose = setpointFunction.apply(odometry.closestReefEdge());
 
 		chassisSpeeds = swerve.calculateChassisSpeed(current, setpoint);
 		swerve.setModuleStates(chassisSpeeds);
@@ -59,6 +63,6 @@ public class AutoAlignWithReef extends Command {
 
 	@Override
 	public boolean isFinished() {
-		return current.minus(setpoint).getTranslation().getNorm() < AutoConstants.kAutoAlignTolerance;
+		return current.minus(setpoint.pose).getTranslation().getNorm() < AutoConstants.kAutoAlignTolerance;
 	}
 }

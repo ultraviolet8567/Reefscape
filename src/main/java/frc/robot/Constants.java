@@ -4,7 +4,10 @@
 
 package frc.robot;
 import com.pathplanner.lib.config.ModuleConfig;
+import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.config.RobotConfig;
+import com.pathplanner.lib.controllers.PPHolonomicDriveController;
+
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -183,13 +186,10 @@ public final class Constants {
 				kDriveKinematics.getModules()); // locations of modules relative of robot center
 
 		// PID constants for auto alignment
-		public static final double kTranslationP = 0.5;
-		public static final double kTranslationI = 0.0;
-		public static final double kTranslationD = 0.0;
-
-		public static final double kAngleP = 0.5;
-		public static final double kAngleI = 0.0;
-		public static final double kAngleD = 0.0;
+		public static final PIDConstants kAutoTranslationPID = new PIDConstants(5.0,0,0);
+        public static final PIDConstants kAutoRotationPID = new PIDConstants(5.0,0,0);
+		
+		public static final PPHolonomicDriveController kAutoAlignController = new PPHolonomicDriveController(kAutoTranslationPID, kAutoRotationPID);
 	}
 
 	public static class AutoConstants {
@@ -214,7 +214,7 @@ public final class Constants {
 		// Rotation about y axis (forward to backward rotation)
 		public static final double kFrontPitch = Units.degreesToRadians(2.154);
 		// Rotation about z axis (spinning on the ground)
-		public static final double kFrontYaw = Units.degreesToRadians(0);
+		public static final double kFrontYaw = Units.degreesToRadians(102.5);
 		public static final Transform3d kFrontCamToRobot = new Transform3d(kFrontX, kFrontY, kFrontZ,
 				new Rotation3d(kFrontRoll, kFrontPitch, kFrontYaw));
 
@@ -226,7 +226,7 @@ public final class Constants {
 		// Rotation about y axis (forward to backward rotation)
 		public static final double kBackPitch = Units.degreesToRadians(2.154);
 		// Rotation about z axis (spinning on the ground)
-		public static final double kBackYaw = Units.degreesToRadians(0);
+		public static final double kBackYaw = Units.degreesToRadians(77.5);
 		public static final Transform3d kBackCamToRobot = new Transform3d(kBackX, kBackY, kBackZ,
 				new Rotation3d(kBackRoll, kBackPitch, kBackYaw));
 
