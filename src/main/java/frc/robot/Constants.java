@@ -7,6 +7,7 @@ import com.pathplanner.lib.config.ModuleConfig;
 import com.pathplanner.lib.config.RobotConfig;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -209,6 +210,16 @@ public final class Constants {
 		public static final double kBackYaw = 0.0;
 		public static final Transform3d kBackCamToRobot = new Transform3d(kBackX, kBackY, kBackZ,
 				new Rotation3d(kBackRoll, kBackPitch, kBackYaw));
+
+		// Right reef offsets
+		public static final double kReefRightXOffset = 0.0;
+		public static final double kReefRightYOffset = 0.0;
+		public static final Rotation2d kReefRightRotationOffset = new Rotation2d(0);
+
+		// Right reef offsets
+		public static final double kReefLeftXOffset = 0.0;
+		public static final double kReefLeftYOffset = 0.0;
+		public static final Rotation2d kReefLeftRotationOffset = new Rotation2d(0);
 	}
 
 	// CAN = computer area network

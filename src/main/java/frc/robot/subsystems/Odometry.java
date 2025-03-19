@@ -1,6 +1,9 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix6.hardware.Pigeon2;
+
+import edu.wpi.first.apriltag.AprilTag;
+import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -27,6 +30,11 @@ public class Odometry extends SubsystemBase {
 	private PhotonCamera frontCamera, backCamera;
 	private PhotonPoseEstimator frontPoseEstimator, backPoseEstimator;
 
+	private Optional<EstimatedRobotPose> frontEstPose, backEstPose;
+
+	private Pose2d detectedTagPoseFront;
+	private Pose2d detectedTagPoseBack;
+
 	public Odometry(Swerve swerve) {
 		System.out.println("[Init] Creating Odometry");
 
@@ -50,19 +58,20 @@ public class Odometry extends SubsystemBase {
 		// Add to constants file: PhotonVisionConstants.hostname = "photonvision.local"
 		// or whatever the hostname is renamed to in the PhotonVision web interface
 		PortForwarder.add(5800, "Photon-OrangePi-Front", 5800);
-		frontCamera = new PhotonCamera("OV9281_Front ");
-		// backCamera = new PhotonCamera("OV9281_Back");
+		frontCamera = new PhotonCamera("OV9281_Front");
+		PortForwarder.add(5800, "Photon-OrangePi-Bront", 5800);
+		backCamera = new PhotonCamera("OV9281_Back");
 
 		// TODO: Figure out whether to use closest to reference pose or lowest ambiguity
 		frontPoseEstimator = new PhotonPoseEstimator(VisionConstants.kAprilTagFieldLayout,
 				PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, VisionConstants.kFrontCamToRobot);
 		frontPoseEstimator.setMultiTagFallbackStrategy(PoseStrategy.CLOSEST_TO_REFERENCE_POSE);
-		// frontPoseEstimator.setMultiTagFallbackStrategy(PoseStrategy.LOWEST_AMBIGUITY);
-		// backPoseEstimator = new
-		// PhotonPoseEstimator(VisionConstants.kAprilTagFieldLayout,
-		// PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, VisionConstants.kBackCamToRobot);
-		// backPoseEstimator.setMultiTagFallbackStrategy(PoseStrategy.CLOSEST_TO_REFERENCE_POSE);
-		// backPoseEstimator.setMultiTagFallbackStrategy(PoseStrategy.LOWEST_AMBIGUITY);
+		frontPoseEstimator.setMultiTagFallbackStrategy(PoseStrategy.LOWEST_AMBIGUITY);
+
+		backPoseEstimator = new PhotonPoseEstimator(VisionConstants.kAprilTagFieldLayout,
+				PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, VisionConstants.kBackCamToRobot);
+		backPoseEstimator.setMultiTagFallbackStrategy(PoseStrategy.CLOSEST_TO_REFERENCE_POSE);
+		backPoseEstimator.setMultiTagFallbackStrategy(PoseStrategy.LOWEST_AMBIGUITY);
 	}
 
 	/* Runs periodically (about once every 20 ms) */
@@ -86,26 +95,37 @@ public class Odometry extends SubsystemBase {
 
 	public void updateVision() {
 		frontPoseEstimator.setReferencePose(getPose());
-		// backPoseEstimator.setReferencePose(getPose());
+		backPoseEstimator.setReferencePose(getPose());
 
 		// Could get all unread results rather than just the latest
 		var frontResult = frontCamera.getLatestResult();
-		Optional<EstimatedRobotPose> frontEstPose = frontPoseEstimator.update(frontResult);
+		frontEstPose = frontPoseEstimator.update(frontResult);
 		if (frontEstPose.isPresent()) {
 			// Could add a standard deviation calculation for more accuracy
 			poseEstimator.addVisionMeasurement(frontEstPose.get().estimatedPose.toPose2d(),
 					frontResult.getTimestampSeconds());
+
+			Logger.recordOutput("Vision/Front Estimated Pose", frontEstPose.get().estimatedPose.toPose2d());
+			Logger.recordOutput("Vision/Front April Tag ID", frontResult.getBestTarget().getFiducialId());
+
+			// get the position of the best detected april tag
+			detectedTagPoseFront = new Pose2d();
 		}
 
 		// Could get all unread results rather than just the latest
-		// var backResult = backCamera.getLatestResult();
-		// Optional<EstimatedRobotPose> backEstPose =
-		// backPoseEstimator.update(backResult);
-		// if (backEstPose.isPresent()) {
-		// // Could add a standard deviation calculation for more accuracy
-		// poseEstimator.addVisionMeasurement(backEstPose.get().estimatedPose.toPose2d(),
-		// backResult.getTimestampSeconds());
-		// }
+		var backResult = backCamera.getLatestResult();
+		backEstPose = backPoseEstimator.update(backResult);
+		if (backEstPose.isPresent()) {
+		// Could add a standard deviation calculation for more accuracy
+			poseEstimator.addVisionMeasurement(backEstPose.get().estimatedPose.toPose2d(),
+					backResult.getTimestampSeconds());
+
+			Logger.recordOutput("Vision/Back Estimated Pose", backEstPose.get().estimatedPose.toPose2d());
+			Logger.recordOutput("Vision/Back April Tag ID", backResult.getBestTarget().getFiducialId());
+
+			// get the position of the best detected april tag 
+			detectedTagPoseBack = new Pose2d();
+		}
 	}
 
 	public Pose2d getPose() {
