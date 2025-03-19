@@ -206,27 +206,27 @@ public final class Constants {
 				.loadField(AprilTagFields.k2025ReefscapeAndyMark);
 
 		// Distances from cameras to robot
-		public static final double kFrontX = Units.inchesToMeters(-9.5);
-		public static final double kFrontY = Units.inchesToMeters(-11);
-		public static final double kFrontZ = Units.inchesToMeters(-5);
+		public static final double kFrontX = Units.inchesToMeters(-8.8327);
+		public static final double kFrontY = Units.inchesToMeters(-9.2672);
+		public static final double kFrontZ = Units.inchesToMeters(-7.8389);
 		// Rotation about x axis (left to right rotation)
-		public static final double kFrontRoll = 0.0;
+		public static final double kFrontRoll = Units.degreesToRadians(10);
 		// Rotation about y axis (forward to backward rotation)
-		public static final double kFrontPitch = 0.0;
+		public static final double kFrontPitch = Units.degreesToRadians(2.154);
 		// Rotation about z axis (spinning on the ground)
-		public static final double kFrontYaw = Units.degreesToRadians(-135);
+		public static final double kFrontYaw = Units.degreesToRadians(0);
 		public static final Transform3d kFrontCamToRobot = new Transform3d(kFrontX, kFrontY, kFrontZ,
 				new Rotation3d(kFrontRoll, kFrontPitch, kFrontYaw));
 
-		public static final double kBackX = 0.0;
-		public static final double kBackY = Units.inchesToMeters(-9.5);
-		public static final double kBackZ = Units.inchesToMeters(-9.5);
+		public static final double kBackX = Units.inchesToMeters(8.8168);
+		public static final double kBackY = Units.inchesToMeters(-9.1947);
+		public static final double kBackZ = Units.inchesToMeters(-7.8069);
 		// Rotation about x axis (left to right rotation)
-		public static final double kBackRoll = 0.0;
+		public static final double kBackRoll = Units.degreesToRadians(10);
 		// Rotation about y axis (forward to backward rotation)
-		public static final double kBackPitch = 0.0;
+		public static final double kBackPitch = Units.degreesToRadians(2.154);
 		// Rotation about z axis (spinning on the ground)
-		public static final double kBackYaw = Units.degreesToRadians(-90);
+		public static final double kBackYaw = Units.degreesToRadians(0);
 		public static final Transform3d kBackCamToRobot = new Transform3d(kBackX, kBackY, kBackZ,
 				new Rotation3d(kBackRoll, kBackPitch, kBackYaw));
 
