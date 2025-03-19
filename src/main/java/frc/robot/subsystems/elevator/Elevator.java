@@ -56,8 +56,6 @@ public class Elevator extends SubsystemBase {
 	// Get desired height based on mode
 	public double getPresetHeight() {
 		switch (mode) {
-			case GROUND :
-				return ElevatorConstants.kHeightGround;
 			case STATION :
 				return ElevatorConstants.kHeightStation;
 			case PROCESSOR :
@@ -70,14 +68,14 @@ public class Elevator extends SubsystemBase {
 				return ElevatorConstants.kHeightL3;
 			case L4 :
 				return ElevatorConstants.kHeightL4;
-			case MAX :
-				return ElevatorConstants.kHeightMax;
 			case ALGAELOWER :
-				return ElevatorConstants.kHeightAlgaeLower;
+				return ElevatorConstants.kHeightGrabAlgaeLower;
 			case ALGAEHIGHER :
-				return ElevatorConstants.kHeightAlgaeHigher;
+				return ElevatorConstants.kHeightGrabAlgaeHigher;
 			case ALGAECANDLESTICK :
 				return ElevatorConstants.kHeightAlgaeCandlestick;
+			case HIGH :
+				return ElevatorConstants.kHeightHigh;
 			default :
 				return ElevatorConstants.kHeightDefault;
 		}
@@ -114,8 +112,6 @@ public class Elevator extends SubsystemBase {
 	public static enum ElevatorMode {
 		/** Taxi height */
 		DEFAULT,
-		/** Intaking from ground */
-		GROUND,
 		/** Intaking from station */
 		STATION,
 		/** Depositing in processor */
@@ -136,8 +132,8 @@ public class Elevator extends SubsystemBase {
 		ALGAEHIGHER,
 		/** At algae heght for algae above coral on ground */
 		ALGAECANDLESTICK,
-		/** At max elevator height */
-		MAX
+		/** At highest permissible preset height */
+		HIGH;
 	}
 
 	public void resetEncoder() {

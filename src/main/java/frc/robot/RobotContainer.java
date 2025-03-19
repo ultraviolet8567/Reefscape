@@ -19,7 +19,6 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.*;
 import frc.robot.commands.*;
 import frc.robot.commands.auto.AutoAlignWithReef;
@@ -108,7 +107,7 @@ public class RobotContainer {
 		NamedCommands.registerCommand("ElevatorL2", new InstantCommand(() -> elevator.setMode(ElevatorMode.L2)));
 		NamedCommands.registerCommand("ElevatorL3", new InstantCommand(() -> elevator.setMode(ElevatorMode.L3)));
 		NamedCommands.registerCommand("ElevatorL4", new InstantCommand(() -> elevator.setMode(ElevatorMode.L4)));
-		NamedCommands.registerCommand("ElevatorMax", new InstantCommand(() -> elevator.setMode(ElevatorMode.MAX)));
+		NamedCommands.registerCommand("ElevatorMax", new InstantCommand(() -> elevator.setMode(ElevatorMode.HIGH)));
 		NamedCommands.registerCommand("ElevatorIntakeCoral",
 				new InstantCommand(() -> elevator.setMode(ElevatorMode.STATION)));
 
@@ -129,21 +128,10 @@ public class RobotContainer {
 		// Shuffleboard setup
 		Shuffleboard.getTab("Main").add("Camera", driverCam).withWidget(BuiltInWidgets.kCameraStream).withSize(4, 4)
 				.withPosition(5, 0);
-		// Shuffleboard.getTab("Main").add("Elevator Setpoint",
-		// elevator.getMode()).withWidget(BuiltInWidgets.kTextView)
-		// .withSize(1, 2).withPosition(5, 4);
+		Shuffleboard.getTab("Main").add("Elevator Mode", elevator.getMode().name()).withWidget(BuiltInWidgets.kTextView)
+				.withSize(1, 2).withPosition(5, 4);
 	}
 
-	/**
-	 * Use this method to define your trigger->command mappings. Triggers can be
-	 * created via the {@link Trigger#Trigger(java.util.function.BooleanSupplier)}
-	 * constructor with an arbitrary predicate, or via the named factories in
-	 * {@link edu.wpi.first.wpilibj2.command.button.CommandGenericHID}'s subclasses
-	 * for {@link CommandXboxController
-	 * Xbox}/{@link edu.wpi.first.wpilibj2.command.button.CommandPS4Controller PS4}
-	 * controllers or {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick
-	 * Flight joysticks}.
-	 */
 	private void configureBindings() {
 		// Reset gyro
 		driverController.back().onTrue(new InstantCommand(() -> odometry.resetGyrometerHeading()));
@@ -151,31 +139,39 @@ public class RobotContainer {
 		// Toggle algae extension/retraction
 		driverController.start().onTrue(new InstantCommand(() -> algaeIntake.toggleAlgaeRetraction()));
 
-		// Auto align with reef
-		driverController.povRight().onTrue(new AutoAlignWithReef(swerve, odometry, true));
-		driverController.b().onTrue(new AutoAlignWithReef(swerve, odometry, true));
-		driverController.povLeft().onTrue(new AutoAlignWithReef(swerve, odometry, false));
-		driverController.x().onTrue(new AutoAlignWithReef(swerve, odometry, false));
+		// Auto align with Reef right stalk
+		// Made to require holding down the button to allow for failsafe abort (when
+		// button is released)
+		driverController.povRight().whileTrue(new AutoAlignWithReef(swerve, odometry, true));
+		driverController.b().whileTrue(new AutoAlignWithReef(swerve, odometry, true));
 
-		// Ground height
-		operatorController.a().onTrue(new InstantCommand(() -> elevator.setMode(ElevatorMode.L1)));
-		// Processor height
-		operatorController.x().onTrue(new InstantCommand(() -> elevator.setMode(ElevatorMode.L3)));
-		// L1 height
+		// Auto align with Reef left stalk
+		// Made to require holding down the button to allow for failsafe abort (when
+		// button is released)
+		driverController.povLeft().whileTrue(new AutoAlignWithReef(swerve, odometry, false));
+		driverController.x().whileTrue(new AutoAlignWithReef(swerve, odometry, false));
+
+		/* Operator elevator controls */
+		// Default (taxi) height
+		operatorController.a().onTrue(new InstantCommand(() -> elevator.setMode(ElevatorMode.DEFAULT)));
+		// Station intaking height
 		operatorController.start().onTrue(new InstantCommand(() -> elevator.setMode(ElevatorMode.STATION)));
+		// L1 height
+		operatorController.back().onTrue(new InstantCommand(() -> elevator.setMode(ElevatorMode.L1)));
 		// L2 height
-		operatorController.back().onTrue(new InstantCommand(() -> elevator.setMode(ElevatorMode.PROCESSOR)));
-		// L3 height
 		operatorController.b().onTrue(new InstantCommand(() -> elevator.setMode(ElevatorMode.L2)));
+		// L3 height
+		operatorController.x().onTrue(new InstantCommand(() -> elevator.setMode(ElevatorMode.L3)));
 		// L4 height
 		operatorController.y().onTrue(new InstantCommand(() -> elevator.setMode(ElevatorMode.L4)));
-		// Algae candlestick height
-		operatorController.pov(0).onTrue(new InstantCommand(() -> elevator.setMode(ElevatorMode.ALGAECANDLESTICK)));
 		// Algae lower height
-		operatorController.pov(90).onTrue(new InstantCommand(() -> elevator.setMode(ElevatorMode.ALGAELOWER)));
-		operatorController.pov(270).onTrue(new InstantCommand(() -> elevator.setMode(ElevatorMode.ALGAELOWER)));
+		operatorController.pov(180).onTrue(new InstantCommand(() -> elevator.setMode(ElevatorMode.ALGAELOWER)));
 		// Algae higher height
-		operatorController.pov(180).onTrue(new InstantCommand(() -> elevator.setMode(ElevatorMode.ALGAEHIGHER)));
+		operatorController.pov(0).onTrue(new InstantCommand(() -> elevator.setMode(ElevatorMode.ALGAEHIGHER)));
+		// Algae candlestick height
+		operatorController.pov(270).onTrue(new InstantCommand(() -> elevator.setMode(ElevatorMode.ALGAECANDLESTICK)));
+		// Processor height
+		operatorController.pov(90).onTrue(new InstantCommand(() -> elevator.setMode(ElevatorMode.PROCESSOR)));
 
 		// right for algae, left for coral
 		operatorController.rightBumper().whileTrue(new PickupAlgae(algaeIntake));

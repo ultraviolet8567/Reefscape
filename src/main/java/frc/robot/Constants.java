@@ -69,29 +69,29 @@ public final class Constants {
 		public static final double kElevatorMaxRadians = 4.25;
 		public static final double kElevatorMinRadians = 0.1;
 
-		public static final double kElevatorMaxHeight = 2; // in meters
-		public static final double kElevatorMinHeight = 0.05; // in meters
+		/* Heights are in meters */
+		public static final double kElevatorMaxHeight = 2.00;
+		public static final double kElevatorMinHeight = 0.05;
 
 		// Setpoints
-		public static final double kHeightDefault = 0.1; // Dummy value
-		public static final double kHeightGround = 0.1; // Dummy value
+		public static final double kHeightDefault = kElevatorMinHeight;
 		public static final double kHeightStation = 0.2861;
 		public static final double kHeightProcessor = 1.0381;
-		public static final double kHeightL1 = 0.1; // Dummy value
+		public static final double kHeightL1 = 0.1; // TODO
 		public static final double kHeightL2 = 0.1525;
 		public static final double kHeightL3 = 0.76;
-		public static final double kHeightL4 = 1.69;
-		public static final double kHeightMax = 1.8;
-		public static final double kHeightAlgaeLower = 1.0; // Dummy value
-		public static final double kHeightAlgaeHigher = 1.55; // Dummy value
-		public static final double kHeightAlgaeCandlestick = 0.5; // Dummy value
+		public static final double kHeightL4 = 1.69; // TODO
+		public static final double kHeightGrabAlgaeLower = 1.0; // TODO
+		public static final double kHeightGrabAlgaeHigher = 1.55; // TODO
+		public static final double kHeightAlgaeCandlestick = 0.5; // TODO
+		public static final double kHeightHigh = 0.95 * kElevatorMaxHeight;
 	}
 
 	public static class IntakeConstants {
 		public static final int kAlgaeIntakeVoltage = 10;
 
-		public static final double kCoralVoltageDefault = 1.5; // Dummy value
-		public static final double kCoralVoltageL1 = 1.5; // Dummy value
+		public static final double kCoralVoltageDefault = 1.5;
+		public static final double kCoralVoltageL1 = 1.5;
 		public static final double kCoralVoltageL2 = 1.5;
 		public static final double kCoralVoltageL3 = 1.5;
 		public static final double kCoralVoltageL4 = 1.2;
