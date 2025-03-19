@@ -153,7 +153,9 @@ public class RobotContainer {
 
 		// Auto align with reef
 		driverController.povRight().onTrue(new AutoAlignWithReef(swerve, odometry, true));
+		driverController.b().onTrue(new AutoAlignWithReef(swerve, odometry, true));
 		driverController.povLeft().onTrue(new AutoAlignWithReef(swerve, odometry, false));
+		driverController.x().onTrue(new AutoAlignWithReef(swerve, odometry, false));
 
 		// Ground height
 		operatorController.a().onTrue(new InstantCommand(() -> elevator.setMode(ElevatorMode.L1)));
