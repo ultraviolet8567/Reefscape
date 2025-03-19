@@ -172,6 +172,9 @@ public class Odometry extends SubsystemBase {
 		Pose2d edgePosition() {
 			switch (this) {
 				case A :
+					// Coordinate of AprilTag on Edge A, from field layout
+					// int id = (blueAlliance) ? 18 : 7;
+					// return VisionConstants.kAprilTagFieldLayout.getTagPose(id).get().toPose2d();
 					return FieldConstants.kReefEdgeA;
 				case B :
 					return FieldConstants.kReefEdgeB;
