@@ -22,6 +22,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.*;
 import frc.robot.commands.*;
+import frc.robot.commands.auto.AutoAlignWithReef;
 import frc.robot.commands.auto.AutoDriveOut;
 import frc.robot.subsystems.AutoChooser;
 import frc.robot.subsystems.Odometry;
@@ -149,6 +150,10 @@ public class RobotContainer {
 
 		// Toggle algae extension/retraction
 		driverController.start().onTrue(new ToggleAlgaeRetraction(algaeIntake));
+
+		// Auto align with reef
+		driverController.povRight().onTrue(new AutoAlignWithReef(swerve, odometry, true));
+		driverController.povLeft().onTrue(new AutoAlignWithReef(swerve, odometry, false));
 
 		// Ground height
 		operatorController.a().onTrue(new InstantCommand(() -> elevator.setMode(ElevatorMode.L1)));
