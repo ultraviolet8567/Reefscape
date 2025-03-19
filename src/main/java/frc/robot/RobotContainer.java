@@ -129,7 +129,7 @@ public class RobotContainer {
 		Shuffleboard.getTab("Main").add("Camera", driverCam).withWidget(BuiltInWidgets.kCameraStream).withSize(4, 4)
 				.withPosition(5, 0);
 		Shuffleboard.getTab("Main").add("Elevator Mode", elevator.getMode().name()).withWidget(BuiltInWidgets.kTextView)
-				.withSize(1, 2).withPosition(5, 4);
+				.withSize(2, 1).withPosition(2, 1);
 	}
 
 	private void configureBindings() {

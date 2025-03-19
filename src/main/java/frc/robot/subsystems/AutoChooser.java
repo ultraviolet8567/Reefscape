@@ -62,7 +62,7 @@ public class AutoChooser extends VirtualSubsystem {
 				0);
 		main.add("Reef Side", side).withWidget(BuiltInWidgets.kComboBoxChooser).withSize(2, 1).withPosition(0, 2);
 		main.add("Direction", direction).withWidget(BuiltInWidgets.kComboBoxChooser).withSize(2, 1).withPosition(0, 3);
-		autoName = main.add("Auto Name", "").withWidget(BuiltInWidgets.kTextView).withSize(2, 1).withPosition(0, 4)
+		autoName = main.add("Auto Name", "").withWidget(BuiltInWidgets.kTextView).withSize(2, 1).withPosition(2, 0)
 				.getEntry();
 
 		for (String pathName : AutoBuilder.getAllAutoNames()) {
