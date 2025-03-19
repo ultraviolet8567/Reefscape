@@ -231,7 +231,8 @@ public final class Constants {
 				new Rotation3d(kBackRoll, kBackPitch, kBackYaw));
 
 		// Transform from robot center to coral deploying postion
-		public static final Transform2d kRobotCenterToCoralDeploy = new Transform2d(Units.inchesToMeters(9), Units.inchesToMeters(13), new Rotation2d(Units.degreesToRadians(90)));
+		public static final Transform2d kRobotCenterToCoralDeploy = new Transform2d(Units.inchesToMeters(9),
+				Units.inchesToMeters(13), new Rotation2d(Units.degreesToRadians(90)));
 	}
 
 	public static class FieldConstants {

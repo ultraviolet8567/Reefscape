@@ -23,4 +23,7 @@ public interface AlgaeIntakeIO {
 
 	public default void stop() {
 	}
+
+	public default void stopExtension() {
+	}
 }

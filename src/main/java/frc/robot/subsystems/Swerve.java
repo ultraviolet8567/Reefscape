@@ -133,4 +133,8 @@ public class Swerve extends SubsystemBase {
 		backLeft.stop();
 		backRight.stop();
 	}
+
+	public static enum SwerveMode {
+		MANUAL, AUTOALIGN, EDGE_A, EDGE_B, EDGE_C, EDGE_D, EDGE_E, EDGE_F
+	}
 }

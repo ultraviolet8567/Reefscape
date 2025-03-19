@@ -12,7 +12,7 @@ public class AlgaeIntake extends SubsystemBase {
 	public AlgaeIntake(AlgaeIntakeIO io) {
 		this.io = io;
 
-		algaeExtended = false;
+		algaeExtended = true;
 	}
 
 	// Periodic method called in every cycle (e.g., 20ms)
@@ -38,24 +38,17 @@ public class AlgaeIntake extends SubsystemBase {
 		io.set(IntakeConstants.kAlgaeIntakeVoltage);
 	}
 
-	public void setExtension() {
-		if (algaeExtended) {
-			algaeExtended = false;
-		} else {
-			algaeExtended = true;
-		}
-	}
-
 	public void toggleAlgaeRetraction() {
 		if (algaeExtended) {
 			retract();
 		} else {
 			extend();
 		}
+		algaeExtended = !algaeExtended;
 	}
 
 	public void extend() {
-		io.stop();
+		io.stopExtension();
 	}
 
 	public void retract() {

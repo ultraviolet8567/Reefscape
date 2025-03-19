@@ -222,7 +222,8 @@ public class Odometry extends SubsystemBase {
 			// Return the pose of the left stalk
 			Pose2d stalkPose = edgePose.transformBy(new Transform2d(edgeToLeftStalk, new Rotation2d()));
 
-			// To get the coral deploy point to stalkPose, need to transform the setpoint to be for the center of the robot
+			// To get the coral deploy point to stalkPose, need to transform the setpoint to
+			// be for the center of the robot
 			return stalkPose.transformBy(VisionConstants.kRobotCenterToCoralDeploy.inverse());
 		}
 
@@ -235,8 +236,9 @@ public class Odometry extends SubsystemBase {
 
 			// Return the pose of the right stalk
 			Pose2d stalkPose = edgePose.transformBy(new Transform2d(edgeToRightStalk, new Rotation2d()));
-			
-			// To get the coral deploy point to stalkPose, need to transform the setpoint to be for the center of the robot
+
+			// To get the coral deploy point to stalkPose, need to transform the setpoint to
+			// be for the center of the robot
 			return stalkPose.transformBy(VisionConstants.kRobotCenterToCoralDeploy.inverse());
 		}
 	}

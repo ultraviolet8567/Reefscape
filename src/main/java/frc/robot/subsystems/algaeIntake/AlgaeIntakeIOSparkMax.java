@@ -88,6 +88,10 @@ public class AlgaeIntakeIOSparkMax implements AlgaeIntakeIO {
 	public void stop() {
 		rightMotor.setVoltage(0);
 		leftMotor.setVoltage(0);
+	}
+
+	@Override
+	public void stopExtension() {
 		extensionMotor.setVoltage(0);
 	}
 }

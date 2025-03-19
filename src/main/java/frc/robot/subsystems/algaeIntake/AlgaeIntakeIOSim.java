@@ -16,4 +16,8 @@ public class AlgaeIntakeIOSim implements AlgaeIntakeIO {
 	@Override
 	public void stop() {
 	}
+
+	@Override
+	public void stopExtension() {
+	}
 }

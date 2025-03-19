@@ -149,7 +149,7 @@ public class RobotContainer {
 		driverController.back().onTrue(new InstantCommand(() -> odometry.resetGyrometerHeading()));
 
 		// Toggle algae extension/retraction
-		driverController.start().onTrue(new ToggleAlgaeRetraction(algaeIntake));
+		driverController.start().onTrue(new InstantCommand(() -> algaeIntake.toggleAlgaeRetraction()));
 
 		// Auto align with reef
 		driverController.povRight().onTrue(new AutoAlignWithReef(swerve, odometry, true));
