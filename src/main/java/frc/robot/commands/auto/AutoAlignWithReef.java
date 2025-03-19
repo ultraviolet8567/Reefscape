@@ -2,42 +2,58 @@ package frc.robot.commands.auto;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants.AutoConstants;
+import frc.robot.RobotContainer;
 import frc.robot.subsystems.Odometry;
+import frc.robot.subsystems.Odometry.ReefEdge;
 import frc.robot.subsystems.Swerve;
+import java.util.function.Function;
 
 public class AutoAlignWithReef extends Command {
 	private Swerve swerve;
 	private Odometry odometry;
-	private boolean rightReef;
-	private int reefSide;
-	private ChassisSpeeds chassisSpeeds;
-	private Pose2d setpoint;
 
-	public AutoAlignWithReef(Swerve swerve, Odometry odometry, boolean rightReef) {
+	private Function<ReefEdge, Pose2d> setpointFunction;
+	private Pose2d current, setpoint;
+
+	private ChassisSpeeds chassisSpeeds;
+
+	public AutoAlignWithReef(Swerve swerve, Odometry odometry, boolean onTheRight) {
 		this.swerve = swerve;
 		this.odometry = odometry;
-		this.rightReef = rightReef;
+
+		// Determine whether the pose of the left stalk or right stalk should be the
+		// setpoint
+		if (onTheRight) {
+			setpointFunction = (ReefEdge edge) -> edge.setpointRight();
+		} else {
+			setpointFunction = (ReefEdge edge) -> edge.setpointLeft();
+		}
 
 		addRequirements(swerve);
 	}
 
 	@Override
 	public void execute() {
-		// Makes chassis speeds to turn into swerve module states
-		// TODO: get setpoints from odometry of reef april tags and do some constant
-		// how do i find which april tag we are trying to align to
+		current = odometry.getPose();
+		setpoint = setpointFunction.apply(odometry.closestReefEdge());
 
-		chassisSpeeds = swerve.calculateChassisSpeed(odometry.getPose().getX(), 0, odometry.getPose().getY(), 0,
-				odometry.getHeading(), null);
-
-		chassisSpeeds = swerve.calculateChassisSpeed(odometry.getPose(), odometry.closestReefEdge().setpointLeft());
-
+		chassisSpeeds = swerve.calculateChassisSpeed(current, setpoint);
 		swerve.setModuleStates(chassisSpeeds);
 	}
 
 	@Override
 	public void end(boolean interrupted) {
 		swerve.stopModules();
+
+		RobotContainer.getDriverJoystick().setRumble(RumbleType.kBothRumble, 0.25);
+		RobotContainer.getOperatorJoystick().setRumble(RumbleType.kBothRumble, 0.25);
+	}
+
+	@Override
+	public boolean isFinished() {
+		return current.minus(setpoint).getTranslation().getNorm() < AutoConstants.kAutoAlignTolerance;
 	}
 }

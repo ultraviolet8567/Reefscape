@@ -194,6 +194,10 @@ public class RobotContainer {
 		return driverController.getHID();
 	}
 
+	public static XboxController getOperatorJoystick() {
+		return operatorController.getHID();
+	}
+
 	public void resetEncoder() {
 		elevator.resetEncoder();
 	}

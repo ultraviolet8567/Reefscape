@@ -3,19 +3,24 @@ package frc.robot.subsystems;
 import com.ctre.phoenix6.hardware.Pigeon2;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Transform2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.net.PortForwarder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriveConstants;
+import frc.robot.Constants.FieldConstants;
 import frc.robot.Constants.VisionConstants;
-import frc.robot.util.AllianceFlipUtil;
+import java.util.List;
 import java.util.Optional;
 import org.littletonrobotics.junction.Logger;
 import org.photonvision.EstimatedRobotPose;
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonPoseEstimator;
 import org.photonvision.PhotonPoseEstimator.PoseStrategy;
+import org.photonvision.targeting.PhotonTrackedTarget;
 
 public class Odometry extends SubsystemBase {
 	private Swerve swerve;
@@ -26,11 +31,6 @@ public class Odometry extends SubsystemBase {
 
 	private PhotonCamera frontCamera, backCamera;
 	private PhotonPoseEstimator frontPoseEstimator, backPoseEstimator;
-
-	private Optional<EstimatedRobotPose> frontEstPose, backEstPose;
-
-	private Pose2d detectedTagPoseFront;
-	private Pose2d detectedTagPoseBack;
 
 	public Odometry(Swerve swerve) {
 		System.out.println("[Init] Creating Odometry");
@@ -93,32 +93,27 @@ public class Odometry extends SubsystemBase {
 
 		// Could get all unread results rather than just the latest
 		var frontResult = frontCamera.getLatestResult();
-		frontEstPose = frontPoseEstimator.update(frontResult);
+		Optional<EstimatedRobotPose> frontEstPose = frontPoseEstimator.update(frontResult);
 		if (frontEstPose.isPresent()) {
 			// Could add a standard deviation calculation for more accuracy
 			poseEstimator.addVisionMeasurement(frontEstPose.get().estimatedPose.toPose2d(),
 					frontResult.getTimestampSeconds());
 
 			Logger.recordOutput("Vision/Front Estimated Pose", frontEstPose.get().estimatedPose.toPose2d());
-			Logger.recordOutput("Vision/Front April Tag ID", frontResult.getBestTarget().getFiducialId());
-
-			// get the position of the best detected april tag
-			detectedTagPoseFront = new Pose2d();
+			Logger.recordOutput("Vision/Front Tags", getTagPositions(frontResult.getTargets()));
 		}
 
 		// Could get all unread results rather than just the latest
 		var backResult = backCamera.getLatestResult();
-		backEstPose = backPoseEstimator.update(backResult);
+		Optional<EstimatedRobotPose> backEstPose = backPoseEstimator.update(backResult);
 		if (backEstPose.isPresent()) {
 			// Could add a standard deviation calculation for more accuracy
 			poseEstimator.addVisionMeasurement(backEstPose.get().estimatedPose.toPose2d(),
 					backResult.getTimestampSeconds());
 
 			Logger.recordOutput("Vision/Back Estimated Pose", backEstPose.get().estimatedPose.toPose2d());
-			Logger.recordOutput("Vision/Back April Tag ID", backResult.getBestTarget().getFiducialId());
-
-			// get the position of the best detected april tag
-			detectedTagPoseBack = new Pose2d();
+			Logger.recordOutput("Vision/Back Tags", getTagPositions(backResult.getTargets()));
+			Logger.recordOutput("Vision/Back Best Tag", backResult.getBestTarget());
 		}
 	}
 
@@ -153,28 +148,87 @@ public class Odometry extends SubsystemBase {
 	public void resetGyrometerHeading() {
 		gyro.reset();
 	}
-}
 
-enum ReefEdge {
-	A,
-	B,
-	C,
-	D,
-	E,
-	F;
+	public Pose3d[] getTagPositions(List<PhotonTrackedTarget> targets) {
+		List<Pose3d> tagPoses = List.of();
 
-	Pose2d edgePosition() {
-		return new Pose2d();
+		for (PhotonTrackedTarget target : targets) {
+			Optional<Pose3d> tagPose = VisionConstants.kAprilTagFieldLayout.getTagPose(target.getFiducialId());
+			if (tagPose.isPresent()) {
+				tagPoses.add(tagPose.get());
+			}
+		}
+
+		return tagPoses.toArray(new Pose3d[0]);
 	}
 
-	Pose2d setpointLeft() {
-		return new Pose2d();
+	public ReefEdge closestReefEdge() {
+		return ReefEdge.nearestReefEdge(getPose());
 	}
 
-	Pose2d setpointRight() {
-		switch (this) {
-			case A: 
-			case B:
+	public static enum ReefEdge {
+		A, B, C, D, E, F;
+
+		Pose2d edgePosition() {
+			switch (this) {
+				case A :
+					return FieldConstants.kReefEdgeA;
+				case B :
+					return FieldConstants.kReefEdgeB;
+				case C :
+					return FieldConstants.kReefEdgeC;
+				case D :
+					return FieldConstants.kReefEdgeD;
+				case E :
+					return FieldConstants.kReefEdgeE;
+				case F :
+					return FieldConstants.kReefEdgeF;
+				default :
+					return FieldConstants.kReefEdgeA;
+			}
+		}
+
+		public static ReefEdge nearestReefEdge(Pose2d pose) {
+			Pose2d closestReefPose = pose.nearest(List.of(A.edgePosition(), B.edgePosition(), C.edgePosition(),
+					D.edgePosition(), E.edgePosition(), F.edgePosition()));
+
+			if (closestReefPose.equals(A.edgePosition())) {
+				return A;
+			} else if (closestReefPose.equals(B.edgePosition())) {
+				return B;
+			} else if (closestReefPose.equals(C.edgePosition())) {
+				return C;
+			} else if (closestReefPose.equals(D.edgePosition())) {
+				return D;
+			} else if (closestReefPose.equals(E.edgePosition())) {
+				return E;
+			} else if (closestReefPose.equals(F.edgePosition())) {
+				return F;
+			} else {
+				return A;
+			}
+		}
+
+		public Pose2d setpointLeft() {
+			// Get the position of this edge
+			Pose2d edgePose = this.edgePosition();
+
+			// Rotate translation to be along face of this edge
+			Translation2d edgeToLeftStalk = FieldConstants.kLeftStalkOffset.rotateBy(edgePose.getRotation());
+
+			// Return the pose of the left stalk
+			return edgePose.transformBy(new Transform2d(edgeToLeftStalk, new Rotation2d()));
+		}
+
+		public Pose2d setpointRight() {
+			// Get the position of this edge
+			Pose2d edgePose = this.edgePosition();
+
+			// Rotate translation to be along face of this edge
+			Translation2d edgeToRightStalk = FieldConstants.kRightStalkOffset.rotateBy(edgePose.getRotation());
+
+			// Return the pose of the right stalk
+			return edgePose.transformBy(new Transform2d(edgeToRightStalk, new Rotation2d()));
 		}
 	}
 }

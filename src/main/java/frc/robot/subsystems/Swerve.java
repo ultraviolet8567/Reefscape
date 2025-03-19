@@ -4,7 +4,6 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.*;
 import edu.wpi.first.math.kinematics.*;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
 import frc.robot.Constants.CAN;
 import frc.robot.Constants.DriveConstants;
 import java.util.Arrays;
@@ -14,7 +13,7 @@ public class Swerve extends SubsystemBase {
 	private final SwerveModule frontLeft, frontRight, backLeft, backRight;
 
 	// Auto alignment PID controllers
-	private PIDController translationPidController, anglePidController;
+	private PIDController forwardPidController, sidewaysPidController, anglePidController;
 
 	public Swerve() {
 		System.out.println("[Init] Creating Swerve");
@@ -42,7 +41,9 @@ public class Swerve extends SubsystemBase {
 				DriveConstants.kBackRightDriveAbsoluteEncoderOffsetRad,
 				DriveConstants.kBackRightDriveAbsoluteEncoderReversed);
 
-		translationPidController = new PIDController(DriveConstants.kTranslationP, DriveConstants.kTranslationI,
+		forwardPidController = new PIDController(DriveConstants.kTranslationP, DriveConstants.kTranslationI,
+				DriveConstants.kTranslationD);
+		sidewaysPidController = new PIDController(DriveConstants.kTranslationP, DriveConstants.kTranslationI,
 				DriveConstants.kTranslationD);
 		anglePidController = new PIDController(DriveConstants.kAngleP, DriveConstants.kAngleI, DriveConstants.kAngleD);
 	}
@@ -50,7 +51,7 @@ public class Swerve extends SubsystemBase {
 	@Override
 	public void periodic() {
 		Logger.recordOutput("Swerve/Measured", getModuleStates());
-		Logger.recordOutput("Swerve/Abs",
+		Logger.recordOutput("Swerve/Absolute Encoders",
 				new double[]{frontLeft.getAbsoluteEncoderAngle(), frontRight.getAbsoluteEncoderAngle(),
 						backLeft.getAbsoluteEncoderAngle(), backRight.getAbsoluteEncoderAngle()});
 	}
@@ -91,19 +92,13 @@ public class Swerve extends SubsystemBase {
 	}
 
 	// Calculate chassis speeds using PID
-	public ChassisSpeeds calculateChassisSpeed(double xPos, double xSetpoint, double yPos, double ySetpoint,
-			Rotation2d heading, Rotation2d headingSetpoint) {
-		ChassisSpeeds chassisSpeeds;
-		double xSpeed = translationPidController.calculate(xPos, xSetpoint);
-		double ySpeed = translationPidController.calculate(yPos, ySetpoint);
-		double turningSpeed = anglePidController.calculate(heading.getRadians(), headingSetpoint.getRadians());
-		if (Constants.fieldOriented) {
-			chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, turningSpeed, heading);
-		} else {
-			chassisSpeeds = new ChassisSpeeds(xSpeed, ySpeed, turningSpeed);
-		}
+	public ChassisSpeeds calculateChassisSpeed(Pose2d currentPose, Pose2d setpointPose) {
+		double xSpeed = forwardPidController.calculate(currentPose.getX(), setpointPose.getX());
+		double ySpeed = sidewaysPidController.calculate(currentPose.getY(), setpointPose.getY());
+		double turningSpeed = anglePidController.calculate(currentPose.getRotation().getRadians(),
+				setpointPose.getRotation().getRadians());
 
-		return chassisSpeeds;
+		return new ChassisSpeeds(xSpeed, ySpeed, turningSpeed);
 	}
 
 	// Sets the wheels to 45 degree angles so it doesn't move
