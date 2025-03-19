@@ -9,6 +9,8 @@ import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.net.PortForwarder;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.FieldConstants;
@@ -173,20 +175,32 @@ public class Odometry extends SubsystemBase {
 			switch (this) {
 				case A :
 					// Coordinate of AprilTag on Edge A, from field layout
-					// int id = (blueAlliance) ? 18 : 7;
+					// int id = (DriverStation.getAlliance().get() == Alliance.Blue) ? 18 : 7;
 					// return VisionConstants.kAprilTagFieldLayout.getTagPose(id).get().toPose2d();
 					return FieldConstants.kReefEdgeA;
 				case B :
+					// int id = (DriverStation.getAlliance().get() == Alliance.Blue) ? 19 : 6;
+					// return VisionConstants.kAprilTagFieldLayout.getTagPose(id).get().toPose2d();
 					return FieldConstants.kReefEdgeB;
 				case C :
+					// int id = (DriverStation.getAlliance().get() == Alliance.Blue) ? 20 : 11;
+					// return VisionConstants.kAprilTagFieldLayout.getTagPose(id).get().toPose2d();
 					return FieldConstants.kReefEdgeC;
 				case D :
+					// int id = (DriverStation.getAlliance().get() == Alliance.Blue) ? 21 : 10;
+					// return VisionConstants.kAprilTagFieldLayout.getTagPose(id).get().toPose2d();
 					return FieldConstants.kReefEdgeD;
 				case E :
+					// int id = (DriverStation.getAlliance().get() == Alliance.Blue) ? 22 : 9;
+					// return VisionConstants.kAprilTagFieldLayout.getTagPose(id).get().toPose2d();
 					return FieldConstants.kReefEdgeE;
 				case F :
+					// int id = (DriverStation.getAlliance().get() == Alliance.Blue) ? 17 : 8;
+					// return VisionConstants.kAprilTagFieldLayout.getTagPose(id).get().toPose2d();
 					return FieldConstants.kReefEdgeF;
 				default :
+					// int id = (DriverStation.getAlliance().get() == Alliance.Blue) ? 18 : 7;
+					// return VisionConstants.kAprilTagFieldLayout.getTagPose(id).get().toPose2d();
 					return FieldConstants.kReefEdgeA;
 			}
 		}
