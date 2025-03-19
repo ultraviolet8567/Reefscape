@@ -187,27 +187,27 @@ public final class Constants {
 		// TODO: get these values once they are in the CAD
 
 		// Distances from cameras to robot
-		public static final double kFrontX = 0.0;
-		public static final double kFrontY = 0.0;
-		public static final double kFrontZ = 0.0;
+		public static final double kFrontX = Units.inchesToMeters(-9.5);
+		public static final double kFrontY = Units.inchesToMeters(-11);
+		public static final double kFrontZ = Units.inchesToMeters(-5);
 		// Rotation about x axis (left to right rotation)
 		public static final double kFrontRoll = 0.0;
 		// Rotation about y axis (forward to backward rotation)
 		public static final double kFrontPitch = 0.0;
 		// Rotation about z axis (spinning on the ground)
-		public static final double kFrontYaw = 0.0;
+		public static final double kFrontYaw = Units.degreesToRadians(135);
 		public static final Transform3d kFrontCamToRobot = new Transform3d(kFrontX, kFrontY, kFrontZ,
 				new Rotation3d(kFrontRoll, kFrontPitch, kFrontYaw));
 
 		public static final double kBackX = 0.0;
-		public static final double kBackY = 0.0;
-		public static final double kBackZ = 0.0;
+		public static final double kBackY = Units.inchesToMeters(-9.5);
+		public static final double kBackZ = Units.inchesToMeters(-9.5);
 		// Rotation about x axis (left to right rotation)
 		public static final double kBackRoll = 0.0;
 		// Rotation about y axis (forward to backward rotation)
 		public static final double kBackPitch = 0.0;
 		// Rotation about z axis (spinning on the ground)
-		public static final double kBackYaw = 0.0;
+		public static final double kBackYaw = Units.degreesToRadians(180);
 		public static final Transform3d kBackCamToRobot = new Transform3d(kBackX, kBackY, kBackZ,
 				new Rotation3d(kBackRoll, kBackPitch, kBackYaw));
 

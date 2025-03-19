@@ -28,10 +28,10 @@ public class AutoAlignWithReef extends Command {
 		// TODO: get setpoints from odometry of reef april tags and do some constant
 		// how do i find which april tag we are trying to align to
 
-		
-
 		chassisSpeeds = swerve.calculateChassisSpeed(odometry.getPose().getX(), 0, odometry.getPose().getY(), 0,
 				odometry.getHeading(), null);
+
+		chassisSpeeds = swerve.calculateChassisSpeed(odometry.getPose(), odometry.closestReefEdge().setpointLeft());
 
 		swerve.setModuleStates(chassisSpeeds);
 	}

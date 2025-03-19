@@ -1,9 +1,6 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix6.hardware.Pigeon2;
-
-import edu.wpi.first.apriltag.AprilTag;
-import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -46,7 +43,7 @@ public class Odometry extends SubsystemBase {
 
 		/* Odometer */
 		odometer = new SwerveDriveOdometry(DriveConstants.kDriveKinematics, getGyrometerHeading(),
-				swerve.getModulePositions(), AllianceFlipUtil.apply(new Pose2d(1.5, 5.5, new Rotation2d())));
+				swerve.getModulePositions(), new Pose2d());
 
 		/* Odometry */
 		poseEstimator = new SwerveDrivePoseEstimator(DriveConstants.kDriveKinematics, gyro.getRotation2d(),
@@ -62,16 +59,13 @@ public class Odometry extends SubsystemBase {
 		PortForwarder.add(5800, "Photon-OrangePi-Bront", 5800);
 		backCamera = new PhotonCamera("OV9281_Back");
 
-		// TODO: Figure out whether to use closest to reference pose or lowest ambiguity
 		frontPoseEstimator = new PhotonPoseEstimator(VisionConstants.kAprilTagFieldLayout,
 				PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, VisionConstants.kFrontCamToRobot);
 		frontPoseEstimator.setMultiTagFallbackStrategy(PoseStrategy.CLOSEST_TO_REFERENCE_POSE);
-		frontPoseEstimator.setMultiTagFallbackStrategy(PoseStrategy.LOWEST_AMBIGUITY);
 
 		backPoseEstimator = new PhotonPoseEstimator(VisionConstants.kAprilTagFieldLayout,
 				PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, VisionConstants.kBackCamToRobot);
 		backPoseEstimator.setMultiTagFallbackStrategy(PoseStrategy.CLOSEST_TO_REFERENCE_POSE);
-		backPoseEstimator.setMultiTagFallbackStrategy(PoseStrategy.LOWEST_AMBIGUITY);
 	}
 
 	/* Runs periodically (about once every 20 ms) */
@@ -116,14 +110,14 @@ public class Odometry extends SubsystemBase {
 		var backResult = backCamera.getLatestResult();
 		backEstPose = backPoseEstimator.update(backResult);
 		if (backEstPose.isPresent()) {
-		// Could add a standard deviation calculation for more accuracy
+			// Could add a standard deviation calculation for more accuracy
 			poseEstimator.addVisionMeasurement(backEstPose.get().estimatedPose.toPose2d(),
 					backResult.getTimestampSeconds());
 
 			Logger.recordOutput("Vision/Back Estimated Pose", backEstPose.get().estimatedPose.toPose2d());
 			Logger.recordOutput("Vision/Back April Tag ID", backResult.getBestTarget().getFiducialId());
 
-			// get the position of the best detected april tag 
+			// get the position of the best detected april tag
 			detectedTagPoseBack = new Pose2d();
 		}
 	}
@@ -158,5 +152,29 @@ public class Odometry extends SubsystemBase {
 
 	public void resetGyrometerHeading() {
 		gyro.reset();
+	}
+}
+
+enum ReefEdge {
+	A,
+	B,
+	C,
+	D,
+	E,
+	F;
+
+	Pose2d edgePosition() {
+		return new Pose2d();
+	}
+
+	Pose2d setpointLeft() {
+		return new Pose2d();
+	}
+
+	Pose2d setpointRight() {
+		switch (this) {
+			case A: 
+			case B:
+		}
 	}
 }
