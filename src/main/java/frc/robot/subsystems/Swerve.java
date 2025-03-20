@@ -4,7 +4,6 @@ import com.pathplanner.lib.trajectory.PathPlannerTrajectoryState;
 import edu.wpi.first.math.geometry.*;
 import edu.wpi.first.math.kinematics.*;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
 import frc.robot.Constants.CAN;
 import frc.robot.Constants.DriveConstants;
 import java.util.Arrays;
@@ -84,16 +83,8 @@ public class Swerve extends SubsystemBase {
 	}
 
 	// Calculate chassis speeds using Pathplanner
-	public ChassisSpeeds calculateChassisSpeed(Pose2d currentPose, PathPlannerTrajectoryState setpointPose,
-			Rotation2d gyroHeading) {
-		ChassisSpeeds chassisSpeeds = DriveConstants.kAutoAlignController.calculateRobotRelativeSpeeds(currentPose,
-				setpointPose);
-		if (Constants.fieldOriented) {
-			return ChassisSpeeds.fromFieldRelativeSpeeds(chassisSpeeds.vxMetersPerSecond,
-					chassisSpeeds.vyMetersPerSecond, chassisSpeeds.omegaRadiansPerSecond, gyroHeading);
-		} else {
-			return chassisSpeeds;
-		}
+	public ChassisSpeeds calculateChassisSpeed(Pose2d currentPose, PathPlannerTrajectoryState setpointPose) {
+		return DriveConstants.kAutoAlignController.calculateRobotRelativeSpeeds(currentPose, setpointPose);
 	}
 
 	// Sets the wheels to 45 degree angles so it doesn't move

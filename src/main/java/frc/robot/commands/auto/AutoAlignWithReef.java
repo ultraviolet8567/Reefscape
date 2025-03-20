@@ -43,7 +43,7 @@ public class AutoAlignWithReef extends Command {
 		setpoint = new PathPlannerTrajectoryState();
 		setpoint.pose = setpointFunction.apply(odometry.closestReefEdge());
 
-		chassisSpeeds = swerve.calculateChassisSpeed(current, setpoint, odometry.getGyrometerHeading());
+		chassisSpeeds = swerve.calculateChassisSpeed(current, setpoint);
 		swerve.setModuleStates(chassisSpeeds);
 	}
 
