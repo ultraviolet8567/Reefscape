@@ -7,7 +7,6 @@ import com.pathplanner.lib.config.ModuleConfig;
 import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.config.RobotConfig;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
-
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -186,10 +185,11 @@ public final class Constants {
 				kDriveKinematics.getModules()); // locations of modules relative of robot center
 
 		// PID constants for auto alignment
-		public static final PIDConstants kAutoTranslationPID = new PIDConstants(5.0,0,0);
-        public static final PIDConstants kAutoRotationPID = new PIDConstants(5.0,0,0);
-		
-		public static final PPHolonomicDriveController kAutoAlignController = new PPHolonomicDriveController(kAutoTranslationPID, kAutoRotationPID);
+		public static final PIDConstants kAutoTranslationPID = new PIDConstants(5.0, 0, 0);
+		public static final PIDConstants kAutoRotationPID = new PIDConstants(5.0, 0, 0);
+
+		public static final PPHolonomicDriveController kAutoAlignController = new PPHolonomicDriveController(
+				kAutoTranslationPID, kAutoRotationPID);
 	}
 
 	public static class AutoConstants {

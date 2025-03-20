@@ -1,6 +1,6 @@
 package frc.robot.subsystems;
 
-import edu.wpi.first.math.controller.PIDController;
+import com.pathplanner.lib.trajectory.PathPlannerTrajectoryState;
 import edu.wpi.first.math.geometry.*;
 import edu.wpi.first.math.kinematics.*;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -9,8 +9,6 @@ import frc.robot.Constants.CAN;
 import frc.robot.Constants.DriveConstants;
 import java.util.Arrays;
 import org.littletonrobotics.junction.Logger;
-
-import com.pathplanner.lib.trajectory.PathPlannerTrajectoryState;
 
 public class Swerve extends SubsystemBase {
 	private final SwerveModule frontLeft, frontRight, backLeft, backRight;
@@ -85,9 +83,17 @@ public class Swerve extends SubsystemBase {
 		Logger.recordOutput("Swerve/Setpoints", desiredStates);
 	}
 
-	// Calculate chassis speeds using PID
-	public ChassisSpeeds calculateChassisSpeed(Pose2d currentPose, PathPlannerTrajectoryState setpointPose) {
-		return DriveConstants.kAutoAlignController.calculateRobotRelativeSpeeds(currentPose, setpointPose);
+	// Calculate chassis speeds using Pathplanner
+	public ChassisSpeeds calculateChassisSpeed(Pose2d currentPose, PathPlannerTrajectoryState setpointPose,
+			Rotation2d gyroHeading) {
+		ChassisSpeeds chassisSpeeds = DriveConstants.kAutoAlignController.calculateRobotRelativeSpeeds(currentPose,
+				setpointPose);
+		if (Constants.fieldOriented) {
+			return ChassisSpeeds.fromFieldRelativeSpeeds(chassisSpeeds.vxMetersPerSecond,
+					chassisSpeeds.vyMetersPerSecond, chassisSpeeds.omegaRadiansPerSecond, gyroHeading);
+		} else {
+			return chassisSpeeds;
+		}
 	}
 
 	// Sets the wheels to 45 degree angles so it doesn't move

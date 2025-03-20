@@ -1,5 +1,6 @@
 package frc.robot.commands.auto;
 
+import com.pathplanner.lib.trajectory.PathPlannerTrajectoryState;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
@@ -10,8 +11,6 @@ import frc.robot.subsystems.Odometry;
 import frc.robot.subsystems.Odometry.ReefEdge;
 import frc.robot.subsystems.Swerve;
 import java.util.function.Function;
-
-import com.pathplanner.lib.trajectory.PathPlannerTrajectoryState;
 
 public class AutoAlignWithReef extends Command {
 	private Swerve swerve;
@@ -44,7 +43,7 @@ public class AutoAlignWithReef extends Command {
 		setpoint = new PathPlannerTrajectoryState();
 		setpoint.pose = setpointFunction.apply(odometry.closestReefEdge());
 
-		chassisSpeeds = swerve.calculateChassisSpeed(current, setpoint);
+		chassisSpeeds = swerve.calculateChassisSpeed(current, setpoint, odometry.getGyrometerHeading());
 		swerve.setModuleStates(chassisSpeeds);
 	}
 
