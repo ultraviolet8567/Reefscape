@@ -3,12 +3,12 @@ package frc.robot.subsystems;
 import com.ctre.phoenix6.hardware.Pigeon2;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform2d;
-import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.net.PortForwarder;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.FieldConstants;
@@ -20,7 +20,6 @@ import org.photonvision.EstimatedRobotPose;
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonPoseEstimator;
 import org.photonvision.PhotonPoseEstimator.PoseStrategy;
-import org.photonvision.targeting.PhotonTrackedTarget;
 
 public class Odometry extends SubsystemBase {
 	private Swerve swerve;
@@ -85,6 +84,17 @@ public class Odometry extends SubsystemBase {
 
 		/* Odometry */
 		poseEstimator.update(gyro.getRotation2d(), swerve.getModulePositions());
+
+		Logger.recordOutput("Odometry/ClosestReefEdge/Edge", closestReefEdge());
+		Logger.recordOutput("Odometry/ClosestReefEdge/LeftSetpoint", ReefEdge.setpointLeft(closestReefEdge()));
+		Logger.recordOutput("Odometry/ClosestReefEdge/RightSetpoint", ReefEdge.setpointRight(closestReefEdge()));
+
+		Logger.recordOutput("Odometry/ReefEdgeA", ReefEdge.A.edgePosition());
+		Logger.recordOutput("Odometry/ReefEdgeB", ReefEdge.B.edgePosition());
+		Logger.recordOutput("Odometry/ReefEdgeC", ReefEdge.C.edgePosition());
+		Logger.recordOutput("Odometry/ReefEdgeD", ReefEdge.D.edgePosition());
+		Logger.recordOutput("Odometry/ReefEdgeE", ReefEdge.E.edgePosition());
+		Logger.recordOutput("Odometry/ReefEdgeF", ReefEdge.F.edgePosition());
 	}
 
 	public void updateVision() {
@@ -100,7 +110,8 @@ public class Odometry extends SubsystemBase {
 					frontResult.getTimestampSeconds());
 
 			Logger.recordOutput("Vision/Front Estimated Pose", frontEstPose.get().estimatedPose.toPose2d());
-			Logger.recordOutput("Vision/Front Tags", getTagPositions(frontResult.getTargets()));
+			// Logger.recordOutput("Vision/Front Tags",
+			// getTagPositions(frontResult.getTargets()));
 		}
 
 		// Could get all unread results rather than just the latest
@@ -112,7 +123,8 @@ public class Odometry extends SubsystemBase {
 					backResult.getTimestampSeconds());
 
 			Logger.recordOutput("Vision/Back Estimated Pose", backEstPose.get().estimatedPose.toPose2d());
-			Logger.recordOutput("Vision/Back Tags", getTagPositions(backResult.getTargets()));
+			// Logger.recordOutput("Vision/Back Tags",
+			// getTagPositions(backResult.getTargets()));
 			Logger.recordOutput("Vision/Back Best Tag", backResult.getBestTarget());
 		}
 	}
@@ -149,20 +161,21 @@ public class Odometry extends SubsystemBase {
 		gyro.reset();
 	}
 
-	public Pose3d[] getTagPositions(List<PhotonTrackedTarget> targets) {
-		List<Pose3d> tagPoses = List.of();
+	// public Pose3d[] getTagPositions(List<PhotonTrackedTarget> targets) {
+	// List<Pose3d> tagPoses = List.of();
 
-		for (PhotonTrackedTarget target : targets) {
-			Optional<Pose3d> tagPose = VisionConstants.kAprilTagFieldLayout.getTagPose(target.getFiducialId());
-			if (tagPose.isPresent()) {
-				tagPoses.add(tagPose.get());
-			}
-		}
+	// for (PhotonTrackedTarget target : targets) {
+	// Optional<Pose3d> tagPose =
+	// VisionConstants.kAprilTagFieldLayout.getTagPose(target.getFiducialId());
+	// if (tagPose.isPresent()) {
+	// tagPoses.add(tagPose.get());
+	// }
+	// }
 
-		return tagPoses.toArray(new Pose3d[0]);
-	}
+	// return tagPoses.toArray(new Pose3d[0]);
+	// }
 
-	public ReefEdge closestReefEdge() {
+	public Pose2d closestReefEdge() {
 		return ReefEdge.nearestReefEdge(getPose());
 	}
 
@@ -170,40 +183,41 @@ public class Odometry extends SubsystemBase {
 		A, B, C, D, E, F;
 
 		Pose2d edgePosition() {
+			int id;
 			switch (this) {
 				case A :
 					// Coordinate of AprilTag on Edge A, from field layout
-					// int id = (DriverStation.getAlliance().get() == Alliance.Blue) ? 18 : 7;
-					// return VisionConstants.kAprilTagFieldLayout.getTagPose(id).get().toPose2d();
-					return FieldConstants.kReefEdgeA;
+					id = (DriverStation.getAlliance().orElse(Alliance.Red) == Alliance.Blue) ? 18 : 7;
+					break;
 				case B :
-					// int id = (DriverStation.getAlliance().get() == Alliance.Blue) ? 19 : 6;
-					// return VisionConstants.kAprilTagFieldLayout.getTagPose(id).get().toPose2d();
-					return FieldConstants.kReefEdgeB;
+					id = (DriverStation.getAlliance().orElse(Alliance.Red) == Alliance.Blue) ? 19 : 6;
+					break;
 				case C :
-					// int id = (DriverStation.getAlliance().get() == Alliance.Blue) ? 20 : 11;
-					// return VisionConstants.kAprilTagFieldLayout.getTagPose(id).get().toPose2d();
-					return FieldConstants.kReefEdgeC;
+					id = (DriverStation.getAlliance().orElse(Alliance.Red) == Alliance.Blue) ? 20 : 11;
+					break;
 				case D :
-					// int id = (DriverStation.getAlliance().get() == Alliance.Blue) ? 21 : 10;
-					// return VisionConstants.kAprilTagFieldLayout.getTagPose(id).get().toPose2d();
-					return FieldConstants.kReefEdgeD;
+					id = (DriverStation.getAlliance().orElse(Alliance.Red) == Alliance.Blue) ? 21 : 10;
+					break;
 				case E :
-					// int id = (DriverStation.getAlliance().get() == Alliance.Blue) ? 22 : 9;
-					// return VisionConstants.kAprilTagFieldLayout.getTagPose(id).get().toPose2d();
-					return FieldConstants.kReefEdgeE;
+					id = (DriverStation.getAlliance().orElse(Alliance.Red) == Alliance.Blue) ? 22 : 9;
+					break;
 				case F :
-					// int id = (DriverStation.getAlliance().get() == Alliance.Blue) ? 17 : 8;
-					// return VisionConstants.kAprilTagFieldLayout.getTagPose(id).get().toPose2d();
-					return FieldConstants.kReefEdgeF;
+					id = (DriverStation.getAlliance().orElse(Alliance.Red) == Alliance.Blue) ? 17 : 8;
+					break;
 				default :
-					// int id = (DriverStation.getAlliance().get() == Alliance.Blue) ? 18 : 7;
-					// return VisionConstants.kAprilTagFieldLayout.getTagPose(id).get().toPose2d();
-					return FieldConstants.kReefEdgeA;
+					id = (DriverStation.getAlliance().orElse(Alliance.Red) == Alliance.Blue) ? 18 : 7;
+					break;
 			}
+
+			return VisionConstants.kAprilTagFieldLayout.getTagPose(id).get().toPose2d();
 		}
 
-		public static ReefEdge nearestReefEdge(Pose2d pose) {
+		public static Pose2d nearestReefEdge(Pose2d pose) {
+			return pose.nearest(List.of(A.edgePosition(), B.edgePosition(), C.edgePosition(), D.edgePosition(),
+					E.edgePosition(), F.edgePosition()));
+		}
+
+		public static ReefEdge nearestReefEdgeType(Pose2d pose) {
 			Pose2d closestReefPose = pose.nearest(List.of(A.edgePosition(), B.edgePosition(), C.edgePosition(),
 					D.edgePosition(), E.edgePosition(), F.edgePosition()));
 
@@ -224,34 +238,66 @@ public class Odometry extends SubsystemBase {
 			}
 		}
 
-		public Pose2d setpointLeft() {
-			// Get the position of this edge
-			Pose2d edgePose = this.edgePosition();
+		// public Pose2d setpointLeft() {
+		// // Get the position of this edge
+		// Pose2d edgePose = this.edgePosition();
 
-			// Rotate translation to be along face of this edge
-			Translation2d edgeToLeftStalk = FieldConstants.kLeftStalkOffset.rotateBy(edgePose.getRotation());
+		// // Rotate translation to be along face of this edge
+		// Translation2d edgeToLeftStalk =
+		// FieldConstants.kLeftStalkOffset.rotateBy(edgePose.getRotation());
 
+		// // Return the pose of the left stalk
+		// Pose2d stalkPose = edgePose.transformBy(new
+		// Transform2d(FieldConstants.kLeftStalkOffset, new Rotation2d()));
+
+		// return stalkPose;
+		// // To get the coral deploy point to stalkPose, need to transform the setpoint
+		// to
+		// // be for the center of the robot
+		// // return
+		// //
+		// stalkPose.transformBy(VisionConstants.kRobotCenterToCoralDeploy.inverse());
+		// }
+
+		// public Pose2d setpointRight() {
+		// // Get the position of this edge
+		// Pose2d edgePose = this.edgePosition();
+
+		// // Rotate translation to be along face of this edge
+		// Translation2d edgeToRightStalk =
+		// FieldConstants.kRightStalkOffset.rotateBy(edgePose.getRotation());
+
+		// // Return the pose of the right stalk
+		// Pose2d stalkPose = edgePose.transformBy(new Transform2d(edgeToRightStalk, new
+		// Rotation2d()));
+
+		// // To get the coral deploy point to stalkPose, need to transform the setpoint
+		// to
+		// // be for the center of the robot
+		// return
+		// stalkPose.transformBy(VisionConstants.kRobotCenterToCoralDeploy.inverse());
+		// }
+
+		public static Pose2d setpointLeft(Pose2d edgePose) {
 			// Return the pose of the left stalk
-			Pose2d stalkPose = edgePose.transformBy(new Transform2d(edgeToLeftStalk, new Rotation2d()));
+			Pose2d stalkPose = edgePose.transformBy(new Transform2d(FieldConstants.kLeftStalkOffset, new Rotation2d()));
+
+			Logger.recordOutput("Odometry/ClosestReefEdge/LeftStalk", stalkPose);
 
 			// To get the coral deploy point to stalkPose, need to transform the setpoint to
 			// be for the center of the robot
-			return stalkPose.transformBy(VisionConstants.kRobotCenterToCoralDeploy.inverse());
+			return stalkPose.transformBy(VisionConstants.kStalkToRobotCenter);
 		}
 
-		public Pose2d setpointRight() {
-			// Get the position of this edge
-			Pose2d edgePose = this.edgePosition();
-
-			// Rotate translation to be along face of this edge
-			Translation2d edgeToRightStalk = FieldConstants.kRightStalkOffset.rotateBy(edgePose.getRotation());
-
+		public static Pose2d setpointRight(Pose2d edgePose) {
 			// Return the pose of the right stalk
-			Pose2d stalkPose = edgePose.transformBy(new Transform2d(edgeToRightStalk, new Rotation2d()));
+			Pose2d stalkPose = edgePose
+					.transformBy(new Transform2d(FieldConstants.kRightStalkOffset, new Rotation2d()));
 
+			Logger.recordOutput("Odometry/ClosestReefEdge/RightStalk", stalkPose);
 			// To get the coral deploy point to stalkPose, need to transform the setpoint to
 			// be for the center of the robot
-			return stalkPose.transformBy(VisionConstants.kRobotCenterToCoralDeploy.inverse());
+			return stalkPose.transformBy(VisionConstants.kStalkToRobotCenter);
 		}
 	}
 }

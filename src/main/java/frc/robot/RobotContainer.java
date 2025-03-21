@@ -6,8 +6,6 @@ package frc.robot;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
-import com.pathplanner.lib.config.PIDConstants;
-import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -91,9 +89,7 @@ public class RobotContainer {
 
 		// Configure the PathPlanner auto-builder
 		AutoBuilder.configure(odometry::getOdometerPose, odometry::resetOdometerPose, swerve::getRobotRelativeSpeeds,
-				swerve::setModuleStates, new PPHolonomicDriveController(new PIDConstants(0.25, 0, 0), // translational
-																										// PID
-						new PIDConstants(0.5, 0, 0)), // rotational PID
+				swerve::setModuleStates, AutoConstants.kHolonomicController, // rotational PID
 				DriveConstants.kRobotConfig, () -> {
 					if (DriverStation.getAlliance().isPresent()) {
 						return DriverStation.getAlliance().get() == Alliance.Red;
@@ -110,6 +106,8 @@ public class RobotContainer {
 		NamedCommands.registerCommand("ElevatorMax", new InstantCommand(() -> elevator.setMode(ElevatorMode.HIGH)));
 		NamedCommands.registerCommand("ElevatorIntakeCoral",
 				new InstantCommand(() -> elevator.setMode(ElevatorMode.STATION)));
+		NamedCommands.registerCommand("AlignLeftStalk", new AutoAlignWithReef(swerve, odometry, false));
+		NamedCommands.registerCommand("AlignRightStalk", new AutoAlignWithReef(swerve, odometry, true));
 
 		autoChooser = new AutoChooser();
 
@@ -174,8 +172,8 @@ public class RobotContainer {
 		operatorController.pov(90).onTrue(new InstantCommand(() -> elevator.setMode(ElevatorMode.PROCESSOR)));
 
 		// right for algae, left for coral
-		operatorController.rightBumper().whileTrue(new PickupAlgae(algaeIntake));
-		operatorController.rightTrigger().whileTrue(new DropAlgae(algaeIntake));
+		// operatorController.rightBumper().whileTrue(new PickupAlgae(algaeIntake));
+		// operatorController.rightTrigger().whileTrue(new DropAlgae(algaeIntake));
 		operatorController.leftBumper().whileTrue(new PickupCoral(coralIntake, () -> elevator.getCoralVoltage()));
 		operatorController.leftTrigger().whileTrue(new DropCoral(coralIntake, () -> elevator.getCoralVoltage()));
 	}
@@ -186,8 +184,6 @@ public class RobotContainer {
 	 * @return the command to run in autonomous
 	 */
 	public Command getAutonomousCommand() {
-		System.out.println(autoChooser.getSelectedAuto().getName());
-
 		return autoChooser.getSelectedAuto().getName().equals("Drive Out")
 				? new AutoDriveOut(swerve, odometry)
 				: autoChooser.getSelectedAuto();

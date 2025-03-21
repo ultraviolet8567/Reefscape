@@ -6,10 +6,11 @@
     "New Folder"
   ],
   "autoFolders": [
-    "Place 4",
+    "Smart Autos",
     "Place 1",
     "Place 2",
-    "Place 3"
+    "Place 3",
+    "Place 4"
   ],
   "defaultMaxVel": 3.0,
   "defaultMaxAccel": 3.0,

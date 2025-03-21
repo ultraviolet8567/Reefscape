@@ -105,12 +105,14 @@ public class AutoChooser extends VirtualSubsystem {
 	}
 
 	public PathPlannerAuto getSelectedAuto() {
-		String autoCommandName = getAutoCommandName();
+		return allAutos.get("Smart Place 1");
 
-		if (autoCommandName.equals("Do Nothing")) {
-			return null;
-		} else {
-			return allAutos.get(autoCommandName);
-		}
+		// String autoCommandName = getAutoCommandName();
+
+		// if (autoCommandName.equals("Do Nothing")) {
+		// return null;
+		// } else {
+		// return allAutos.get(autoCommandName);
+		// }
 	}
 }

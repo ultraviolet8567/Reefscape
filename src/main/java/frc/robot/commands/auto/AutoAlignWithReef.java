@@ -11,12 +11,13 @@ import frc.robot.subsystems.Odometry;
 import frc.robot.subsystems.Odometry.ReefEdge;
 import frc.robot.subsystems.Swerve;
 import java.util.function.Function;
+import org.littletonrobotics.junction.Logger;
 
 public class AutoAlignWithReef extends Command {
 	private Swerve swerve;
 	private Odometry odometry;
 
-	private Function<ReefEdge, Pose2d> setpointFunction;
+	private Function<Pose2d, Pose2d> setpointFunction;
 	private Pose2d current;
 	private PathPlannerTrajectoryState setpoint;
 
@@ -29,9 +30,9 @@ public class AutoAlignWithReef extends Command {
 		// Determine whether the pose of the left stalk or right stalk should be the
 		// setpoint
 		if (onTheRight) {
-			setpointFunction = (ReefEdge edge) -> edge.setpointRight();
+			setpointFunction = (Pose2d edgePose) -> ReefEdge.setpointRight(edgePose);
 		} else {
-			setpointFunction = (ReefEdge edge) -> edge.setpointLeft();
+			setpointFunction = (Pose2d edgePose) -> ReefEdge.setpointLeft(edgePose);
 		}
 
 		addRequirements(swerve);
@@ -42,6 +43,8 @@ public class AutoAlignWithReef extends Command {
 		current = odometry.getPose();
 		setpoint = new PathPlannerTrajectoryState();
 		setpoint.pose = setpointFunction.apply(odometry.closestReefEdge());
+
+		Logger.recordOutput("Odometry/ReefEdgeSetpoint", setpoint.pose);
 
 		chassisSpeeds = swerve.calculateChassisSpeed(current, setpoint);
 		swerve.setModuleStates(chassisSpeeds);

@@ -92,21 +92,22 @@ public final class Constants {
 	public static class IntakeConstants {
 		public static final int kAlgaeIntakeVoltage = 10;
 
-		public static final double kCoralVoltageDefault = 1.5;
+		public static final double kCoralVoltageDefault = 4;
 		public static final double kCoralVoltageL1 = 1.5;
-		public static final double kCoralVoltageL2 = 1.5;
-		public static final double kCoralVoltageL3 = 1.5;
+		public static final double kCoralVoltageL2 = 4;
+		public static final double kCoralVoltageL3 = 4;
 		public static final double kCoralVoltageL4 = 1.2;
 
 		public static final int kAlgaeIntakeExtensionAbsoluteEncoderPort = 8;
 		public static final boolean kAlgaeIntakeExtensionAbsoluteEncoderReversed = false;
+		public static final double kAlgaeIntakeExtensionAbsoluteEncoderOffset = -3.44;
 
 		public static final double kP = 20.0; // Need to tune
 		public static final double kI = 0.0;
 		public static final double kD = 0.0;
 
-		public static final double kAlgaeIntakeRetractedPosition = 5.785;
-		public static final double kAlgaeIntakeExtendedPosition = 3.425;
+		public static final double kAlgaeIntakeRetractedPosition = 5.81; // 5.785;
+		public static final double kAlgaeIntakeExtendedPosition = 2.07; // 3.425;
 	}
 
 	public static class OperatorConstants {
@@ -158,11 +159,11 @@ public final class Constants {
 		public static final boolean kBackRightDriveAbsoluteEncoderReversed = false;
 		public static final int kBackRightDriveAbsoluteEncoderPort = 3;
 
-		public static final double kFrontLeftDriveAbsoluteEncoderOffsetRad = -2.854 - 0.494 - 0.548 - 2.987;
-		public static final double kFrontRightDriveAbsoluteEncoderOffsetRad = -2.231 + 0.060 - 0.05;
-		public static final double kBackLeftDriveAbsoluteEncoderOffsetRad = 3.022 + 0.115 - 0.092;
+		public static final double kFrontLeftDriveAbsoluteEncoderOffsetRad = -2.854 - 0.494 - 0.548 - 2.987 - 0.02;
+		public static final double kFrontRightDriveAbsoluteEncoderOffsetRad = -2.231 + 0.060 - 0.05 - 2.83 + Math.PI;
+		public static final double kBackLeftDriveAbsoluteEncoderOffsetRad = 3.022 + 0.115 - 0.092 - 0.01;
 		public static final double kBackRightDriveAbsoluteEncoderOffsetRad = 0.349 + 0.324 + 1.029 + 0.672 - 1.961
-				- 0.082 + 0.125;
+				- 0.082 + 0.125 + 0.07;
 
 		public static final double kPhysicalMaxSpeedMetersPerSecond = 4.5;
 		public static final double kPhysicalMaxAngularSpeedRadiansPerSecond = 3 * Math.PI;
@@ -185,8 +186,8 @@ public final class Constants {
 				kDriveKinematics.getModules()); // locations of modules relative of robot center
 
 		// PID constants for auto alignment
-		public static final PIDConstants kAutoTranslationPID = new PIDConstants(5.0, 0, 0);
-		public static final PIDConstants kAutoRotationPID = new PIDConstants(5.0, 0, 0);
+		public static final PIDConstants kAutoTranslationPID = new PIDConstants(2.0, 0, 0);
+		public static final PIDConstants kAutoRotationPID = new PIDConstants(4.0, 0, 0);
 
 		public static final PPHolonomicDriveController kAutoAlignController = new PPHolonomicDriveController(
 				kAutoTranslationPID, kAutoRotationPID);
@@ -198,7 +199,10 @@ public final class Constants {
 		public static final double kAutoYDriveSpeed = 0.5;
 		public static final double kAutoTurningSpeed = 0.0;
 
-		public static final double kAutoAlignTolerance = 0.1;
+		public static final double kAutoAlignTolerance = 0.05;
+
+		public static final PPHolonomicDriveController kHolonomicController = new PPHolonomicDriveController(
+				new PIDConstants(0.25, 0, 0), new PIDConstants(0.5, 0, 0));
 	}
 
 	public static class VisionConstants {
@@ -206,33 +210,33 @@ public final class Constants {
 				.loadField(AprilTagFields.k2025ReefscapeAndyMark);
 
 		// Distances from cameras to robot
-		public static final double kFrontX = Units.inchesToMeters(-8.8327);
-		public static final double kFrontY = Units.inchesToMeters(-9.2672);
-		public static final double kFrontZ = Units.inchesToMeters(-7.8389);
+		public static final double kFrontX = Units.inchesToMeters(4);
+		public static final double kFrontY = Units.inchesToMeters(9.5);
+		public static final double kFrontZ = Units.inchesToMeters(11);
 		// Rotation about x axis (left to right rotation)
-		public static final double kFrontRoll = Units.degreesToRadians(10);
+		public static final double kFrontRoll = Units.degreesToRadians(0);
 		// Rotation about y axis (forward to backward rotation)
-		public static final double kFrontPitch = Units.degreesToRadians(2.154);
+		public static final double kFrontPitch = Units.degreesToRadians(0);
 		// Rotation about z axis (spinning on the ground)
-		public static final double kFrontYaw = Units.degreesToRadians(102.5);
+		public static final double kFrontYaw = Units.degreesToRadians(90);
 		public static final Transform3d kFrontCamToRobot = new Transform3d(kFrontX, kFrontY, kFrontZ,
 				new Rotation3d(kFrontRoll, kFrontPitch, kFrontYaw));
 
-		public static final double kBackX = Units.inchesToMeters(8.8168);
-		public static final double kBackY = Units.inchesToMeters(-9.1947);
-		public static final double kBackZ = Units.inchesToMeters(-7.8069);
+		public static final double kBackX = Units.inchesToMeters(-8.8168);
+		public static final double kBackY = Units.inchesToMeters(9.1947);
+		public static final double kBackZ = Units.inchesToMeters(7.8069);
 		// Rotation about x axis (left to right rotation)
 		public static final double kBackRoll = Units.degreesToRadians(10);
 		// Rotation about y axis (forward to backward rotation)
-		public static final double kBackPitch = Units.degreesToRadians(2.154);
+		public static final double kBackPitch = Units.degreesToRadians(-2.154);
 		// Rotation about z axis (spinning on the ground)
 		public static final double kBackYaw = Units.degreesToRadians(77.5);
 		public static final Transform3d kBackCamToRobot = new Transform3d(kBackX, kBackY, kBackZ,
 				new Rotation3d(kBackRoll, kBackPitch, kBackYaw));
 
 		// Transform from robot center to coral deploying postion
-		public static final Transform2d kRobotCenterToCoralDeploy = new Transform2d(Units.inchesToMeters(9),
-				Units.inchesToMeters(13), new Rotation2d(Units.degreesToRadians(90)));
+		public static final Transform2d kStalkToRobotCenter = new Transform2d(Units.inchesToMeters(16),
+				Units.inchesToMeters(-7.125), new Rotation2d(Units.degreesToRadians(90)));
 	}
 
 	public static class FieldConstants {
@@ -249,8 +253,8 @@ public final class Constants {
 		public static final Pose2d kReefEdgeF = new Pose2d(Units.inchesToMeters(160.37), Units.inchesToMeters(130.14),
 				new Rotation2d(Units.degreesToRadians(60)));
 
-		public static final Translation2d kLeftStalkOffset = new Translation2d(Units.inchesToMeters(6.47), 0.0);
-		public static final Translation2d kRightStalkOffset = new Translation2d(Units.inchesToMeters(-6.47), 0.0);
+		public static final Translation2d kLeftStalkOffset = new Translation2d(0.0, Units.inchesToMeters(-6.47));
+		public static final Translation2d kRightStalkOffset = new Translation2d(0.0, Units.inchesToMeters(6.47));
 	}
 
 	public static class CAN {

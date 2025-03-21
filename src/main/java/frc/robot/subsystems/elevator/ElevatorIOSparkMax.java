@@ -39,12 +39,13 @@ public class ElevatorIOSparkMax implements ElevatorIO {
 
 		leadConfig.encoder.positionConversionFactor(ElevatorConstants.kElevatorGearing * 2 * Math.PI);
 		followerConfig.encoder.positionConversionFactor(ElevatorConstants.kElevatorGearing * 2 * Math.PI);
+		leadConfig.encoder.velocityConversionFactor(2 * Math.PI / 60 * ElevatorConstants.kElevatorGearing * 0.025 * 2);
 
 		leadConfig.idleMode(IdleMode.kBrake);
 		followerConfig.idleMode(IdleMode.kBrake);
 
-		leadConfig.smartCurrentLimit(80);
-		followerConfig.smartCurrentLimit(80);
+		leadConfig.smartCurrentLimit(50);
+		followerConfig.smartCurrentLimit(50);
 
 		followerConfig.inverted(false);
 		followerConfig.follow(leadMotor);
@@ -67,7 +68,7 @@ public class ElevatorIOSparkMax implements ElevatorIO {
 				followerMotor.getAppliedOutput() * followerMotor.getBusVoltage()};
 		inputs.angleRadians = getRotationRads();
 		inputs.heightMeters = getHeight();
-		inputs.velocity = getVelocity();
+		inputs.elevatorVelocity = getVelocity();
 		inputs.absoluteEncoderValue = getAbsoluteRotationRads();
 	}
 

@@ -19,6 +19,8 @@ public class CoralIntakeIOSparkMax implements CoralIntakeIO {
 		motor = new SparkFlex(CAN.kCoralIntakePort, MotorType.kBrushless);
 		config = new SparkFlexConfig();
 
+		config.smartCurrentLimit(50);
+
 		motor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 	}
 
@@ -26,7 +28,7 @@ public class CoralIntakeIOSparkMax implements CoralIntakeIO {
 	@Override
 	public void updateInputs(CoralIntakeIOInputs inputs) {
 		// this is in rpm, convert
-		inputs.currentVoltage = motor.getOutputCurrent();
+		inputs.currentAmps = motor.getOutputCurrent();
 		inputs.appliedVoltage = motor.getAppliedOutput() * motor.getBusVoltage();
 		inputs.velocityRadsPerSecond = motor.getEncoder().getVelocity();
 		inputs.tempCelsius = motor.getMotorTemperature();
