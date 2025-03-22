@@ -1,0 +1,54 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 5.238627049180328,
+        "y": 5.157838114754097
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 4.881779320524795,
+        "y": 5.707556709076436
+      },
+      "isLocked": false,
+      "linkedName": "Smart Side 1 L"
+    },
+    {
+      "anchor": {
+        "x": 4.1145000000000005,
+        "y": 7.09625
+      },
+      "prevControl": {
+        "x": 4.774200557338617,
+        "y": 6.023932307771881
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "pointTowardsZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 3.0,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 131.37851529588255
+  },
+  "reversed": false,
+  "folder": "Smart Paths",
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": 151.04900479253334
+  },
+  "useDefaultConstraints": true
+}

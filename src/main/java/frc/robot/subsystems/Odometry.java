@@ -39,6 +39,7 @@ public class Odometry extends SubsystemBase {
 		/* Gyro */
 		gyro = new Pigeon2(31);
 		gyro.reset();
+		gyro.setYaw(180.0);
 
 		/* Odometer */
 		odometer = new SwerveDriveOdometry(DriveConstants.kDriveKinematics, getGyrometerHeading(),

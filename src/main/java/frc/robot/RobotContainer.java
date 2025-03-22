@@ -104,10 +104,14 @@ public class RobotContainer {
 		NamedCommands.registerCommand("ElevatorL3", new InstantCommand(() -> elevator.setMode(ElevatorMode.L3)));
 		NamedCommands.registerCommand("ElevatorL4", new InstantCommand(() -> elevator.setMode(ElevatorMode.L4)));
 		NamedCommands.registerCommand("ElevatorMax", new InstantCommand(() -> elevator.setMode(ElevatorMode.HIGH)));
+		NamedCommands.registerCommand("ElevatorDefault",
+				new InstantCommand(() -> elevator.setMode(ElevatorMode.DEFAULT)));
 		NamedCommands.registerCommand("ElevatorIntakeCoral",
 				new InstantCommand(() -> elevator.setMode(ElevatorMode.STATION)));
 		NamedCommands.registerCommand("AlignLeftStalk", new AutoAlignWithReef(swerve, odometry, false));
 		NamedCommands.registerCommand("AlignRightStalk", new AutoAlignWithReef(swerve, odometry, true));
+		// NamedCommands.registerCommand("AlignCoralStation", new
+		// AutoAlignWithCoralStaion());
 
 		autoChooser = new AutoChooser();
 
@@ -153,7 +157,7 @@ public class RobotContainer {
 		// Default (taxi) height
 		operatorController.a().onTrue(new InstantCommand(() -> elevator.setMode(ElevatorMode.DEFAULT)));
 		// Station intaking height
-		operatorController.start().onTrue(new InstantCommand(() -> elevator.setMode(ElevatorMode.STATION)));
+		operatorController.start().onTrue(new InstantCommand(() -> elevator.setMode(ElevatorMode.HIGH)));
 		// L1 height
 		operatorController.back().onTrue(new InstantCommand(() -> elevator.setMode(ElevatorMode.L1)));
 		// L2 height
@@ -172,9 +176,10 @@ public class RobotContainer {
 		operatorController.pov(90).onTrue(new InstantCommand(() -> elevator.setMode(ElevatorMode.PROCESSOR)));
 
 		// right for algae, left for coral
-		// operatorController.rightBumper().whileTrue(new PickupAlgae(algaeIntake));
-		// operatorController.rightTrigger().whileTrue(new DropAlgae(algaeIntake));
+		operatorController.rightBumper().whileTrue(new PickupAlgae(algaeIntake));
+		operatorController.rightTrigger().whileTrue(new DropAlgae(algaeIntake));
 		operatorController.leftBumper().whileTrue(new PickupCoral(coralIntake, () -> elevator.getCoralVoltage()));
+		driverController.leftBumper().whileTrue(new PickupCoral(coralIntake, () -> elevator.getCoralVoltage()));
 		operatorController.leftTrigger().whileTrue(new DropCoral(coralIntake, () -> elevator.getCoralVoltage()));
 	}
 

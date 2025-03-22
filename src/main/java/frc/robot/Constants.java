@@ -64,7 +64,7 @@ public final class Constants {
 
 		// Encoder
 		public static final int kElevatorAbsoluteEncoderPort = 9;
-		public static final double kAbsoluteEncoderOffset = -0.417;
+		public static final double kAbsoluteEncoderOffset = -0.417 + 0.045 - 0.73;
 		public static final boolean kAbsoluteEncoderReversed = true;
 
 		// Limits
@@ -76,23 +76,23 @@ public final class Constants {
 		public static final double kElevatorMinHeight = 0.05;
 
 		// Setpoints
-		public static final double kHeightDefault = kElevatorMinHeight;
-		public static final double kHeightStation = 0.2861;
+		public static final double kHeightDefault = kElevatorMinHeight + 0.05;
+		public static final double kHeightStation = kHeightDefault;
 		public static final double kHeightProcessor = 1.0381;
 		public static final double kHeightL1 = 0.1; // TODO
 		public static final double kHeightL2 = 0.1525;
 		public static final double kHeightL3 = 0.76;
-		public static final double kHeightL4 = 1.69; // TODO
-		public static final double kHeightGrabAlgaeLower = 1.0; // TODO
-		public static final double kHeightGrabAlgaeHigher = 1.55; // TODO
+		public static final double kHeightL4 = 1.69;
+		public static final double kHeightGrabAlgaeLower = 0.85;
+		public static final double kHeightGrabAlgaeHigher = 1.55;
 		public static final double kHeightAlgaeCandlestick = 0.5; // TODO
-		public static final double kHeightHigh = 0.95 * kElevatorMaxHeight;
+		public static final double kHeightHigh = 1.83;
 	}
 
 	public static class IntakeConstants {
 		public static final int kAlgaeIntakeVoltage = 10;
 
-		public static final double kCoralVoltageDefault = 4;
+		public static final double kCoralVoltageDefault = 1.2;
 		public static final double kCoralVoltageL1 = 1.5;
 		public static final double kCoralVoltageL2 = 4;
 		public static final double kCoralVoltageL3 = 4;
@@ -199,7 +199,7 @@ public final class Constants {
 		public static final double kAutoYDriveSpeed = 0.5;
 		public static final double kAutoTurningSpeed = 0.0;
 
-		public static final double kAutoAlignTolerance = 0.05;
+		public static final double kAutoAlignTolerance = 0.01;
 
 		public static final PPHolonomicDriveController kHolonomicController = new PPHolonomicDriveController(
 				new PIDConstants(0.25, 0, 0), new PIDConstants(0.5, 0, 0));
@@ -210,15 +210,15 @@ public final class Constants {
 				.loadField(AprilTagFields.k2025ReefscapeAndyMark);
 
 		// Distances from cameras to robot
-		public static final double kFrontX = Units.inchesToMeters(4);
-		public static final double kFrontY = Units.inchesToMeters(9.5);
-		public static final double kFrontZ = Units.inchesToMeters(11);
+		public static final double kFrontX = Units.inchesToMeters(3.888); // BACK RIGHT -10.9611
+		public static final double kFrontY = Units.inchesToMeters(10.024); // BACK RIGHT -6.9993
+		public static final double kFrontZ = Units.inchesToMeters(10.268); // BACK RIGHT 6.2261
 		// Rotation about x axis (left to right rotation)
-		public static final double kFrontRoll = Units.degreesToRadians(0);
+		public static final double kFrontRoll = Units.degreesToRadians(0); // BACK RIGHT 0
 		// Rotation about y axis (forward to backward rotation)
-		public static final double kFrontPitch = Units.degreesToRadians(0);
+		public static final double kFrontPitch = Units.degreesToRadians(0); // BACK RIGHT 0
 		// Rotation about z axis (spinning on the ground)
-		public static final double kFrontYaw = Units.degreesToRadians(90);
+		public static final double kFrontYaw = Units.degreesToRadians(90); // BACK RIGHT 90
 		public static final Transform3d kFrontCamToRobot = new Transform3d(kFrontX, kFrontY, kFrontZ,
 				new Rotation3d(kFrontRoll, kFrontPitch, kFrontYaw));
 

@@ -17,12 +17,18 @@ import org.littletonrobotics.junction.Logger;
 public class AutoChooser extends VirtualSubsystem {
 	private static final ShuffleboardTab main = Shuffleboard.getTab("Main");
 	private final SendableChooser<String> coralNumber, startPos, side, direction;
+	private final SendableChooser<Boolean> smartChooser;
 	private final GenericEntry autoName;
 
 	private final Map<String, PathPlannerAuto> allAutos = new HashMap<String, PathPlannerAuto>();
 
 	public AutoChooser() {
 		System.out.println("[Init] Creating AutoChooser");
+
+		// whether the autos are smart
+		smartChooser = new SendableChooser<>();
+		smartChooser.setDefaultOption("Yes", true);
+		smartChooser.addOption("No", false);
 
 		// number of coral
 		coralNumber = new SendableChooser<>();
@@ -62,6 +68,7 @@ public class AutoChooser extends VirtualSubsystem {
 				0);
 		main.add("Reef Side", side).withWidget(BuiltInWidgets.kComboBoxChooser).withSize(2, 1).withPosition(0, 2);
 		main.add("Direction", direction).withWidget(BuiltInWidgets.kComboBoxChooser).withSize(2, 1).withPosition(0, 3);
+		main.add("Smart", smartChooser).withWidget(BuiltInWidgets.kComboBoxChooser).withSize(2, 1).withPosition(0, 4);
 		autoName = main.add("Auto Name", "").withWidget(BuiltInWidgets.kTextView).withSize(2, 1).withPosition(2, 0)
 				.getEntry();
 
@@ -82,13 +89,20 @@ public class AutoChooser extends VirtualSubsystem {
 
 	// Returns name of pre-defined autonomous command based on Shuffleboard input
 	public String getAutoCommandName() {
+		String name;
 		if (direction.getSelected().equals("Drive Out")) {
-			return "Drive Out";
+			name = "Drive Out";
 		} else if (coralNumber.getSelected().equals("Do Nothing")) {
-			return "Do Nothing";
+			name = "Do Nothing";
 		} else {
-			return "Start " + startPos.getSelected() + coralNumber.getSelected() + side.getSelected()
+			name = "Start " + startPos.getSelected() + coralNumber.getSelected() + side.getSelected()
 					+ direction.getSelected();
+		}
+
+		if (smartChooser.getSelected()) {
+			return "Smart " + name;
+		} else {
+			return name;
 		}
 	}
 
@@ -105,14 +119,12 @@ public class AutoChooser extends VirtualSubsystem {
 	}
 
 	public PathPlannerAuto getSelectedAuto() {
-		return allAutos.get("Smart Place 1");
+		String autoCommandName = getAutoCommandName();
 
-		// String autoCommandName = getAutoCommandName();
-
-		// if (autoCommandName.equals("Do Nothing")) {
-		// return null;
-		// } else {
-		// return allAutos.get(autoCommandName);
-		// }
+		if (autoCommandName.equals("Do Nothing")) {
+			return null;
+		} else {
+			return allAutos.get(autoCommandName);
+		}
 	}
 }

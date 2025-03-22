@@ -54,17 +54,16 @@ public class AutoAlignWithReef extends Command {
 	public void end(boolean interrupted) {
 		swerve.stopModules();
 
-		if (interrupted) {
-			RobotContainer.getDriverJoystick().setRumble(RumbleType.kRightRumble, 0.25);
-			RobotContainer.getOperatorJoystick().setRumble(RumbleType.kRightRumble, 0.25);
-		} else {
-			RobotContainer.getDriverJoystick().setRumble(RumbleType.kBothRumble, 0.25);
+		if (!interrupted) {
 			RobotContainer.getOperatorJoystick().setRumble(RumbleType.kBothRumble, 0.25);
+			RobotContainer.getDriverJoystick().setRumble(RumbleType.kBothRumble, 0.25);
 		}
 	}
 
 	@Override
 	public boolean isFinished() {
+		Logger.recordOutput("Auto/Distance",
+				current.minus(setpoint.pose).getTranslation().getNorm() < AutoConstants.kAutoAlignTolerance);
 		return current.minus(setpoint.pose).getTranslation().getNorm() < AutoConstants.kAutoAlignTolerance;
 	}
 }

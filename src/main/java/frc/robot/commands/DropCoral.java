@@ -21,7 +21,6 @@ public class DropCoral extends Command {
 	public void initialize() {
 		intake.drop(voltageSupplier.get());
 
-		RobotContainer.getDriverJoystick().setRumble(RumbleType.kBothRumble, 0);
 		RobotContainer.getOperatorJoystick().setRumble(RumbleType.kBothRumble, 0);
 	}
 
