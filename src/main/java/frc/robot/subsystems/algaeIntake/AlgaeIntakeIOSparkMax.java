@@ -2,8 +2,10 @@ package frc.robot.subsystems.algaeIntake;
 
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
+import com.revrobotics.spark.SparkFlex;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.config.SparkFlexConfig;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
@@ -14,9 +16,9 @@ import org.littletonrobotics.junction.Logger;
 
 public class AlgaeIntakeIOSparkMax implements AlgaeIntakeIO {
 	private final SparkMax rightMotor, leftMotor;
-	// private final SparkFlex extensionMotor;
+	private final SparkFlex extensionMotor;
 	private final SparkMaxConfig rightConfig, leftConfig;
-	// private final SparkFlexConfig extensionConfig;
+	private final SparkFlexConfig extensionConfig;
 	private final DutyCycleEncoder absoluteEncoder;
 	private final PIDController extensionPidController;
 
@@ -39,12 +41,10 @@ public class AlgaeIntakeIOSparkMax implements AlgaeIntakeIO {
 		leftMotor.configure(leftConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
 		// Initialize the CANSparkMax motors & absolute encoder for the extender
-		// extensionMotor = new SparkFlex(CAN.kAlgaeIntakeExtensionMotorPort,
-		// MotorType.kBrushless);
-		// extensionConfig = new SparkFlexConfig();
+		extensionMotor = new SparkFlex(CAN.kAlgaeIntakeExtensionMotorPort, MotorType.kBrushless);
+		extensionConfig = new SparkFlexConfig();
 
-		// extensionMotor.configure(extensionConfig, ResetMode.kResetSafeParameters,
-		// PersistMode.kPersistParameters);
+		extensionMotor.configure(extensionConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
 		absoluteEncoder = new DutyCycleEncoder(IntakeConstants.kAlgaeIntakeExtensionAbsoluteEncoderPort);
 
@@ -73,6 +73,11 @@ public class AlgaeIntakeIOSparkMax implements AlgaeIntakeIO {
 		leftMotor.setVoltage(-voltage * 0.3);
 	}
 
+	@Override
+	public void setExtension(double voltage) {
+		extensionMotor.setVoltage(voltage);
+	}
+
 	public double getTurningPosition() {
 		return getAbsoluteEncoderAngle();
 	}
@@ -92,7 +97,7 @@ public class AlgaeIntakeIOSparkMax implements AlgaeIntakeIO {
 				: IntakeConstants.kAlgaeIntakeRetractedPosition;
 
 		double pidOutput = extensionPidController.calculate(getAbsoluteEncoderAngle(), setpoint);
-		// extensionMotor.set(pidOutput);
+		extensionMotor.set(pidOutput);
 		Logger.recordOutput("AlgaeIntake", pidOutput);
 	}
 

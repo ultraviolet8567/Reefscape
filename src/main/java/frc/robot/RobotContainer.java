@@ -140,6 +140,10 @@ public class RobotContainer {
 
 		// Toggle algae extension/retraction
 		driverController.start().onTrue(new InstantCommand(() -> algaeIntake.toggleAlgaeRetraction()));
+		driverController.y().whileTrue(new InstantCommand(
+				() -> algaeIntake.setExtensionVoltage(IntakeConstants.kAlgaeIntakeExtensionVoltage)));
+		driverController.a().whileTrue(new InstantCommand(
+				() -> algaeIntake.setExtensionVoltage(-IntakeConstants.kAlgaeIntakeExtensionVoltage)));
 
 		// Auto align with Reef right stalk
 		// Made to require holding down the button to allow for failsafe abort (when

@@ -98,6 +98,8 @@ public final class Constants {
 		public static final double kCoralVoltageL3 = 4;
 		public static final double kCoralVoltageL4 = 1.4;
 
+		public static final int kAlgaeIntakeExtensionVoltage = 7;
+
 		public static final int kAlgaeIntakeExtensionAbsoluteEncoderPort = 8;
 		public static final boolean kAlgaeIntakeExtensionAbsoluteEncoderReversed = false;
 		public static final double kAlgaeIntakeExtensionAbsoluteEncoderOffset = -3.44;

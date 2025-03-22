@@ -28,13 +28,17 @@ public class AlgaeIntake extends SubsystemBase {
 		io.updateInputs(inputs);
 		Logger.processInputs("AlgaeIntake", inputs);
 
-		io.setExtension(algaeExtended);
+		// io.setExtsension(algaeExtended);
 		Logger.recordOutput("AlgaeIntake/IntakeExtended", algaeExtended);
 		algaeExtendedTab.setBoolean(algaeExtended);
 	}
 
 	public void setVoltage(double voltage) {
 		io.set(voltage);
+	}
+
+	public void setExtensionVoltage(double voltage) {
+		io.setExtension(voltage);
 	}
 
 	public void stop() {

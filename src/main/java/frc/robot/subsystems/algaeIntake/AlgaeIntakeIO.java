@@ -18,6 +18,9 @@ public interface AlgaeIntakeIO {
 	public default void set(double voltage) {
 	}
 
+	public default void setExtension(double voltage) {
+	}
+
 	public default void setExtension(boolean algaeExtended) {
 	}
 
