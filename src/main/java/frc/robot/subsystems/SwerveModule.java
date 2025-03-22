@@ -101,8 +101,8 @@ public class SwerveModule {
 		if (Math.abs(state.speedMetersPerSecond) < 0.001) {
 			stop();
 		} else {
-			// state.optimize(getState().angle);
-
+			state.optimize(getState().angle);
+ 
 			driveMotor.set(state.speedMetersPerSecond / DriveConstants.kPhysicalMaxSpeedMetersPerSecond);
 			turningMotor.set(turningPidController.calculate(getTurningPosition(), state.angle.getRadians()));
 		}

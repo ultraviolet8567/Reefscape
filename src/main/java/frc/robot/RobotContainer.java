@@ -171,9 +171,9 @@ public class RobotContainer {
 		// Algae higher height
 		operatorController.pov(0).onTrue(new InstantCommand(() -> elevator.setMode(ElevatorMode.ALGAEHIGHER)));
 		// Algae candlestick height
-		operatorController.pov(270).onTrue(new InstantCommand(() -> elevator.setMode(ElevatorMode.ALGAECANDLESTICK)));
+		operatorController.pov(90).onTrue(new InstantCommand(() -> elevator.setMode(ElevatorMode.ALGAECANDLESTICK)));
 		// Processor height
-		operatorController.pov(90).onTrue(new InstantCommand(() -> elevator.setMode(ElevatorMode.PROCESSOR)));
+		operatorController.pov(270).onTrue(new InstantCommand(() -> elevator.setMode(ElevatorMode.PROCESSOR)));
 
 		// right for algae, left for coral
 		operatorController.rightBumper().whileTrue(new PickupAlgae(algaeIntake));

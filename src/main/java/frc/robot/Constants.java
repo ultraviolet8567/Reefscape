@@ -81,7 +81,7 @@ public final class Constants {
 		public static final double kHeightProcessor = 1.0381;
 		public static final double kHeightL1 = 0.1; // TODO
 		public static final double kHeightL2 = 0.1525;
-		public static final double kHeightL3 = 0.79;
+		public static final double kHeightL3 = 0.77;
 		public static final double kHeightL4 = 1.69;
 		public static final double kHeightGrabAlgaeLower = 0.85;
 		public static final double kHeightGrabAlgaeHigher = 1.55;
@@ -186,7 +186,7 @@ public final class Constants {
 				kDriveKinematics.getModules()); // locations of modules relative of robot center
 
 		// PID constants for auto alignment
-		public static final PIDConstants kAutoTranslationPID = new PIDConstants(3.0, 0, 0);
+		public static final PIDConstants kAutoTranslationPID = new PIDConstants(2.7, 0, 0);
 		public static final PIDConstants kAutoRotationPID = new PIDConstants(5.0, 0, 0);
 
 		public static final PPHolonomicDriveController kAutoAlignController = new PPHolonomicDriveController(
