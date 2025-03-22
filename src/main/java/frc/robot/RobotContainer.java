@@ -179,7 +179,7 @@ public class RobotContainer {
 		operatorController.rightBumper().whileTrue(new PickupAlgae(algaeIntake));
 		operatorController.rightTrigger().whileTrue(new DropAlgae(algaeIntake));
 		operatorController.leftBumper().whileTrue(new PickupCoral(coralIntake, () -> elevator.getCoralVoltage()));
-		driverController.leftBumper().whileTrue(new PickupCoral(coralIntake, () -> elevator.getCoralVoltage()));
+		driverController.leftBumper().whileTrue(new DropCoral(coralIntake, () -> elevator.getCoralVoltage()));
 		operatorController.leftTrigger().whileTrue(new DropCoral(coralIntake, () -> elevator.getCoralVoltage()));
 	}
 

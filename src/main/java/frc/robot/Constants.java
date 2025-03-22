@@ -76,12 +76,12 @@ public final class Constants {
 		public static final double kElevatorMinHeight = 0.05;
 
 		// Setpoints
-		public static final double kHeightDefault = kElevatorMinHeight + 0.05;
+		public static final double kHeightDefault = 0.1525;
 		public static final double kHeightStation = kHeightDefault;
 		public static final double kHeightProcessor = 1.0381;
 		public static final double kHeightL1 = 0.1; // TODO
 		public static final double kHeightL2 = 0.1525;
-		public static final double kHeightL3 = 0.76;
+		public static final double kHeightL3 = 0.79;
 		public static final double kHeightL4 = 1.69;
 		public static final double kHeightGrabAlgaeLower = 0.85;
 		public static final double kHeightGrabAlgaeHigher = 1.55;
@@ -96,7 +96,7 @@ public final class Constants {
 		public static final double kCoralVoltageL1 = 1.5;
 		public static final double kCoralVoltageL2 = 4;
 		public static final double kCoralVoltageL3 = 4;
-		public static final double kCoralVoltageL4 = 1.2;
+		public static final double kCoralVoltageL4 = 1.4;
 
 		public static final int kAlgaeIntakeExtensionAbsoluteEncoderPort = 8;
 		public static final boolean kAlgaeIntakeExtensionAbsoluteEncoderReversed = false;
@@ -186,8 +186,8 @@ public final class Constants {
 				kDriveKinematics.getModules()); // locations of modules relative of robot center
 
 		// PID constants for auto alignment
-		public static final PIDConstants kAutoTranslationPID = new PIDConstants(2.0, 0, 0);
-		public static final PIDConstants kAutoRotationPID = new PIDConstants(4.0, 0, 0);
+		public static final PIDConstants kAutoTranslationPID = new PIDConstants(3.0, 0, 0);
+		public static final PIDConstants kAutoRotationPID = new PIDConstants(5.0, 0, 0);
 
 		public static final PPHolonomicDriveController kAutoAlignController = new PPHolonomicDriveController(
 				kAutoTranslationPID, kAutoRotationPID);
@@ -236,7 +236,7 @@ public final class Constants {
 
 		// Transform from robot center to coral deploying postion
 		public static final Transform2d kStalkToRobotCenter = new Transform2d(Units.inchesToMeters(16),
-				Units.inchesToMeters(-7.125), new Rotation2d(Units.degreesToRadians(90)));
+				Units.inchesToMeters(-8.625), new Rotation2d(Units.degreesToRadians(90)));
 	}
 
 	public static class FieldConstants {
