@@ -78,14 +78,14 @@ public final class Constants {
 		// Setpoints
 		public static final double kHeightDefault = 0.1525;
 		public static final double kHeightStation = kHeightDefault;
-		public static final double kHeightProcessor = 1.0381;
-		public static final double kHeightL1 = 0.1; // TODO
+		public static final double kHeightProcessor = 0.3;
+		public static final double kHeightL1 = 0.125;
 		public static final double kHeightL2 = 0.1525;
-		public static final double kHeightL3 = 0.77;
+		public static final double kHeightL3 = 0.75;
 		public static final double kHeightL4 = 1.69;
 		public static final double kHeightGrabAlgaeLower = 0.85;
 		public static final double kHeightGrabAlgaeHigher = 1.55;
-		public static final double kHeightAlgaeCandlestick = 0.5; // TODO
+		public static final double kHeightAlgaeCandlestick = 0.41;
 		public static final double kHeightHigh = 1.83;
 	}
 
@@ -93,7 +93,7 @@ public final class Constants {
 		public static final int kAlgaeIntakeVoltage = 10;
 
 		public static final double kCoralVoltageDefault = 1.2;
-		public static final double kCoralVoltageL1 = 1.5;
+		public static final double kCoralVoltageL1 = 1;
 		public static final double kCoralVoltageL2 = 4;
 		public static final double kCoralVoltageL3 = 4;
 		public static final double kCoralVoltageL4 = 1.4;
