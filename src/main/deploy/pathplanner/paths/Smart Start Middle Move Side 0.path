@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.56409278522745,
-        "y": 3.7005073389161915
+        "x": 7.191599294559266,
+        "y": 3.703614277230482
       },
       "isLocked": false,
       "linkedName": "Smart Start Middle"
@@ -20,8 +20,8 @@
         "y": 4.03475
       },
       "prevControl": {
-        "x": 6.79528506027882,
-        "y": 4.035705238300212
+        "x": 6.991210775737333,
+        "y": 4.068440675825421
       },
       "nextControl": null,
       "isLocked": false,
@@ -42,7 +42,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 91.16913932790736
+    "rotation": 90.0
   },
   "reversed": false,
   "folder": "Smart Paths",

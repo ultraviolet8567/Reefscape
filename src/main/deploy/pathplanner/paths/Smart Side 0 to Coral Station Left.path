@@ -48,7 +48,7 @@
   "folder": "Smart Paths",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 91.16913932790736
+    "rotation": 90.0
   },
   "useDefaultConstraints": true
 }

@@ -44,8 +44,8 @@ public class ElevatorIOSparkMax implements ElevatorIO {
 		leadConfig.idleMode(IdleMode.kBrake);
 		followerConfig.idleMode(IdleMode.kBrake);
 
-		leadConfig.smartCurrentLimit(40);
-		followerConfig.smartCurrentLimit(40);
+		leadConfig.smartCurrentLimit(80);
+		followerConfig.smartCurrentLimit(80);
 
 		followerConfig.inverted(false);
 		followerConfig.follow(leadMotor);

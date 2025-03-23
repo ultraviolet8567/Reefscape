@@ -1,10 +1,12 @@
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.OIConstants;
 import frc.robot.subsystems.elevator.Elevator;
 import frc.robot.subsystems.elevator.Elevator.ElevatorMode;
 import java.util.function.Supplier;
+import org.littletonrobotics.junction.Logger;
 
 public class MoveElevator extends Command {
 	private Elevator elevator;
@@ -22,9 +24,14 @@ public class MoveElevator extends Command {
 	@Override
 	public void execute() {
 		// The first thing that runs when command is called.
-		if (elevator.getMode() == ElevatorMode.MANUAL || Math.abs(joystickSupplier.get()) > OIConstants.kDeadband) {
+		Logger.recordOutput("isTeleop", DriverStation.isTeleop());
+
+		if ((elevator.getMode() == ElevatorMode.MANUAL)
+				|| (Math.abs(joystickSupplier.get()) > OIConstants.kDeadband && DriverStation.isTeleop())) {
 			manual();
+			Logger.recordOutput("Elevator/AutoMode", false);
 		} else {
+			Logger.recordOutput("Elevator/AutoMode", true);
 			automatic();
 		}
 	}
