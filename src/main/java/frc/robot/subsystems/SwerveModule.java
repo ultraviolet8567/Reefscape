@@ -12,6 +12,7 @@ import edu.wpi.first.math.geometry.*;
 import edu.wpi.first.math.kinematics.*;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.RobotController;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.ModuleConstants;
 
@@ -27,8 +28,11 @@ public class SwerveModule {
 	private double ConfigOffset;
 	private final boolean ConfigReversed;
 
+	private SendableChooser<Boolean> optimizerOverride;
+
 	public SwerveModule(int driveMotorID, int turningMotorID, boolean driveMotorReversed, boolean turningMotorReversed,
-			int absoluteEncoderID, double ConfigOffset, boolean ConfigReversed) {
+			int absoluteEncoderID, double ConfigOffset, boolean ConfigReversed,
+			SendableChooser<Boolean> optimizerOverride) {
 		System.out.println("[Init] Creating SwerveModule with absoluteEncoderID: " + absoluteEncoderID);
 
 		this.ConfigOffset = ConfigOffset;
@@ -62,6 +66,8 @@ public class SwerveModule {
 		turningPidController.enableContinuousInput(-Math.PI, Math.PI);
 
 		resetEncoders();
+
+		this.optimizerOverride = optimizerOverride;
 	}
 
 	public double getDrivePosition() {
@@ -101,7 +107,9 @@ public class SwerveModule {
 		if (Math.abs(state.speedMetersPerSecond) < 0.001) {
 			stop();
 		} else {
-			state.optimize(getState().angle);
+			if (!optimizerOverride.getSelected()) {
+				state.optimize(getState().angle);
+			}
 
 			driveMotor.set(state.speedMetersPerSecond / DriveConstants.kPhysicalMaxSpeedMetersPerSecond);
 			turningMotor.set(turningPidController.calculate(getTurningPosition(), state.angle.getRadians()));

@@ -32,6 +32,10 @@ public class Elevator extends SubsystemBase {
 		io.setVoltage(voltage);
 	}
 
+	public double getHeight() {
+		return io.getHeight();
+	}
+
 	public void setHeight(double height) {
 		io.setHeight(height);
 	}

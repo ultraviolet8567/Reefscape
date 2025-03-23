@@ -72,8 +72,9 @@ public final class Constants {
 		public static final double kElevatorMinRadians = 0.1;
 
 		/* Heights are in meters */
-		public static final double kElevatorMaxHeight = 2.00;
+		public static final double kElevatorMaxHeight = 1.81;
 		public static final double kElevatorMinHeight = 0.05;
+		public static final double kElevatorLimit = kElevatorMaxHeight - 0.01;
 
 		// Setpoints
 		public static final double kHeightDefault = 0.1525;

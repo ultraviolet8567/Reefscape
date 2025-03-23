@@ -3,6 +3,9 @@ package frc.robot.subsystems;
 import com.pathplanner.lib.trajectory.PathPlannerTrajectoryState;
 import edu.wpi.first.math.geometry.*;
 import edu.wpi.first.math.kinematics.*;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.CAN;
 import frc.robot.Constants.DriveConstants;
@@ -11,32 +14,40 @@ import org.littletonrobotics.junction.Logger;
 
 public class Swerve extends SubsystemBase {
 	private final SwerveModule frontLeft, frontRight, backLeft, backRight;
+	private SendableChooser<Boolean> optimizerOverride;
 
 	public Swerve() {
 		System.out.println("[Init] Creating Swerve");
+
+		optimizerOverride = new SendableChooser<>();
+		optimizerOverride.setDefaultOption("Optimize", false);
+		optimizerOverride.addOption("Don't optimize", true);
+
+		Shuffleboard.getTab("Main").add("Swerve Optimizer Override", optimizerOverride)
+				.withWidget(BuiltInWidgets.kComboBoxChooser).withSize(2, 1).withPosition(5, 3);
 
 		frontLeft = new SwerveModule(CAN.kFrontLeftDriveMotorPort, CAN.kFrontLeftTurningMotorPort,
 				DriveConstants.kFrontLeftDriveEncoderReversed, DriveConstants.kFrontLeftTurningEncoderReversed,
 				DriveConstants.kFrontLeftDriveAbsoluteEncoderPort,
 				DriveConstants.kFrontLeftDriveAbsoluteEncoderOffsetRad,
-				DriveConstants.kFrontLeftDriveAbsoluteEncoderReversed);
+				DriveConstants.kFrontLeftDriveAbsoluteEncoderReversed, optimizerOverride);
 
 		frontRight = new SwerveModule(CAN.kFrontRightDriveMotorPort, CAN.kFrontRightTurningMotorPort,
 				DriveConstants.kFrontRightDriveEncoderReversed, DriveConstants.kFrontRightTurningEncoderReversed,
 				DriveConstants.kFrontRightDriveAbsoluteEncoderPort,
 				DriveConstants.kFrontRightDriveAbsoluteEncoderOffsetRad,
-				DriveConstants.kFrontRightDriveAbsoluteEncoderReversed);
+				DriveConstants.kFrontRightDriveAbsoluteEncoderReversed, optimizerOverride);
 
 		backLeft = new SwerveModule(CAN.kBackLeftDriveMotorPort, CAN.kBackLeftTurningMotorPort,
 				DriveConstants.kBackLeftDriveEncoderReversed, DriveConstants.kBackLeftTurningEncoderReversed,
 				DriveConstants.kBackLeftDriveAbsoluteEncoderPort, DriveConstants.kBackLeftDriveAbsoluteEncoderOffsetRad,
-				DriveConstants.kBackLeftDriveAbsoluteEncoderReversed);
+				DriveConstants.kBackLeftDriveAbsoluteEncoderReversed, optimizerOverride);
 
 		backRight = new SwerveModule(CAN.kBackRightDriveMotorPort, CAN.kBackRightTurningMotorPort,
 				DriveConstants.kBackRightDriveEncoderReversed, DriveConstants.kBackRightTurningEncoderReversed,
 				DriveConstants.kBackRightDriveAbsoluteEncoderPort,
 				DriveConstants.kBackRightDriveAbsoluteEncoderOffsetRad,
-				DriveConstants.kBackRightDriveAbsoluteEncoderReversed);
+				DriveConstants.kBackRightDriveAbsoluteEncoderReversed, optimizerOverride);
 	}
 
 	@Override
@@ -45,6 +56,7 @@ public class Swerve extends SubsystemBase {
 		Logger.recordOutput("Swerve/Absolute Encoders",
 				new double[]{frontLeft.getAbsoluteEncoderAngle(), frontRight.getAbsoluteEncoderAngle(),
 						backLeft.getAbsoluteEncoderAngle(), backRight.getAbsoluteEncoderAngle()});
+
 	}
 
 	public SwerveModulePosition[] getModulePositions() {
