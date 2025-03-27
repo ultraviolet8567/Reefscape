@@ -1,8 +1,10 @@
 package frc.robot.subsystems.elevator;
 
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ElevatorConstants;
 import frc.robot.Constants.IntakeConstants;
+import java.util.Optional;
 import org.littletonrobotics.junction.Logger;
 
 public class Elevator extends SubsystemBase {
@@ -25,6 +27,13 @@ public class Elevator extends SubsystemBase {
 		Logger.processInputs("Elevator", inputs);
 
 		Logger.recordOutput("Elevator Mode", mode.toString());
+
+		Optional<Command> currentCommand = Optional.ofNullable(this.getCurrentCommand());
+		if (currentCommand.isPresent()) {
+			Logger.recordOutput("Elevator/CommandRunning", currentCommand.get().getName());
+		} else {
+			Logger.recordOutput("Elevator/CommandRunning", "No command");
+		}
 	}
 
 	// Method to set power for the elevator
@@ -137,7 +146,9 @@ public class Elevator extends SubsystemBase {
 		/** At algae heght for algae above coral on ground */
 		ALGAECANDLESTICK,
 		/** At highest permissible preset height */
-		HIGH;
+		HIGH,
+		/** Tipping coral up */
+		AUTOTIP;
 	}
 
 	public void resetEncoder() {

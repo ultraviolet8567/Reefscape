@@ -8,20 +8,20 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.069999999999999,
-        "y": 5.185249999999999
+        "x": 5.826024590163935,
+        "y": 6.020952868852459
       },
       "isLocked": false,
       "linkedName": "Reef Side 1 End"
     },
     {
       "anchor": {
-        "x": 1.187083673574208,
-        "y": 7.0522052483733315
+        "x": 1.174795081967213,
+        "y": 7.051895491803278
       },
       "prevControl": {
-        "x": 1.558889427548659,
-        "y": 6.603774533085504
+        "x": 1.546600835941664,
+        "y": 6.603464776515451
       },
       "nextControl": null,
       "isLocked": false,
@@ -42,7 +42,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 126.656108415967
+    "rotation": -141.07245640720777
   },
   "reversed": false,
   "folder": null,

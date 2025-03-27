@@ -20,8 +20,6 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.*;
 import frc.robot.commands.*;
 import frc.robot.commands.auto.AutoAlignWithReef;
-import frc.robot.commands.auto.AutoDriveOut;
-import frc.robot.commands.auto.AutoElevatorTop;
 import frc.robot.subsystems.AutoChooser;
 import frc.robot.subsystems.Odometry;
 import frc.robot.subsystems.Swerve;
@@ -107,7 +105,7 @@ public class RobotContainer {
 		NamedCommands.registerCommand("ElevatorMax", new InstantCommand(() -> elevator.setMode(ElevatorMode.HIGH)));
 		NamedCommands.registerCommand("ElevatorDefault",
 				new InstantCommand(() -> elevator.setMode(ElevatorMode.DEFAULT)));
-		NamedCommands.registerCommand("ElevatorTip", new AutoElevatorTop(elevator));
+		NamedCommands.registerCommand("ElevatorTip", new InstantCommand(() -> elevator.setMode(ElevatorMode.AUTOTIP)));
 		NamedCommands.registerCommand("ElevatorIntakeCoral",
 				new InstantCommand(() -> elevator.setMode(ElevatorMode.STATION)));
 		NamedCommands.registerCommand("AlignLeftStalk", new AutoAlignWithReef(swerve, odometry, false));
@@ -192,9 +190,7 @@ public class RobotContainer {
 	 * @return the command to run in autonomous
 	 */
 	public Command getAutonomousCommand() {
-		return autoChooser.getSelectedAuto().getName().equals("Drive Out")
-				? new AutoDriveOut(swerve, odometry)
-				: autoChooser.getSelectedAuto();
+		return autoChooser.getSelectedAuto();
 	}
 
 	public static XboxController getDriverJoystick() {

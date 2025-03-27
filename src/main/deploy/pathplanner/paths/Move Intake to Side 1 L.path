@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.187083673574208,
-        "y": 7.0522052483733315
+        "x": 1.174795081967213,
+        "y": 7.051895491803278
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.0865,
-        "y": 6.7452499999999995
+        "x": 2.0742114083930048,
+        "y": 6.744940243429946
       },
       "isLocked": false,
       "linkedName": "Reef Side 1 Pickup end"
@@ -48,7 +48,7 @@
   "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 126.656108415967
+    "rotation": -141.07245640720777
   },
   "useDefaultConstraints": true
 }

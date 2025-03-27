@@ -2,6 +2,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants.ElevatorConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.subsystems.elevator.Elevator;
 import frc.robot.subsystems.elevator.Elevator.ElevatorMode;
@@ -23,20 +24,22 @@ public class MoveElevator extends Command {
 
 	@Override
 	public void execute() {
-		// The first thing that runs when command is called.
-		Logger.recordOutput("isTeleop", DriverStation.isTeleop());
+		Logger.recordOutput("Auto/Test/ElevatorModeB", elevator.getMode() == ElevatorMode.MANUAL);
+		Logger.recordOutput("Auto/Test/JoystickB", Math.abs(joystickSupplier.get()) > OIConstants.kDeadband);
+		Logger.recordOutput("Auto/Test/TelopB", DriverStation.isTeleopEnabled());
 
-		if ((elevator.getMode() == ElevatorMode.MANUAL)
-				|| (Math.abs(joystickSupplier.get()) > OIConstants.kDeadband && DriverStation.isTeleop())) {
+		if ((elevator.getMode() == ElevatorMode.MANUAL) || (Math.abs(joystickSupplier.get()) > OIConstants.kDeadband)) {
 			manual();
-			Logger.recordOutput("Elevator/AutoMode", false);
+		} else if (elevator.getMode() == ElevatorMode.AUTOTIP) {
+			tip();
 		} else {
-			Logger.recordOutput("Elevator/AutoMode", true);
 			automatic();
 		}
 	}
 
 	public void manual() {
+		Logger.recordOutput("Elevator/ControlSystem", "Open Loop");
+
 		if (Math.abs(joystickSupplier.get()) > OIConstants.kDeadband) {
 			elevator.setMoveSpeed(joystickSupplier.get());
 		} else {
@@ -46,7 +49,18 @@ public class MoveElevator extends Command {
 		elevator.setMode(ElevatorMode.MANUAL);
 	}
 
+	public void tip() {
+		Logger.recordOutput("Elevator/ControlSystem", "Fixed Voltage");
+		if (elevator.getHeight() <= ElevatorConstants.kElevatorLimit) {
+			elevator.setMoveSpeed(0.75);
+		} else {
+			elevator.stop();
+			elevator.setMode(ElevatorMode.MANUAL);
+		}
+	}
+
 	public void automatic() {
+		Logger.recordOutput("Elevator/ControlSystem", "Closed Loop");
 		elevator.setHeight(elevator.getPresetHeight());
 	}
 }

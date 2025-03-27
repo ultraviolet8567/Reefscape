@@ -24,7 +24,7 @@ public class Swerve extends SubsystemBase {
 		optimizerOverride.addOption("Don't optimize", true);
 
 		Shuffleboard.getTab("Main").add("Swerve Optimizer Override", optimizerOverride)
-				.withWidget(BuiltInWidgets.kComboBoxChooser).withSize(2, 1).withPosition(5, 3);
+				.withWidget(BuiltInWidgets.kComboBoxChooser).withSize(2, 1).withPosition(5, 4);
 
 		frontLeft = new SwerveModule(CAN.kFrontLeftDriveMotorPort, CAN.kFrontLeftTurningMotorPort,
 				DriveConstants.kFrontLeftDriveEncoderReversed, DriveConstants.kFrontLeftTurningEncoderReversed,
