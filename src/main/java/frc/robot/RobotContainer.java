@@ -8,7 +8,6 @@ import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.UsbCamera;
-import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.RobotBase;
@@ -154,8 +153,10 @@ public class RobotContainer {
 		driverController.x().whileTrue(new AutoAlignWithReef(swerve, odometry, false));
 
 		// Robot orientated left and right movement
-		driverController.b().whileTrue(new InstantCommand(() -> swerve.setModuleStates(DriveConstants.kBChassisSpeeds)));
-		driverController.x().whileTrue(new InstantCommand(() -> swerve.setModuleStates(DriveConstants.kXChassisSpeeds)));
+		driverController.b()
+				.whileTrue(new InstantCommand(() -> swerve.setModuleStates(DriveConstants.kBChassisSpeeds)));
+		driverController.x()
+				.whileTrue(new InstantCommand(() -> swerve.setModuleStates(DriveConstants.kXChassisSpeeds)));
 
 		/* Operator elevator controls */
 		// Default (taxi) height
