@@ -15,6 +15,7 @@ import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.util.Units;
@@ -194,6 +195,10 @@ public final class Constants {
 
 		public static final PPHolonomicDriveController kAutoAlignController = new PPHolonomicDriveController(
 				kAutoTranslationPID, kAutoRotationPID);
+
+		// Speed constants for X & B robot orientated movement control
+		public static final ChassisSpeeds kXChassisSpeeds = new ChassisSpeeds(0, kTeleDriveMaxSpeedMetersPerSecond * 0.25, 0);
+		public static final ChassisSpeeds kBChassisSpeeds = new ChassisSpeeds(0, -kTeleDriveMaxSpeedMetersPerSecond * 0.25, 0);
 	}
 
 	public static class AutoConstants {

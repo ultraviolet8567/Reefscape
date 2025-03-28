@@ -16,19 +16,18 @@ import java.util.function.Supplier;
 public class SwerveTeleOp extends Command {
 	private final Swerve swerve;
 	private final Odometry odometry;
+	private final Supplier<Boolean> rightBumper;
 	private final Supplier<Double> xSpdFunction, ySpdFunction, turningSpdFunction;
-	private final Supplier<Boolean> rightBumper, leftBumper;
 	private final SlewRateLimiter xLimiter, yLimiter, turningLimiter;
 
 	public SwerveTeleOp(Swerve swerve, Odometry odometry, Supplier<Double> xSpdFunction, Supplier<Double> ySpdFunction,
-			Supplier<Double> turningSpdFunction, Supplier<Boolean> rightBumper, Supplier<Boolean> leftBumper) {
+			Supplier<Double> turningSpdFunction, Supplier<Boolean> rightBumper) {
 		this.swerve = swerve;
 		this.odometry = odometry;
 		this.xSpdFunction = xSpdFunction;
 		this.ySpdFunction = ySpdFunction;
 		this.turningSpdFunction = turningSpdFunction;
 		this.rightBumper = rightBumper;
-		this.leftBumper = leftBumper;
 		this.xLimiter = new SlewRateLimiter(DriveConstants.kTeleDriveMaxAccelerationUnitsPerSecond);
 		this.yLimiter = new SlewRateLimiter(DriveConstants.kTeleDriveMaxAccelerationUnitsPerSecond);
 		this.turningLimiter = new SlewRateLimiter(DriveConstants.kTeleDriveMaxAngularAccelerationUnitsPerSecond);

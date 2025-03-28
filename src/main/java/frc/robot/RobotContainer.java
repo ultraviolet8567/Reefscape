@@ -8,6 +8,7 @@ import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.UsbCamera;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.RobotBase;
@@ -117,8 +118,7 @@ public class RobotContainer {
 
 		swerve.setDefaultCommand(new SwerveTeleOp(swerve, odometry, () -> -driverController.getLeftY(),
 				() -> -driverController.getLeftX(), () -> -driverController.getRightX(),
-				() -> driverController.getHID().getRightBumperButton(),
-				() -> driverController.getHID().getLeftBumperButton()));
+				() -> driverController.getHID().getRightBumperButton()));
 
 		elevator.setDefaultCommand(new MoveElevator(elevator, () -> -operatorController.getLeftY(),
 				() -> operatorController.getHID().getLeftBumperButton()));
@@ -146,13 +146,16 @@ public class RobotContainer {
 		// Made to require holding down the button to allow for failsafe abort (when
 		// button is released)
 		driverController.povRight().whileTrue(new AutoAlignWithReef(swerve, odometry, true));
-		driverController.b().whileTrue(new AutoAlignWithReef(swerve, odometry, true));
 
 		// Auto align with Reef left stalk
 		// Made to require holding down the button to allow for failsafe abort (when
 		// button is released)
 		driverController.povLeft().whileTrue(new AutoAlignWithReef(swerve, odometry, false));
 		driverController.x().whileTrue(new AutoAlignWithReef(swerve, odometry, false));
+
+		// Robot orientated left and right movement
+		driverController.b().whileTrue(new InstantCommand(() -> swerve.setModuleStates(DriveConstants.kBChassisSpeeds)));
+		driverController.x().whileTrue(new InstantCommand(() -> swerve.setModuleStates(DriveConstants.kXChassisSpeeds)));
 
 		/* Operator elevator controls */
 		// Default (taxi) height
