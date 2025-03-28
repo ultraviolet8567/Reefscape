@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.191599294559266,
-        "y": 3.703614277230482
+        "x": 6.9319651993399445,
+        "y": 3.80982827779273
       },
       "isLocked": false,
       "linkedName": "Smart Start Middle"
@@ -20,8 +20,8 @@
         "y": 4.03475
       },
       "prevControl": {
-        "x": 6.991210775737333,
-        "y": 4.068440675825421
+        "x": 7.177011380088833,
+        "y": 4.151808984167532
       },
       "nextControl": null,
       "isLocked": false,

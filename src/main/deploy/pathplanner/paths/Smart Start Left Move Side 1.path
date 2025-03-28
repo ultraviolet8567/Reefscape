@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.591314418323662,
-        "y": 5.837945047894036
+        "x": 6.348299440677017,
+        "y": 5.848675572635001
       },
       "isLocked": false,
       "linkedName": "Smart Start Left"
@@ -20,8 +20,8 @@
         "y": 5.649334016393442
       },
       "prevControl": {
-        "x": 6.485348360655739,
-        "y": 5.984989754098359
+        "x": 6.8730958321330835,
+        "y": 5.9956739183663394
       },
       "nextControl": null,
       "isLocked": false,

@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.897950819672132,
-        "y": 6.1648053278688515
+        "x": 5.24804292929293,
+        "y": 6.271275252525253
       },
       "isLocked": false,
       "linkedName": "Smart Side 1 L"
@@ -20,8 +20,8 @@
         "y": 6.9110000000000005
       },
       "prevControl": {
-        "x": 2.886000000000001,
-        "y": 6.39425
+        "x": 2.6084559807776246,
+        "y": 6.359179329776044
       },
       "nextControl": null,
       "isLocked": false,
