@@ -55,7 +55,7 @@ public class MoveElevator extends Command {
 			elevator.setMoveSpeed(0.75);
 		} else {
 			elevator.stop();
-			elevator.setMode(ElevatorMode.MANUAL);
+			elevator.setMode(ElevatorMode.L2); // Should this be default?
 		}
 	}
 

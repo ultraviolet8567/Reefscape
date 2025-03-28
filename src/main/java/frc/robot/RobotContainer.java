@@ -150,7 +150,6 @@ public class RobotContainer {
 		// Made to require holding down the button to allow for failsafe abort (when
 		// button is released)
 		driverController.povLeft().whileTrue(new AutoAlignWithReef(swerve, odometry, false));
-		driverController.x().whileTrue(new AutoAlignWithReef(swerve, odometry, false));
 
 		// Robot orientated left and right movement
 		driverController.b()
@@ -162,7 +161,7 @@ public class RobotContainer {
 		// Default (taxi) height
 		operatorController.a().onTrue(new InstantCommand(() -> elevator.setMode(ElevatorMode.DEFAULT)));
 		// Station intaking height
-		operatorController.start().onTrue(new InstantCommand(() -> elevator.setMode(ElevatorMode.HIGH)));
+		operatorController.start().onTrue(new InstantCommand(() -> elevator.setMode(ElevatorMode.AUTOTIP)));
 		// L1 height
 		operatorController.back().onTrue(new InstantCommand(() -> elevator.setMode(ElevatorMode.L1)));
 		// L2 height
