@@ -66,7 +66,6 @@ public class SwerveTeleOp extends Command {
 			turningSpeed *= 0.25;
 		} else {
 			RobotContainer.getDriverJoystick().setRumble(RumbleType.kBothRumble, 0);
-
 		}
 
 		xSpeed = MathUtil.clamp(xSpeed, -1, 1);

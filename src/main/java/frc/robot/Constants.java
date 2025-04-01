@@ -198,9 +198,9 @@ public final class Constants {
 
 		// Speed constants for X & B robot orientated movement control
 		public static final ChassisSpeeds kXChassisSpeeds = new ChassisSpeeds(0,
-				kTeleDriveMaxSpeedMetersPerSecond * 0.25, 0);
+				kTeleDriveMaxSpeedMetersPerSecond * 0.05, 0);
 		public static final ChassisSpeeds kBChassisSpeeds = new ChassisSpeeds(0,
-				-kTeleDriveMaxSpeedMetersPerSecond * 0.25, 0);
+				-kTeleDriveMaxSpeedMetersPerSecond * 0.05, 0);
 	}
 
 	public static class AutoConstants {
