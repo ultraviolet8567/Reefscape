@@ -8,17 +8,20 @@ import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.UsbCamera;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.*;
 import frc.robot.commands.*;
+import frc.robot.commands.auto.AutoAlignWithCoralStation;
 import frc.robot.commands.auto.AutoAlignWithReef;
 import frc.robot.subsystems.AutoChooser;
 import frc.robot.subsystems.Odometry;
@@ -43,6 +46,7 @@ public class RobotContainer {
 	private final AlgaeIntake algaeIntake;
 	private final CoralIntake coralIntake;
 	private final AutoChooser autoChooser;
+	public final SendableChooser<Boolean> matchMode;
 	// Replace with CommandPS4Controller or CommandJoystick if needed
 	private static final CommandXboxController driverController = new CommandXboxController(
 			OperatorConstants.kDriverControllerPort);
@@ -110,19 +114,23 @@ public class RobotContainer {
 				new InstantCommand(() -> elevator.setMode(ElevatorMode.STATION)));
 		NamedCommands.registerCommand("AlignLeftStalk", new AutoAlignWithReef(swerve, odometry, false));
 		NamedCommands.registerCommand("AlignRightStalk", new AutoAlignWithReef(swerve, odometry, true));
-		// NamedCommands.registerCommand("AlignCoralStation", new
-		// AutoAlignWithCoralStaion());
+		NamedCommands.registerCommand("AlignStation", new AutoAlignWithCoralStation(swerve, odometry));
 
 		autoChooser = new AutoChooser();
 
 		swerve.setDefaultCommand(new SwerveTeleOp(swerve, odometry, () -> -driverController.getLeftY(),
 				() -> -driverController.getLeftX(), () -> -driverController.getRightX(),
-				() -> driverController.getHID().getRightBumperButton()));
+				() -> driverController.getHID().getRightBumperButton(), () -> driverController.getHID().getXButton(),
+				() -> driverController.getHID().getBButton()));
 
 		elevator.setDefaultCommand(new MoveElevator(elevator, () -> -operatorController.getLeftY(),
 				() -> operatorController.getHID().getLeftBumperButton()));
 
 		elevator.setMode(ElevatorMode.MANUAL);
+
+		matchMode = new SendableChooser<>();
+		matchMode.setDefaultOption("Not a match", false);
+		matchMode.addOption("Running a match", true);
 
 		configureBindings();
 
@@ -130,6 +138,8 @@ public class RobotContainer {
 		Shuffleboard.getTab("Main").add("Camera", driverCam).withWidget(BuiltInWidgets.kCameraStream).withSize(4, 4)
 				.withPosition(5, 0);
 		Shuffleboard.getTab("Main").add("Elevator Mode", elevator.getMode().name()).withWidget(BuiltInWidgets.kTextView)
+				.withSize(2, 1).withPosition(2, 1);
+		Shuffleboard.getTab("Main").add("Match Mode", matchMode).withWidget(BuiltInWidgets.kComboBoxChooser)
 				.withSize(2, 1).withPosition(2, 1);
 	}
 
@@ -150,12 +160,6 @@ public class RobotContainer {
 		// Made to require holding down the button to allow for failsafe abort (when
 		// button is released)
 		driverController.povLeft().whileTrue(new AutoAlignWithReef(swerve, odometry, false));
-
-		// Robot orientated left and right movement
-		driverController.b()
-				.whileTrue(new InstantCommand(() -> swerve.setModuleStates(DriveConstants.kBChassisSpeeds)));
-		driverController.x()
-				.whileTrue(new InstantCommand(() -> swerve.setModuleStates(DriveConstants.kXChassisSpeeds)));
 
 		/* Operator elevator controls */
 		// Default (taxi) height
@@ -206,5 +210,11 @@ public class RobotContainer {
 
 	public void resetEncoder() {
 		elevator.resetEncoder();
+	}
+
+	public void resetGyro() {
+		if (matchMode.getSelected()) {
+			odometry.setGyroYaw(Rotation2d.k180deg);
+		}
 	}
 }
