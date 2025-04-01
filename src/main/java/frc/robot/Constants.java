@@ -81,7 +81,7 @@ public final class Constants {
 		public static final double kHeightDefault = 0.1525;
 		public static final double kHeightStation = kHeightDefault;
 		public static final double kHeightProcessor = 0.3;
-		public static final double kHeightL1 = 0.125;
+		public static final double kHeightL1 = 0.1;
 		public static final double kHeightL2 = 0.1525;
 		public static final double kHeightL3 = 0.75;
 		public static final double kHeightL4 = 1.69;

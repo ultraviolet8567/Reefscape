@@ -147,6 +147,9 @@ public class RobotContainer {
 		// Reset gyro
 		driverController.back().onTrue(new InstantCommand(() -> odometry.resetGyrometerHeading()));
 
+		// L1 scoring
+		driverController.a().onTrue(new InstantCommand(() -> elevator.setMode(ElevatorMode.L1)));
+
 		// Toggle algae extension/retraction
 		// driverController.start().onTrue(new InstantCommand(() ->
 		// algaeIntake.toggleAlgaeRetraction()));
