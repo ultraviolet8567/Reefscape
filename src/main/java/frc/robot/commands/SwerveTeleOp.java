@@ -16,18 +16,21 @@ import java.util.function.Supplier;
 public class SwerveTeleOp extends Command {
 	private final Swerve swerve;
 	private final Odometry odometry;
-	private final Supplier<Boolean> rightBumper;
+	private final Supplier<Boolean> rightBumper, xButton, bButton;
 	private final Supplier<Double> xSpdFunction, ySpdFunction, turningSpdFunction;
 	private final SlewRateLimiter xLimiter, yLimiter, turningLimiter;
 
 	public SwerveTeleOp(Swerve swerve, Odometry odometry, Supplier<Double> xSpdFunction, Supplier<Double> ySpdFunction,
-			Supplier<Double> turningSpdFunction, Supplier<Boolean> rightBumper) {
+			Supplier<Double> turningSpdFunction, Supplier<Boolean> rightBumper, Supplier<Boolean> xButton,
+			Supplier<Boolean> bButton) {
 		this.swerve = swerve;
 		this.odometry = odometry;
 		this.xSpdFunction = xSpdFunction;
 		this.ySpdFunction = ySpdFunction;
 		this.turningSpdFunction = turningSpdFunction;
 		this.rightBumper = rightBumper;
+		this.xButton = xButton;
+		this.bButton = bButton;
 		this.xLimiter = new SlewRateLimiter(DriveConstants.kTeleDriveMaxAccelerationUnitsPerSecond);
 		this.yLimiter = new SlewRateLimiter(DriveConstants.kTeleDriveMaxAccelerationUnitsPerSecond);
 		this.turningLimiter = new SlewRateLimiter(DriveConstants.kTeleDriveMaxAngularAccelerationUnitsPerSecond);
@@ -88,6 +91,12 @@ public class SwerveTeleOp extends Command {
 					odometry.getGyrometerHeading());
 		} else {
 			chassisSpeeds = new ChassisSpeeds(xSpeed, ySpeed, turningSpeed);
+		}
+
+		if (xButton.get()) {
+			chassisSpeeds = DriveConstants.kXChassisSpeeds;
+		} else if (bButton.get()) {
+			chassisSpeeds = DriveConstants.kBChassisSpeeds;
 		}
 
 		swerve.setModuleStates(chassisSpeeds);
