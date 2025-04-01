@@ -301,4 +301,41 @@ public class Odometry extends SubsystemBase {
 			return stalkPose.transformBy(VisionConstants.kStalkToRobotCenter);
 		}
 	}
+
+	public Pose2d closestStationEdge() {
+		return StationEdge.nearestStationEdge(getPose());
+	}
+
+	public static enum StationEdge {
+		RIGHT, LEFT;
+
+		Pose2d edgePosition() {
+			int id;
+			switch (this) {
+				case RIGHT :
+					// Coordinate of AprilTag on right station, from field layout
+					id = (DriverStation.getAlliance().orElse(Alliance.Red) == Alliance.Blue) ? 18 : 7;
+					break;
+				case LEFT :
+					// Coordinate of AprilTag on left station, from field layout
+					id = (DriverStation.getAlliance().orElse(Alliance.Red) == Alliance.Blue) ? 19 : 6;
+					break;
+				default :
+					id = (DriverStation.getAlliance().orElse(Alliance.Red) == Alliance.Blue) ? 18 : 7;
+					break;
+			}
+
+			return VisionConstants.kAprilTagFieldLayout.getTagPose(id).get().toPose2d();
+		}
+
+		public static Pose2d nearestStationEdge(Pose2d pose) {
+			return pose.nearest(List.of(RIGHT.edgePosition(), LEFT.edgePosition()));
+		}
+
+		public static Pose2d getSetpoint(Pose2d edgePose) {
+			// To get the coral deploy point to stalkPose, need to transform the setpoint to
+			// be for the center of the robot
+			return edgePose.transformBy(VisionConstants.kStationToRobotCenter);
+		}
+	}
 }
