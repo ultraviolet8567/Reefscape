@@ -94,7 +94,7 @@ public final class Constants {
 	public static class IntakeConstants {
 		public static final int kAlgaeIntakeVoltage = 10;
 
-		public static final double kCoralVoltageDefault = 1.2;
+		public static final double kCoralVoltageDefault = 0.8;
 		public static final double kCoralVoltageL1 = 1;
 		public static final double kCoralVoltageL2 = 4;
 		public static final double kCoralVoltageL3 = 4;
