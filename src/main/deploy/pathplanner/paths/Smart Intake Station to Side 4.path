@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.6702651515151516,
-        "y": 0.609848484843402
+        "x": 1.1505,
+        "y": 0.9829999999999995
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.5351779824053255,
-        "y": 2.8026514548533887
+        "x": 3.3386478249965896,
+        "y": 2.2529478894694313
       },
       "isLocked": false,
       "linkedName": null
@@ -20,8 +20,8 @@
         "y": 2.5308712121161294
       },
       "prevControl": {
-        "x": 2.8729785811987525,
-        "y": 1.5537244984644665
+        "x": 2.6046979837698987,
+        "y": 1.8670289795093886
       },
       "nextControl": null,
       "isLocked": false,
@@ -33,7 +33,7 @@
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 3.0,
+    "maxVelocity": 4.0,
     "maxAcceleration": 3.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
@@ -48,7 +48,7 @@
   "folder": "Smart Paths",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 144.4623222080256
+    "rotation": -125.39479584498719
   },
   "useDefaultConstraints": true
 }

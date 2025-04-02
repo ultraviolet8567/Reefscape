@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.8960040983606556,
-        "y": 5.133862704918033
+        "x": 3.63675,
+        "y": 5.4875
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.4703690921820294,
-        "y": 5.351624537552699
+        "x": 3.211114993821374,
+        "y": 5.705261832634666
       },
       "isLocked": false,
       "linkedName": "End Side 2"
@@ -33,7 +33,7 @@
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 3.0,
+    "maxVelocity": 4.0,
     "maxAcceleration": 3.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
@@ -48,7 +48,7 @@
   "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -151.88679112394405
+    "rotation": -149.30027744918553
   },
   "useDefaultConstraints": true
 }

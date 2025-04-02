@@ -65,7 +65,7 @@ public final class Constants {
 
 		// Encoder
 		public static final int kElevatorAbsoluteEncoderPort = 9;
-		public static final double kAbsoluteEncoderOffset = -0.417 + 0.045 - 0.73;
+		public static final double kAbsoluteEncoderOffset = 0;
 		public static final boolean kAbsoluteEncoderReversed = true;
 
 		// Limits
@@ -78,8 +78,8 @@ public final class Constants {
 		public static final double kElevatorLimit = kElevatorMaxHeight - 0.01;
 
 		// Setpoints
-		public static final double kHeightDefault = 0.1525;
-		public static final double kHeightStation = kHeightDefault;
+		public static final double kHeightDefault = 0.03;
+		public static final double kHeightStation = 0.08;
 		public static final double kHeightProcessor = 0.3;
 		public static final double kHeightL1 = 0.1;
 		public static final double kHeightL2 = 0.1525;
@@ -197,10 +197,10 @@ public final class Constants {
 				kAutoTranslationPID, kAutoRotationPID);
 
 		// Speed constants for X & B robot orientated movement control
-		public static final ChassisSpeeds kXChassisSpeeds = new ChassisSpeeds(0,
-				kTeleDriveMaxSpeedMetersPerSecond * 0.05, 0);
-		public static final ChassisSpeeds kBChassisSpeeds = new ChassisSpeeds(0,
-				-kTeleDriveMaxSpeedMetersPerSecond * 0.05, 0);
+		public static final ChassisSpeeds kXChassisSpeeds = new ChassisSpeeds(-kTeleDriveMaxSpeedMetersPerSecond * 0.05,
+				0, 0);
+		public static final ChassisSpeeds kBChassisSpeeds = new ChassisSpeeds(kTeleDriveMaxSpeedMetersPerSecond * 0.05,
+				0, 0);
 	}
 
 	public static class AutoConstants {
@@ -209,7 +209,7 @@ public final class Constants {
 		public static final double kAutoYDriveSpeed = 0.5;
 		public static final double kAutoTurningSpeed = 0.0;
 
-		public static final double kAutoAlignTolerance = 0.01;
+		public static final double kAutoAlignTolerance = 0.015;
 
 		public static final PPHolonomicDriveController kHolonomicController = new PPHolonomicDriveController(
 				new PIDConstants(0.25, 0, 0), new PIDConstants(0.5, 0, 0));

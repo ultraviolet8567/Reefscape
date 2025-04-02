@@ -8,20 +8,20 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.348299440677017,
-        "y": 5.848675572635001
+        "x": 5.91231844677698,
+        "y": 5.4949134571738
       },
       "isLocked": false,
       "linkedName": "Smart Start Left"
     },
     {
       "anchor": {
-        "x": 5.598258196721312,
-        "y": 5.649334016393442
+        "x": 5.68425,
+        "y": 5.4095
       },
       "prevControl": {
-        "x": 6.8730958321330835,
-        "y": 5.9956739183663394
+        "x": 6.770577882277109,
+        "y": 5.858654686457919
       },
       "nextControl": null,
       "isLocked": false,
@@ -33,7 +33,7 @@
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 3.0,
+    "maxVelocity": 4.0,
     "maxAcceleration": 3.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,

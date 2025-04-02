@@ -4,6 +4,7 @@ import com.pathplanner.lib.trajectory.PathPlannerTrajectoryState;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.RobotContainer;
@@ -23,22 +24,31 @@ public class AutoAlignWithCoralStation extends Command {
 
 	private ChassisSpeeds chassisSpeeds;
 
+	private Timer timer;
+
 	public AutoAlignWithCoralStation(Swerve swerve, Odometry odometry) {
 		this.swerve = swerve;
 		this.odometry = odometry;
 
 		// Determine whether the pose of the left stalk or right stalk should be the
 		// setpoint
-		setpointFunction = (Pose2d edgePose) -> StationEdge.getSetpoint(edgePose);
+		setpointFunction = (Pose2d robotPose) -> StationEdge.stationSetpoint(robotPose);
 
 		addRequirements(swerve);
+
+		timer = new Timer();
+	}
+
+	@Override
+	public void initialize() {
+		timer.restart();
 	}
 
 	@Override
 	public void execute() {
 		current = odometry.getPose();
 		setpoint = new PathPlannerTrajectoryState();
-		setpoint.pose = setpointFunction.apply(odometry.closestReefEdge());
+		setpoint.pose = setpointFunction.apply(current);
 
 		Logger.recordOutput("Odometry/StationSetpoint", setpoint.pose);
 
@@ -58,7 +68,6 @@ public class AutoAlignWithCoralStation extends Command {
 
 	@Override
 	public boolean isFinished() {
-		Logger.recordOutput("Auto/AlignError", current.minus(setpoint.pose).getTranslation().getNorm());
 		return current.minus(setpoint.pose).getTranslation().getNorm() < AutoConstants.kAutoAlignTolerance;
 	}
 }

@@ -8,24 +8,24 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.4061763481007334,
-        "y": 5.720803975545312
+        "x": 3.813305751332368,
+        "y": 5.406358751372055
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Reef Side 2 L"
     },
     {
       "anchor": {
-        "x": 1.7142418032786886,
-        "y": 6.608350409836065
+        "x": 1.5,
+        "y": 6.74
       },
       "prevControl": {
-        "x": 2.049628416118204,
-        "y": 6.461606856933773
+        "x": 1.7493270071424782,
+        "y": 6.721668510443103
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Smart Coral Station Left"
     }
   ],
   "rotationTargets": [],
@@ -33,7 +33,7 @@
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 3.0,
+    "maxVelocity": 4.0,
     "maxAcceleration": 3.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
@@ -42,7 +42,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -143.84181456019166
+    "rotation": 127.87498365109826
   },
   "reversed": false,
   "folder": "Smart Paths",

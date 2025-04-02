@@ -3,16 +3,16 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.238627049180328,
-        "y": 5.157838114754097
+        "x": 5.1675,
+        "y": 5.117
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.6298136772297065,
-        "y": 6.159998712479447
+        "x": 4.5586866280493785,
+        "y": 6.11916059772535
       },
       "isLocked": false,
-      "linkedName": "Smart Side 1 L"
+      "linkedName": "Reef Side 1 R"
     },
     {
       "anchor": {
@@ -33,7 +33,7 @@
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 3.0,
+    "maxVelocity": 4.0,
     "maxAcceleration": 3.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
