@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.5,
-        "y": 6.74
+        "x": 1.174795081967213,
+        "y": 7.051895491803278
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.5755374807642495,
-        "y": 5.885639324842528
+        "x": 2.415108367470778,
+        "y": 5.1848550898739445
       },
       "isLocked": false,
-      "linkedName": "Smart Coral Station Left"
+      "linkedName": null
     },
     {
       "anchor": {
-        "x": 3.63675,
-        "y": 5.4875
+        "x": 3.404508196721311,
+        "y": 5.649334016393442
       },
       "prevControl": {
-        "x": 2.635101559462828,
-        "y": 6.063221457234067
+        "x": 2.468989362753188,
+        "y": 6.269248951929322
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Near Side 2"
+      "linkedName": null
     }
   ],
   "rotationTargets": [],
@@ -33,7 +33,7 @@
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 4.0,
+    "maxVelocity": 3.5,
     "maxAcceleration": 3.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
@@ -42,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -149.30027744918553
+    "rotation": -149.74356283647074
   },
   "reversed": false,
   "folder": "Smart Paths",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 127.87498365109826
+    "rotation": 38.157226587369
   },
   "useDefaultConstraints": true
 }

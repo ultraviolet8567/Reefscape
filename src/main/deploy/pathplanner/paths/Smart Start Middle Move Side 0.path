@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.9319651993399445,
-        "y": 3.80982827779273
+        "x": 7.387811878065303,
+        "y": 3.8748633970990243
       },
       "isLocked": false,
       "linkedName": "Smart Start Middle"
@@ -20,8 +20,8 @@
         "y": 4.03475
       },
       "prevControl": {
-        "x": 7.177011380088833,
-        "y": 4.151808984167532
+        "x": 6.298829069006158,
+        "y": 4.076685007026788
       },
       "nextControl": null,
       "isLocked": false,
@@ -33,7 +33,7 @@
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 4.0,
+    "maxVelocity": 3.5,
     "maxAcceleration": 3.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
@@ -48,7 +48,7 @@
   "folder": "Smart Paths",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 180.0
+    "rotation": 90.0
   },
   "useDefaultConstraints": true
 }

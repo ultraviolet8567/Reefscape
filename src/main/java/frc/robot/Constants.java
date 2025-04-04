@@ -46,7 +46,7 @@ public final class Constants {
 	public static final boolean fieldOriented = true;
 
 	public static class ElevatorConstants {
-		public static final double kElevatorVoltage = 7;
+		public static final double kElevatorVoltage = 9;
 		public static final double kP = 15;
 		public static final double kI = 0.0;
 		public static final double kD = 0.0;
@@ -65,7 +65,7 @@ public final class Constants {
 
 		// Encoder
 		public static final int kElevatorAbsoluteEncoderPort = 9;
-		public static final double kAbsoluteEncoderOffset = 0;
+		public static final double kAbsoluteEncoderOffset = -0.822;
 		public static final boolean kAbsoluteEncoderReversed = true;
 
 		// Limits
@@ -94,10 +94,10 @@ public final class Constants {
 	public static class IntakeConstants {
 		public static final int kAlgaeIntakeVoltage = 10;
 
-		public static final double kCoralVoltageDefault = 0.8;
+		public static final double kCoralVoltageDefault = 1;
 		public static final double kCoralVoltageL1 = 1;
-		public static final double kCoralVoltageL2 = 4;
-		public static final double kCoralVoltageL3 = 4;
+		public static final double kCoralVoltageL2 = 3;
+		public static final double kCoralVoltageL3 = 3;
 		public static final double kCoralVoltageL4 = 1.4;
 
 		public static final int kAlgaeIntakeExtensionVoltage = 7;
@@ -190,16 +190,16 @@ public final class Constants {
 				kDriveKinematics.getModules()); // locations of modules relative of robot center
 
 		// PID constants for auto alignment
-		public static final PIDConstants kAutoTranslationPID = new PIDConstants(2.7, 0, 0);
+		public static final PIDConstants kAutoTranslationPID = new PIDConstants(2.5, 0, 0);
 		public static final PIDConstants kAutoRotationPID = new PIDConstants(5.0, 0, 0);
 
 		public static final PPHolonomicDriveController kAutoAlignController = new PPHolonomicDriveController(
 				kAutoTranslationPID, kAutoRotationPID);
 
 		// Speed constants for X & B robot orientated movement control
-		public static final ChassisSpeeds kXChassisSpeeds = new ChassisSpeeds(-kTeleDriveMaxSpeedMetersPerSecond * 0.05,
+		public static final ChassisSpeeds kXChassisSpeeds = new ChassisSpeeds(-kTeleDriveMaxSpeedMetersPerSecond * 0.07,
 				0, 0);
-		public static final ChassisSpeeds kBChassisSpeeds = new ChassisSpeeds(kTeleDriveMaxSpeedMetersPerSecond * 0.05,
+		public static final ChassisSpeeds kBChassisSpeeds = new ChassisSpeeds(kTeleDriveMaxSpeedMetersPerSecond * 0.07,
 				0, 0);
 	}
 
@@ -207,6 +207,7 @@ public final class Constants {
 		// Speeds from -1 to 1
 		public static final double kAutoXDriveSpeed = 0.0;
 		public static final double kAutoYDriveSpeed = 0.5;
+
 		public static final double kAutoTurningSpeed = 0.0;
 
 		public static final double kAutoAlignTolerance = 0.015;

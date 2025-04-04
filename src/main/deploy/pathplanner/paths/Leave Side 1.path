@@ -12,7 +12,7 @@
         "y": 4.696805619537604
       },
       "isLocked": false,
-      "linkedName": "Reef Side 1 L"
+      "linkedName": "Reef Side 1 End"
     },
     {
       "anchor": {
@@ -33,7 +33,7 @@
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 4.0,
+    "maxVelocity": 3.5,
     "maxAcceleration": 3.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,

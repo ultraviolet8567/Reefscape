@@ -112,6 +112,8 @@ public class RobotContainer {
 		NamedCommands.registerCommand("ElevatorTip", new InstantCommand(() -> elevator.setMode(ElevatorMode.AUTOTIP)));
 		NamedCommands.registerCommand("ElevatorIntakeCoral",
 				new InstantCommand(() -> elevator.setMode(ElevatorMode.STATION)));
+		NamedCommands.registerCommand("ElevatorAlg",
+				new InstantCommand(() -> elevator.setMode(ElevatorMode.ALGAECANDLESTICK)));
 		NamedCommands.registerCommand("AlignLeftStalk", new AutoAlignWithReef(swerve, odometry, false));
 		NamedCommands.registerCommand("AlignRightStalk", new AutoAlignWithReef(swerve, odometry, true));
 		NamedCommands.registerCommand("AlignStation", new AutoAlignWithCoralStation(swerve, odometry));
@@ -217,7 +219,7 @@ public class RobotContainer {
 
 	public void resetGyro() {
 		if (matchMode.getSelected()) {
-			odometry.setGyroYaw(Rotation2d.k180deg);
+			odometry.setGyroYaw(new Rotation2d(90));
 		}
 	}
 }

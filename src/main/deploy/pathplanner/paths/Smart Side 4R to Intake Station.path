@@ -8,20 +8,20 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.843069117966078,
-        "y": 2.0785471865044483
+        "x": 3.4011195880142173,
+        "y": 2.6543785554688855
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 1.56,
-        "y": 1.2560000000000002
+        "x": 1.5344262295081967,
+        "y": 1.1899077868852452
       },
       "prevControl": {
-        "x": 3.6287958313503745,
-        "y": 2.50920815860088
+        "x": 2.4368139032397735,
+        "y": 1.8575589304841809
       },
       "nextControl": null,
       "isLocked": false,
@@ -33,7 +33,7 @@
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 4.0,
+    "maxVelocity": 3.5,
     "maxAcceleration": 3.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
@@ -42,7 +42,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -132.10873040377936
+    "rotation": -129.64417495714488
   },
   "reversed": false,
   "folder": "Smart Paths",
