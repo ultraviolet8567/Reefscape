@@ -42,7 +42,7 @@ public class Robot extends LoggedRobot {
 		// Set up data receivers & replay source
 		switch (Constants.currentMode) {
 			case REAL -> {
-				Logger.addDataReceiver(new WPILOGWriter("/home/lvuser/logs"));
+				Logger.addDataReceiver(new WPILOGWriter("/U/logs/"));
 				Logger.addDataReceiver(new NT4Publisher());
 			}
 			case SIM -> {

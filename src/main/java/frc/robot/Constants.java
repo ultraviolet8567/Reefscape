@@ -65,7 +65,7 @@ public final class Constants {
 
 		// Encoder
 		public static final int kElevatorAbsoluteEncoderPort = 9;
-		public static final double kAbsoluteEncoderOffset = -0.822;
+		public static final double kAbsoluteEncoderOffset = -0.822 - 1.116 + 2.279;
 		public static final boolean kAbsoluteEncoderReversed = true;
 
 		// Limits
@@ -94,10 +94,10 @@ public final class Constants {
 	public static class IntakeConstants {
 		public static final int kAlgaeIntakeVoltage = 10;
 
-		public static final double kCoralVoltageDefault = 1;
+		public static final double kCoralVoltageDefault = 2.5;
 		public static final double kCoralVoltageL1 = 1;
-		public static final double kCoralVoltageL2 = 3;
-		public static final double kCoralVoltageL3 = 3;
+		public static final double kCoralVoltageL2 = 2.75;
+		public static final double kCoralVoltageL3 = 2.75;
 		public static final double kCoralVoltageL4 = 1.4;
 
 		public static final int kAlgaeIntakeExtensionVoltage = 7;
@@ -190,7 +190,7 @@ public final class Constants {
 				kDriveKinematics.getModules()); // locations of modules relative of robot center
 
 		// PID constants for auto alignment
-		public static final PIDConstants kAutoTranslationPID = new PIDConstants(2.5, 0, 0);
+		public static final PIDConstants kAutoTranslationPID = new PIDConstants(3, 0, 0);
 		public static final PIDConstants kAutoRotationPID = new PIDConstants(5.0, 0, 0);
 
 		public static final PPHolonomicDriveController kAutoAlignController = new PPHolonomicDriveController(
@@ -201,6 +201,8 @@ public final class Constants {
 				0, 0);
 		public static final ChassisSpeeds kBChassisSpeeds = new ChassisSpeeds(kTeleDriveMaxSpeedMetersPerSecond * 0.07,
 				0, 0);
+		public static final ChassisSpeeds kYChassisSpeeds = new ChassisSpeeds(0,
+				kTeleDriveMaxSpeedMetersPerSecond * 0.07, 0);
 	}
 
 	public static class AutoConstants {
@@ -221,9 +223,9 @@ public final class Constants {
 				.loadField(AprilTagFields.k2025ReefscapeAndyMark);
 
 		// Distances from cameras to robot
-		public static final double kFrontX = Units.inchesToMeters(3.888); // BACK RIGHT -10.9611
-		public static final double kFrontY = Units.inchesToMeters(10.024); // BACK RIGHT -6.9993
-		public static final double kFrontZ = Units.inchesToMeters(10.268); // BACK RIGHT 6.2261
+		public static final double kFrontX = Units.inchesToMeters(4); // BACK RIGHT -10.9611
+		public static final double kFrontY = Units.inchesToMeters(9.956); // BACK RIGHT -6.9993
+		public static final double kFrontZ = Units.inchesToMeters(10.563); // BACK RIGHT 6.2261
 		// Rotation about x axis (left to right rotation)
 		public static final double kFrontRoll = Units.degreesToRadians(0); // BACK RIGHT 0
 		// Rotation about y axis (forward to backward rotation)
@@ -233,9 +235,9 @@ public final class Constants {
 		public static final Transform3d kFrontCamToRobot = new Transform3d(kFrontX, kFrontY, kFrontZ,
 				new Rotation3d(kFrontRoll, kFrontPitch, kFrontYaw));
 
-		public static final double kBackX = Units.inchesToMeters(-8.8168);
-		public static final double kBackY = Units.inchesToMeters(9.1947);
-		public static final double kBackZ = Units.inchesToMeters(7.8069);
+		public static final double kBackX = Units.inchesToMeters(-9.105);
+		public static final double kBackY = Units.inchesToMeters(9.294);
+		public static final double kBackZ = Units.inchesToMeters(8);
 		// Rotation about x axis (left to right rotation)
 		public static final double kBackRoll = Units.degreesToRadians(10);
 		// Rotation about y axis (forward to backward rotation)
@@ -246,7 +248,7 @@ public final class Constants {
 				new Rotation3d(kBackRoll, kBackPitch, kBackYaw));
 
 		public static final Transform2d kStalkToRobotCenter = new Transform2d(Units.inchesToMeters(16),
-				Units.inchesToMeters(-8.625), new Rotation2d(Units.degreesToRadians(90)));
+				Units.inchesToMeters(-7.25), new Rotation2d(Units.degreesToRadians(90)));
 
 		public static final Transform2d kStationToRobotCenter = new Transform2d(Units.inchesToMeters(16), 0,
 				new Rotation2d(Units.degreesToRadians(180)));
