@@ -91,7 +91,7 @@ public class RobotContainer {
 		odometry = new Odometry(swerve);
 
 		// Configure the PathPlanner auto-builder
-		AutoBuilder.configure(odometry::getOdometerPose, odometry::resetOdometerPose, swerve::getRobotRelativeSpeeds,
+		AutoBuilder.configure(odometry::getPose, odometry::resetPose, swerve::getRobotRelativeSpeeds,
 				swerve::setModuleStates, AutoConstants.kHolonomicController, // rotational PID
 				DriveConstants.kRobotConfig, () -> {
 					if (DriverStation.getAlliance().isPresent()) {
@@ -123,7 +123,7 @@ public class RobotContainer {
 		swerve.setDefaultCommand(new SwerveTeleOp(swerve, odometry, () -> -driverController.getLeftY(),
 				() -> -driverController.getLeftX(), () -> -driverController.getRightX(),
 				() -> driverController.getHID().getRightBumperButton(), () -> driverController.getHID().getXButton(),
-				() -> driverController.getHID().getBButton()));
+				() -> driverController.getHID().getBButton(), () -> driverController.getHID().getYButton()));
 
 		elevator.setDefaultCommand(new MoveElevator(elevator, () -> -operatorController.getLeftY(),
 				() -> operatorController.getHID().getLeftBumperButton()));
@@ -165,6 +165,8 @@ public class RobotContainer {
 		// Made to require holding down the button to allow for failsafe abort (when
 		// button is released)
 		driverController.povLeft().whileTrue(new AutoAlignWithReef(swerve, odometry, false));
+
+		driverController.povUp().whileTrue(new AutoAlignWithCoralStation(swerve, odometry));
 
 		/* Operator elevator controls */
 		// Default (taxi) height

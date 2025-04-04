@@ -72,6 +72,8 @@ public class AutoAlignWithReef extends Command {
 
 	@Override
 	public boolean isFinished() {
+		Logger.recordOutput("Odometry/AlignmentError", current.minus(setpoint.pose).getTranslation().getNorm());
+
 		return current.minus(setpoint.pose).getTranslation().getNorm() < AutoConstants.kAutoAlignTolerance;
 	}
 }
