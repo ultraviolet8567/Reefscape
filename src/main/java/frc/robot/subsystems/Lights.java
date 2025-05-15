@@ -5,7 +5,10 @@ import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.Notifier;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.util.Color;
+//import edu.wpi.first.wpilibj.Timer;
 import frc.robot.Constants;
 import frc.robot.util.VirtualSubsystem;
 
@@ -44,7 +47,7 @@ public class Lights extends VirtualSubsystem {
 	 * strobeSlowDuration = 5; private static final double stripeDuration = 0.75;
 	 * private static final int StripeLength = 5;
 	 */
-	// private static final double breathDuration = 1.0;
+	private static final double breathDuration = 1.0;
 
 	/*
 	 * private static final double waveExpoenent = 0.4; private static final int
@@ -89,7 +92,7 @@ public class Lights extends VirtualSubsystem {
 	}
 
 	private Lights() {
-		System.out.println("[init] creating light");
+		System.out.println("[Init] creating light");
 		leds = new AddressableLED(0);
 		buffer = new AddressableLEDBuffer(length);
 
@@ -107,16 +110,13 @@ public class Lights extends VirtualSubsystem {
 		loadingNotifier = new Notifier(() -> {
 			synchronized (this) {
 				// Breath
-				// breath(Section.FULL, Color.kPurple, Color.kBlack, 0.4,
-				// System.currentTimeMillis() / 1000.0);
+				breath(Section.FULL, Color.kPurple, Color.kBlack, 0.4, System.currentTimeMillis() / 1000.0);
 				leds.setData(buffer);
 			}
 		});
 		loadingNotifier.startPeriodic(0.02);
 
-		// demoToggle = Shuffleboard.getTab("Main").add("Demo Mode",
-		// false).withWidget(BuiltInWidgets.kToggleSwitch)
-		// .withSize(1, 1).withPosition(9, 0).getEntry();
+		demoToggle = Shuffleboard.getTab("Main").add("Demo Mode",false).withWidget(BuiltInWidgets.kToggleSwitch).withSize(1, 1).withPosition(9, 0).getEntry();
 	}
 
 	@Override
@@ -159,17 +159,21 @@ public class Lights extends VirtualSubsystem {
 		}
 	}
 
+	
 	/*
-	 * private void breath(Section section, Color c1, Color c2, double duration) {
-	 * breath(section, c1, c2, duration, Timer.getFPGATimestamp()); }
-	 *
-	 * private void breath(Section section, Color c1, Color c2, double duration,
-	 * double timestamp) { double x = ((timestamp % breathDuration) /
-	 * breathDuration) * 2.0 * Math.PI; double ratio = (Math.sin(x) + 1.0) / 2.0;
-	 * double red = (c1.red * (1 - ratio)) + (c2.red * ratio); double green =
-	 * (c1.green * (1 - ratio)) + (c2.green * ratio); double blue = (c1.blue * (1 -
-	 * ratio)) + (c2.blue * ratio); solid(section, new Color(red, green, blue)); }
-	 */
+	private void breath(Section section, Color c1, Color c2, double duration) {
+		breath(section, c1, c2, duration, Timer.getFPGATimestamp()); 
+		}
+	*/
+	
+	private void breath(Section section, Color c1, Color c2, double duration, double timestamp) { 
+		double x = ((timestamp % breathDuration) /
+	 	breathDuration) * 2.0 * Math.PI; double ratio = (Math.sin(x) + 1.0) / 2.0;
+	 	double red = (c1.red * (1 - ratio)) + (c2.red * ratio); double green =
+	 	(c1.green * (1 - ratio)) + (c2.green * ratio); double blue = (c1.blue * (1 -
+		ratio)) + (c2.blue * ratio); solid(section, new Color(red, green, blue)); 
+		}
+	 
 
 	public void solid(Section section, Color color) {
 		for (int i = section.start(); i < section.end(); i++) {
