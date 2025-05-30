@@ -7,6 +7,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.subsystems.Lights;
+import frc.robot.subsystems.Lights.RobotState;
 import frc.robot.util.VirtualSubsystem;
 import org.littletonrobotics.junction.LogFileUtil;
 import org.littletonrobotics.junction.LoggedRobot;
@@ -92,6 +93,7 @@ public class Robot extends LoggedRobot {
 	/** This function is called once each time the robot enters Disabled mode. */
 	@Override
 	public void disabledInit() {
+		Lights.getInstance().state = RobotState.DISABLED;
 	}
 
 	@Override
@@ -110,6 +112,8 @@ public class Robot extends LoggedRobot {
 		if (m_autonomousCommand != null) {
 			m_autonomousCommand.schedule();
 		}
+
+		Lights.getInstance().state = RobotState.AUTO;
 	}
 
 	/** This function is called periodically during autonomous. */
@@ -128,6 +132,8 @@ public class Robot extends LoggedRobot {
 		}
 
 		m_robotContainer.resetGyro();
+
+		Lights.getInstance().state = RobotState.TELEOP;
 	}
 
 	/** This function is called periodically during operator control. */
