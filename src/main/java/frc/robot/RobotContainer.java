@@ -27,6 +27,7 @@ import frc.robot.subsystems.AutoChooser;
 import frc.robot.subsystems.Odometry;
 import frc.robot.subsystems.Swerve;
 import frc.robot.subsystems.algaeIntake.*;
+import frc.robot.subsystems.climber.*;
 import frc.robot.subsystems.coralIntake.*;
 import frc.robot.subsystems.elevator.*;
 import frc.robot.subsystems.elevator.Elevator.ElevatorMode;
@@ -45,6 +46,7 @@ public class RobotContainer {
 	private final Elevator elevator;
 	private final AlgaeIntake algaeIntake;
 	private final CoralIntake coralIntake;
+	private final Climber climber;
 	private final AutoChooser autoChooser;
 	public final SendableChooser<Boolean> matchMode;
 	// Replace with CommandPS4Controller or CommandJoystick if needed
@@ -71,11 +73,13 @@ public class RobotContainer {
 				elevator = new Elevator(new ElevatorIOSparkMax());
 				algaeIntake = new AlgaeIntake(new AlgaeIntakeIOSparkMax());
 				coralIntake = new CoralIntake(new CoralIntakeIOSparkMax());
+				climber = new Climber(new ClimberIOSparkMax());
 			}
 			case SIM -> {
 				elevator = new Elevator(new ElevatorIOSim());
 				algaeIntake = new AlgaeIntake(new AlgaeIntakeIOSim());
 				coralIntake = new CoralIntake(new CoralIntakeIOSim());
+				climber = new Climber(new ClimberIOSim());
 			}
 			default -> {
 				elevator = new Elevator(new ElevatorIO() {
@@ -83,6 +87,8 @@ public class RobotContainer {
 				algaeIntake = new AlgaeIntake(new AlgaeIntakeIO() {
 				});
 				coralIntake = new CoralIntake(new CoralIntakeIO() {
+				});
+				climber = new Climber(new ClimberIO() {
 				});
 			}
 		}
@@ -166,7 +172,15 @@ public class RobotContainer {
 		// button is released)
 		driverController.povLeft().whileTrue(new AutoAlignWithReef(swerve, odometry, false));
 
-		driverController.povUp().whileTrue(new AutoAlignWithCoralStation(swerve, odometry));
+		// Climb cage
+		// Made to require holding down the button to allow for failsafe abort (when
+		// button is released)
+
+		// Descend cage
+		// Made to require holding down the button to allow for failsafe abort (when
+		// button is released)
+		driverController.povUp().whileTrue(new ClimbCage(climber));
+		driverController.povDown().whileTrue(new DescendCage(climber));
 
 		/* Operator elevator controls */
 		// Default (taxi) height

@@ -40,7 +40,7 @@ public class Robot extends LoggedRobot {
 
 	@Override
 	public void robotInit() {
-		//Create the Lights
+		// Create the Lights
 		Lights.getInstance();
 
 		// Set up data receivers & replay source
