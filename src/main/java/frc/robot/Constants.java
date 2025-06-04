@@ -116,18 +116,18 @@ public final class Constants {
 
 	public static class ClimberConstants {
 		// Put encoder port when decided
-		public static final int kClimberAbsoluteEncoderPort = 0;
+		public static final int kClimberAbsoluteEncoderPort = 7;
 		public static final boolean kClimberAbsoluteEncoderReversed = false;
 
 		// Test for encoder offset, find out needed andles relative to encoder
 		public static final double kClimberAbsoluteEncoderOffset = -3.44;
-		public static final double kClimberMinRad = 0;
+		public static final double kClimberMinRad = 1.612;
 
 		// Find out needed angles relative to encoder, Change climber voltage
-		public static final double kClimberMaxRad = Math.PI / 2;
+		public static final double kClimberMaxRad = 2.742;
 		public static final double kClimberVoltage = 1;
 
-		public static final double kP = 1;
+		public static final double kP = 2;
 		public static final double kI = 0;
 		public static final double kD = 0;
 	}
@@ -313,7 +313,7 @@ public final class Constants {
 		public static final int kCoralIntakePort = 6;
 
 		// CHANGE THIS LATER vvv
-		public static final int kClimberMotorPort = 15;
+		public static final int kClimberMotorPort = 7;
 	}
 
 	public static class OIConstants {
