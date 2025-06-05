@@ -121,13 +121,13 @@ public final class Constants {
 
 		// Test for encoder offset, find out needed andles relative to encoder
 		public static final double kClimberAbsoluteEncoderOffset = -3.44;
-		public static final double kClimberMinRad = 1.612;
+		public static final double kClimberMinRad = 1.45;
 
 		// Find out needed angles relative to encoder, Change climber voltage
 		public static final double kClimberMaxRad = 2.742;
-		public static final double kClimberVoltage = 1;
+		public static final double kClimberVoltage = 12;
 
-		public static final double kP = 2;
+		public static final double kP = 40.0;
 		public static final double kI = 0;
 		public static final double kD = 0;
 	}
