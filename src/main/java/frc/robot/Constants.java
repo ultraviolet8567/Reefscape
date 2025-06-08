@@ -17,6 +17,7 @@ import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.RobotBase;
@@ -120,16 +121,20 @@ public final class Constants {
 		public static final boolean kClimberAbsoluteEncoderReversed = false;
 
 		// Test for encoder offset, find out needed andles relative to encoder
-		public static final double kClimberAbsoluteEncoderOffset = -3.44;
-		public static final double kClimberMinRad = 1.45;
-
-		// Find out needed angles relative to encoder, Change climber voltage
+		public static final double kClimberGearing = 1/1.5;
+		public static final double kClimberAbsoluteEncoderOffset = 0;
+		public static final double kClimberMinRad = 1.09;
 		public static final double kClimberMaxRad = 2.742;
-		public static final double kClimberVoltage = 12;
 
-		public static final double kP = 40.0;
-		public static final double kI = 0;
-		public static final double kD = 0;
+		public static final double kClimberVoltage = 12;
+		public static final double kClimberSpeed = 0.01;
+
+		public static final double kP = 0.0;
+		public static final double kI = 0.0;
+		public static final double kD = 0.0;
+		public static final double kS = 0.0;
+		public static final double kG = 0.0;
+		public static final double kV = 0.0;
 	}
 
 	public static class OperatorConstants {
@@ -221,6 +226,20 @@ public final class Constants {
 				0, 0);
 		public static final ChassisSpeeds kYChassisSpeeds = new ChassisSpeeds(0,
 				kTeleDriveMaxSpeedMetersPerSecond * 0.07, 0);
+
+		// Cross swerve module states
+		public static final SwerveModuleState kFrontLeftCrossState = new SwerveModuleState(0.01,
+				new Rotation2d(-3 * Math.PI / 4));
+		public static final SwerveModuleState kFrontRightCrossState = new SwerveModuleState(0.01,
+				new Rotation2d(3 * Math.PI / 4));
+		public static final SwerveModuleState kBackLeftCrossState = new SwerveModuleState(0.01,
+				new Rotation2d(-Math.PI / 4));
+		public static final SwerveModuleState kBackRightCrossState = new SwerveModuleState(0.01,
+				new Rotation2d(Math.PI / 4));
+
+		public static final SwerveModuleState[] kCrossModuleStates = new SwerveModuleState[]{kFrontLeftCrossState,
+				kFrontRightCrossState, kBackLeftCrossState, kBackRightCrossState};
+
 	}
 
 	public static class AutoConstants {

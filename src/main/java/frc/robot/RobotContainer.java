@@ -129,12 +129,16 @@ public class RobotContainer {
 		swerve.setDefaultCommand(new SwerveTeleOp(swerve, odometry, () -> -driverController.getLeftY(),
 				() -> -driverController.getLeftX(), () -> -driverController.getRightX(),
 				() -> driverController.getHID().getRightBumperButton(), () -> driverController.getHID().getXButton(),
-				() -> driverController.getHID().getBButton(), () -> driverController.getHID().getYButton()));
+				() -> driverController.getHID().getBButton(), () -> driverController.getHID().getYButton(),
+				() -> driverController.getHID().getAButton()));
 
 		elevator.setDefaultCommand(new MoveElevator(elevator, () -> -operatorController.getLeftY(),
 				() -> operatorController.getHID().getLeftBumperButton()));
 
 		elevator.setMode(ElevatorMode.MANUAL);
+
+		climber.setDefaultCommand(new MoveClimber(climber, () -> driverController.povUp().getAsBoolean(),
+				() -> driverController.povDown().getAsBoolean()));
 
 		matchMode = new SendableChooser<>();
 		matchMode.setDefaultOption("Not a match", false);
@@ -156,7 +160,8 @@ public class RobotContainer {
 		driverController.back().onTrue(new InstantCommand(() -> odometry.resetGyrometerHeading()));
 
 		// L1 scoring
-		driverController.a().onTrue(new InstantCommand(() -> elevator.setMode(ElevatorMode.L1)));
+		// driverController.a().onTrue(new InstantCommand(() ->
+		// elevator.setMode(ElevatorMode.L1)));
 
 		// Toggle algae extension/retraction
 		// driverController.start().onTrue(new InstantCommand(() ->
@@ -171,16 +176,6 @@ public class RobotContainer {
 		// Made to require holding down the button to allow for failsafe abort (when
 		// button is released)
 		driverController.povLeft().whileTrue(new AutoAlignWithReef(swerve, odometry, false));
-
-		// Climb cage
-		// Made to require holding down the button to allow for failsafe abort (when
-		// button is released)
-
-		// Descend cage
-		// Made to require holding down the button to allow for failsafe abort (when
-		// button is released)
-		driverController.povUp().whileTrue(new ClimbCage(climber));
-		driverController.povDown().whileTrue(new DescendCage(climber));
 
 		/* Operator elevator controls */
 		// Default (taxi) height

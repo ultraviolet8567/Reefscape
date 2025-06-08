@@ -8,6 +8,7 @@ import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import frc.robot.Constants.CAN;
@@ -20,6 +21,7 @@ public class ClimberIOSparkMax implements ClimberIO {
 	private final RelativeEncoder encoder;
 	private final DutyCycleEncoder absoluteEncoder;
 	private final PIDController pidController;
+	private final ArmFeedforward ffController;
 
 	public ClimberIOSparkMax() {
 		System.out.println("[Init] Creatd ClimberIOSparkMax");
@@ -27,9 +29,11 @@ public class ClimberIOSparkMax implements ClimberIO {
 		config = new SparkMaxConfig();
 
 		pidController = new PIDController(ClimberConstants.kP, ClimberConstants.kI, ClimberConstants.kD);
+		ffController = new ArmFeedforward(ClimberConstants.kS, ClimberConstants.kV, ClimberConstants.kG);
 
-		config.idleMode(IdleMode.kBrake);
+		config.idleMode(IdleMode.kCoast);
 		config.smartCurrentLimit(80);
+		config.encoder.positionConversionFactor(ClimberConstants.kClimberGearing * 2 * Math.PI);
 
 		motor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
@@ -68,10 +72,13 @@ public class ClimberIOSparkMax implements ClimberIO {
 	@Override
 	public void setRads(double rads) {
 		// PID computed voltage to move to the given height
-		double voltage = MathUtil.clamp(pidController.calculate(getRotationRads(), rads),
-				-ClimberConstants.kClimberVoltage, ClimberConstants.kClimberVoltage);
+		double pidVolts = pidController.calculate(getRotationRads(), rads);
+		double ffVolts = ffController.calculate(rads, 0);
 
-		Logger.recordOutput("Climber/PID Voltage", voltage);
+		double voltage = MathUtil.clamp(pidVolts, -ClimberConstants.kClimberVoltage, ClimberConstants.kClimberVoltage);
+
+		Logger.recordOutput("Climber/PID Voltage", pidVolts);
+		Logger.recordOutput("Climber/FF Voltage", ffVolts);
 
 		set(voltage);
 	}
@@ -95,7 +102,7 @@ public class ClimberIOSparkMax implements ClimberIO {
 
 	public double getAbsoluteRotationRads() {
 		double angle = absoluteEncoder.get();
-		angle *= 2 * Math.PI;
+		angle *= ClimberConstants.kClimberGearing * 2 * Math.PI;
 		angle += ClimberConstants.kClimberAbsoluteEncoderOffset;
 		angle = MathUtil.inputModulus(angle, 0, 2 * Math.PI);
 

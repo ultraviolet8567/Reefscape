@@ -16,13 +16,13 @@ import java.util.function.Supplier;
 public class SwerveTeleOp extends Command {
 	private final Swerve swerve;
 	private final Odometry odometry;
-	private final Supplier<Boolean> rightBumper, xButton, bButton, yButton;
+	private final Supplier<Boolean> rightBumper, xButton, bButton, yButton, aButton;
 	private final Supplier<Double> xSpdFunction, ySpdFunction, turningSpdFunction;
 	private final SlewRateLimiter xLimiter, yLimiter, turningLimiter;
 
 	public SwerveTeleOp(Swerve swerve, Odometry odometry, Supplier<Double> xSpdFunction, Supplier<Double> ySpdFunction,
 			Supplier<Double> turningSpdFunction, Supplier<Boolean> rightBumper, Supplier<Boolean> xButton,
-			Supplier<Boolean> bButton, Supplier<Boolean> yButton) {
+			Supplier<Boolean> bButton, Supplier<Boolean> yButton, Supplier<Boolean> aButton) {
 		this.swerve = swerve;
 		this.odometry = odometry;
 		this.xSpdFunction = xSpdFunction;
@@ -32,6 +32,7 @@ public class SwerveTeleOp extends Command {
 		this.xButton = xButton;
 		this.bButton = bButton;
 		this.yButton = yButton;
+		this.aButton = aButton;
 		this.xLimiter = new SlewRateLimiter(DriveConstants.kTeleDriveMaxAccelerationUnitsPerSecond);
 		this.yLimiter = new SlewRateLimiter(DriveConstants.kTeleDriveMaxAccelerationUnitsPerSecond);
 		this.turningLimiter = new SlewRateLimiter(DriveConstants.kTeleDriveMaxAngularAccelerationUnitsPerSecond);
@@ -101,7 +102,11 @@ public class SwerveTeleOp extends Command {
 			chassisSpeeds = DriveConstants.kYChassisSpeeds;
 		}
 
-		swerve.setModuleStates(chassisSpeeds);
+		if (aButton.get()) {
+			swerve.setModuleStates(DriveConstants.kCrossModuleStates);
+		} else {
+			swerve.setModuleStates(chassisSpeeds);
+		}
 	}
 
 	@Override
