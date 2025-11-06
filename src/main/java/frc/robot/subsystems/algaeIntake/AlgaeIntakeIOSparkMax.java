@@ -20,16 +20,33 @@ public class AlgaeIntakeIOSparkMax implements AlgaeIntakeIO {
 	// visibility final? type name = value
 	// final is a constant but also not really
 	private final SparkMax rightMotor, leftMotor; 
-	private final SparkMaxConfig rightConfig, leftConfig;
+	private final SparkMaxConfig config;
 
 
 	// Constructor
 	public AlgaeIntakeIOSparkMax() {
+        rightMotor = new SparkMax(CAN.KAlgaeRightMotorPort, MotorType.kBrushless);
+		leftMotor = new SparkMax(CAN.kAlgaeLeftMotorPort, MotorType.kBrushless);
 
-        rightMotor = new SparkMax();
-		leftMotor = new SparkMax(CAN.kAlgaeLeftMotorPort, MotorType.kBrushless)
-		
+		config = new SparkMaxConfig();
+		config.idleMode(IdleMode.kBrake);
+		config.smartCurrentLimit(40);
+
+		rightMotor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+		leftMotor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 	}
 
+	@Override
+	public void set(double voltage) {
+		// Set the power to the main motor
+		rightMotor.setVoltage(-voltage);
+		leftMotor.setVoltage(voltage);
+	}
+
+	@Override
+	public void stop() {
+		rightMotor.setVoltage(0);
+		leftMotor.setVoltage(0);
+	}
 }
 
