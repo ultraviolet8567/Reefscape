@@ -38,7 +38,6 @@ public class AlgaeIntakeIOSparkMaxSave implements AlgaeIntakeIO {
 		// MotorType.kBrushless);
 		// extensionConfig = new SparkFlexConfig();
 
-		
 		leftConfig.idleMode(IdleMode.kBrake);
 		rightConfig.idleMode(IdleMode.kBrake);
 		// extensionConfig.idleMode(IdleMode.kBrake);

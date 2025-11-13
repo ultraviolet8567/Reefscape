@@ -6,26 +6,20 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.config.SparkMaxConfig;
-import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import frc.robot.Constants.CAN;
-import frc.robot.Constants.IntakeConstants;
-import org.littletonrobotics.junction.Logger;
 
-// 
+//
 public class AlgaeIntakeIOSparkMax implements AlgaeIntakeIO {
 
 	// Attributes go here
 	// visibility final? type name = value
 	// final is a constant but also not really
-	private final SparkMax rightMotor, leftMotor; 
+	private final SparkMax rightMotor, leftMotor;
 	private final SparkMaxConfig config;
-
 
 	// Constructor
 	public AlgaeIntakeIOSparkMax() {
-        rightMotor = new SparkMax(CAN.KAlgaeRightMotorPort, MotorType.kBrushless);
+		rightMotor = new SparkMax(CAN.kAlgaeRightMotorPort, MotorType.kBrushless);
 		leftMotor = new SparkMax(CAN.kAlgaeLeftMotorPort, MotorType.kBrushless);
 
 		config = new SparkMaxConfig();
@@ -49,4 +43,3 @@ public class AlgaeIntakeIOSparkMax implements AlgaeIntakeIO {
 		leftMotor.setVoltage(0);
 	}
 }
-
