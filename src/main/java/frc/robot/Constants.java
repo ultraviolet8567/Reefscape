@@ -93,7 +93,7 @@ public final class Constants {
 	}
 
 	public static class IntakeConstants {
-		public static final int kAlgaeIntakeVoltage = 10;
+		public static final int kAlgaeIntakeVoltage = 5;
 
 		public static final double kCoralVoltageDefault = 2.5;
 		public static final double kCoralVoltageL1 = 1;
@@ -121,7 +121,7 @@ public final class Constants {
 		public static final boolean kClimberAbsoluteEncoderReversed = false;
 
 		// Test for encoder offset, find out needed andles relative to encoder
-		public static final double kClimberGearing = 1/1.5;
+		public static final double kClimberGearing = 1 / 1.5;
 		public static final double kClimberAbsoluteEncoderOffset = 0;
 		public static final double kClimberMinRad = 1.09;
 		public static final double kClimberMaxRad = 2.742;
