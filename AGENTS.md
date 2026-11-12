@@ -3,9 +3,21 @@
 Java 17 command-based FRC robot for the 2025 game **Reefscape**. WPILib and GradleRIO
 **2025.3.1**, team `8567`. Main class: `frc.robot.Main`.
 
-This is **last season's code, kept as reference**. The machine only has WPILib 2026 installed,
-so Gradle builds will fail here. Read it for patterns, do not try to compile it. If a build is
-genuinely needed, install WPILib 2025.3.1 first, or use `..\_archive\2026-Reefscape-import`.
+This is **last season's code, kept as reference**, but it does compile on this machine. WPILib
+2025 itself is **not installed**: GradleRIO 2025.3.1 downloads the 2025 artifacts from
+`frcmaven.wpi.edu`, and the WPILib 2026 JDK is Temurin 17.0.16, which is the Java version the 2025
+projects target. So:
+
+```powershell
+$env:JAVA_HOME = 'C:\Users\Public\wpilib\2026\jdk'
+.\gradlew.bat compileJava -x spotlessApply   # verified working
+```
+
+`build` and `simulateJava` (the ones that need desktop natives) have **not** been verified here;
+they stalled on native downloads. `compileJava` is the check to use.
+
+Read `..\README.md` for the other projects, and `..\_archive\2026-Reefscape-import` for the same
+drivebase upgraded to the 2026 toolchain.
 
 ## Layout
 
@@ -24,7 +36,7 @@ src/main/java/frc/robot/
     coralIntake/   CoralIntake + IO, IOSim, IOSparkMax, IOSparkMaxSave
     elevator/      Elevator + IO, IOSim, IOSparkMax
 src/main/deploy/                               PathPlanner autos/paths and field assets
-vendordeps/                                    AdvantageKit, PathPlanner 2025.2.5, Phoenix 6 25.3.1,
+vendordeps/                                    AdvantageKit, PathPlanner 2025.2.7, Phoenix 6 25.3.1,
                                                PhotonLib, REVLib, WPILibNewCommands
 ```
 
@@ -44,8 +56,12 @@ in a subsystem.
 
 ## Conventions
 
-- **Indentation is tabs.** There is no Spotless in this project. Do not reformat files, and do
-  not convert tabs to spaces in untouched code.
+- **Indentation is tabs, formatted by Spotless.** `build.gradle` runs `spotlessApply` as a
+  dependency of `compileJava`, using the Eclipse formatter with `leadingSpacesToTabs()`. The
+  practical consequence: **compiling rewrites source files**, so the working tree goes dirty even
+  if you changed nothing. Run `.\gradlew.bat compileJava -x spotlessApply` when you want to
+  compile without reformatting, and never hand-format: let Spotless do it. Do not commit a
+  formatting-only rewrite of the whole tree unless that is the change you intend.
 - **Constants:** nested `public static final class` blocks in `Constants.java`
   (`ElevatorConstants`, `SwerveConstants`, etc.), `k`-prefixed. Add values there, not inline.
 - **Logging:** AdvantageKit is on the classpath; keep `Logger.recordOutput` keys consistent
@@ -55,8 +71,9 @@ in a subsystem.
   is rotated per alliance rather than mirrored, so do not assume 2026-style symmetry.
 - **Bindings:** all controller bindings belong in `RobotContainer`; commands live in
   `commands/`, one per file.
-- **Autos:** PathPlanner 2025 (`PathplannerLib-2025.2.5`) with `AutoChooser`, and auto commands
-  under `commands/auto/`.
+- **Autos:** PathPlanner 2025 (`PathplannerLib-2025.2.7`) with `AutoChooser`, and auto commands
+  under `commands/auto/`. The vendordep was pinned to `2025.2.5`, which PathPlanner never
+  published; `2025.2.7` is the newest 2025 release and resolves.
 
 ## Git
 
